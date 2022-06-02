@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @AllArgsConstructor
-public class HelpCommand {
+public class CommandsKerminal {
 
     private Kerminal plugin;
 
@@ -21,15 +21,6 @@ public class HelpCommand {
     public void Ajuda(Context<CommandSender> c) {
         Player p = (Player) c.getSender();
         p.openInventory(Inventorys.getHelpInventory());
-    }
-
-    @Command(
-            name = "cu",
-            description = "Mostra o nome do plugin"
-
-    )
-    public void HelloWorld(Context<CommandSender> c, String name) {
-        c.sendMessage("CU");
     }
 
 }
