@@ -1,6 +1,0 @@
-name: Kerminal
-version: '${version}'
-main: com.github.idimabr.Kerminal
-prefix: Kerminal
-softdepend: [ Multiverse-Core ]
-authors: [ iDimaBR, Ferrari ]
