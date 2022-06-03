@@ -3,7 +3,6 @@ package com.github.idimabr;
 import com.github.idimabr.commands.CommandsKerminal;
 import com.github.idimabr.listeners.GameMechanicsListener;
 import com.github.idimabr.listeners.InventoryListener;
-import com.github.idimabr.utils.Inventorys;
 import me.saiintbrisson.bukkit.command.BukkitFrame;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
