@@ -1,6 +1,6 @@
 package com.github.idimabr;
 
-import com.github.idimabr.commands.CommandsKerminal;
+import com.github.idimabr.commands.TpaCommand;
 import com.github.idimabr.listeners.GameMechanicsListener;
 import com.github.idimabr.listeners.InventoryListener;
 import me.saiintbrisson.bukkit.command.BukkitFrame;
@@ -42,7 +42,7 @@ public final class Kerminal extends JavaPlugin {
         );
 
         bukkitFrame.registerCommands(
-                new CommandsKerminal(this)
+                new TpaCommand(this)
         );
     }
     private void registerListeners() {
