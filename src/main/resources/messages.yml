@@ -9,3 +9,5 @@ Returns:
 
 Gamemode:
   Usage: "&cO modo não foi encontrado, utilize /gamemode <modo>"
+  Change: "&aSeu modo de jogo foi atualizado para %mode%"
+  TargetChange: "&aModo de %player% foi atualizado para %mode%"

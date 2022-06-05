@@ -1,5 +1,7 @@
 test:
   Sound: NOTE_PLING
+  Delay: 5
+  MessageDelay: "&cAguarde %time% para usar test novamente."
   Message:
     - "&eA test"
 test2:

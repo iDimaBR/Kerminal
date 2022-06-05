@@ -48,7 +48,11 @@ public class GamemodeCommand {
         if(target == null){
             final Player player = (Player) sender;
             player.setGameMode(mode.getGameMode());
-            player.sendMessage("&aSeu modo de jogo foi atualizado para " + nameOfMode);
+            player.sendMessage(
+                    messages.getString("Gamemode.Change")
+                            .replace("%player%", player.getName())
+                            .replace("%mode%", nameOfMode)
+            );
             Bukkit.getPluginManager().callEvent(new PlayerGamemodeChange(player, mode));
             return;
         }
@@ -61,7 +65,11 @@ public class GamemodeCommand {
 
 
         targetPlayer.setGameMode(mode.getGameMode());
-        targetPlayer.sendMessage("&aModo de " + targetPlayer.getName() + " foi atualizado para " + nameOfMode);
+        targetPlayer.sendMessage(
+                messages.getString("Gamemode.TargetChange")
+                        .replace("%player%", targetPlayer.getName())
+                        .replace("%mode%", nameOfMode)
+        );
         Bukkit.getPluginManager().callEvent(new PlayerGamemodeChange(targetPlayer, mode));
     }
 }
