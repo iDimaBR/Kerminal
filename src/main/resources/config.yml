@@ -9,6 +9,10 @@ Motd:
     - "&bThis server in Maintenance"
     - "&cThis server in Maintenance"
 
+Regeneration:
+  Enabled: true
+  Delay: 20
+
 
 Worlds:
   world:

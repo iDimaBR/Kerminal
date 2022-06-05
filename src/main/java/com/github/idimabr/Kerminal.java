@@ -7,6 +7,8 @@ import com.github.idimabr.commands.TpaCommand;
 import com.github.idimabr.listeners.ConfigurableCommandsHandler;
 import com.github.idimabr.listeners.GameMechanicsListener;
 import com.github.idimabr.listeners.InventoryListener;
+import com.github.idimabr.listeners.RegenerationListener;
+import com.github.idimabr.tasks.RegenerationTask;
 import com.github.idimabr.utils.ConfigUtil;
 import me.saiintbrisson.bukkit.command.BukkitFrame;
 import me.saiintbrisson.minecraft.command.message.MessageHolder;
@@ -38,6 +40,18 @@ public final class Kerminal extends JavaPlugin {
         registerListeners();
         registerCommands();
         setTicksWorld();
+        loadRegenSystem();
+    }
+
+    private void loadRegenSystem() {
+        if(config.getBoolean("Regeneration")){
+            final int delay = config.getInt("Regeneration");
+            new RegenerationTask().runTaskTimerAsynchronously(this, delay, delay);
+            PluginManager pluginManager = getServer().getPluginManager();
+            pluginManager.registerEvents(
+                    new RegenerationListener(this), this
+            );
+        }
     }
 
     @Override
