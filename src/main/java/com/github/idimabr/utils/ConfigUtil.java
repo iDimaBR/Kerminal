@@ -18,6 +18,7 @@ import java.io.Reader;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Getter
 public class ConfigUtil extends FileConfiguration {
@@ -196,7 +197,7 @@ public class ConfigUtil extends FileConfiguration {
     }
 
     public List<String> getStringList(String s) {
-        return this.configuration.getStringList(s);
+        return this.configuration.getStringList(s).stream().map($ -> $.replace("&","§")).collect(Collectors.toList());
     }
 
     public ConfigurationSection getConfigurationSection(String s) {
@@ -275,8 +276,9 @@ public class ConfigUtil extends FileConfiguration {
         this.configuration.save(file);
     }
 
+    @Override
     public String getString(String s, String s1) {
-        return this.configuration.getString(s, s1);
+        return this.configuration.getString(s, s1).replace("&","§");
     }
 
     public String getName() {

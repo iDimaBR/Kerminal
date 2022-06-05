@@ -8,9 +8,9 @@ import java.util.List;
 
 public enum Mode {
     SURVIVAL(GameMode.SURVIVAL, "survival", "0", "sobrevivencia"),
-    CREATIVE(GameMode.CREATIVE, "creative", "1", "criativo"),
-    ADVENTURE(GameMode.ADVENTURE, "adventure", "2", "aventura"),
-    SPECTATOR(GameMode.SPECTATOR, "spectator", "3", "espectador");
+    CRIATIVO(GameMode.CREATIVE, "creative", "1", "criativo"),
+    AVENTURA(GameMode.ADVENTURE, "adventure", "2", "aventura"),
+    ESPECTADOR(GameMode.SPECTATOR, "spectator", "3", "espectador");
 
     private final GameMode gameMode;
 

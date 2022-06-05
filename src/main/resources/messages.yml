@@ -3,3 +3,9 @@ Kick:
     - "&e&lMANUTENCAO"
     - ""
     - "&cEstamos em manutenção!"
+
+Returns:
+  PlayerNotFound: "&cO jogador não foi encontrado."
+
+Gamemode:
+  Usage: "&cO modo não foi encontrado, utilize /gamemode <modo>"
