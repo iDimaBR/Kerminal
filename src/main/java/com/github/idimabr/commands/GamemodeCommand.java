@@ -26,11 +26,8 @@ public class GamemodeCommand {
             description = "Muda seu gamemode :P",
             permission = "kerminal.gamemode"
     )
-    public void onGamemode(
-            Context<CommandSender> c,
-            @Optional String gamemode,
-            @Optional String target
-    ) {
+    public void onGamemode(Context<CommandSender> c, @Optional String gamemode, @Optional String target) {
+
         if (gamemode == null) {
             c.sendMessage("§cModo não encontrado, use /gm <modo>");
             return;

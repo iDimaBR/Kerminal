@@ -23,9 +23,7 @@ dependencies {
     compileOnly 'org.spigotmc:spigot:1.8.8-R0.1-SNAPSHOT'
 
     implementation 'org.jetbrains:annotations:23.0.0'
-
     implementation 'com.github.SaiintBrisson.command-framework:bukkit:1.2.0'
-    implementation 'com.github.SaiintBrisson.command-framework:shared:1.2.0'
 
     compileOnly 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
@@ -42,7 +40,7 @@ tasks.withType(JavaCompile) {
 }
 
 allprojects {
-    libsDirName = 'C:/Users/Murilo Ferrari/Desktop/Projetos/localhost/plugins'
+    libsDirName = 'C:/Users/rapha/Documents/Servidores/Servidor teste/plugins'
 }
 
 shadowJar {

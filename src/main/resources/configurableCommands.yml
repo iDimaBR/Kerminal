@@ -1,0 +1,13 @@
+test:
+  Sound: NOTE_PLING
+  Message:
+    - "&eA test"
+test2:
+  Sound: NOTE_PLING
+  Location:
+    world: mundo
+    x: 100
+    y: 255
+    z: 100
+  Message:
+    - "&eThis is a test"

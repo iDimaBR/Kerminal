@@ -2,6 +2,7 @@ package com.github.idimabr.commands;
 
 
 import com.github.idimabr.Kerminal;
+import com.github.idimabr.utils.ConfigUtil;
 import com.github.idimabr.utils.Mode;
 import lombok.AllArgsConstructor;
 import me.saiintbrisson.minecraft.command.annotation.Command;
@@ -31,8 +32,8 @@ public class TeleportCommand {
             @Optional String target,
             @Optional String target2
     ) {
-        CommandSender sender = c.getSender();
 
+        CommandSender sender = c.getSender();
         if (target == null) {
             sender.sendMessage("§cUse: /tp <jogador> ou /tp <jogador> <jogador>");
             return;

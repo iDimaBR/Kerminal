@@ -1,3 +1,15 @@
 Motd:
   MaxPlayers: 10
-  NormalMotd: "a normal motd"
+  Normal:
+    - "&aFirst motd"
+    - "&bSecond motd"
+    - "&cThird motd"
+  Maintenance:
+    - "&aThis server in Maintenance"
+    - "&bThis server in Maintenance"
+    - "&cThis server in Maintenance"
+
+
+Worlds:
+  world:
+    Tick: 60
