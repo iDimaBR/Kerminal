@@ -3,6 +3,7 @@ package com.github.idimabr.customevents;
 import com.github.idimabr.utils.Mode;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -14,9 +15,9 @@ public final class PlayerGamemodeChange extends Event {
     @Getter @Setter
     private Player player;
     @Getter @Setter
-    private Mode gamemode;
+    private GameMode gamemode;
 
-    public PlayerGamemodeChange(Player player, Mode gamemode) {
+    public PlayerGamemodeChange(Player player, GameMode gamemode) {
         this.player = player;
         this.gamemode = gamemode;
     }

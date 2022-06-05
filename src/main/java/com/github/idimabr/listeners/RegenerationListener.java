@@ -9,11 +9,9 @@ import org.bukkit.event.entity.EntityRegainHealthEvent;
 @AllArgsConstructor
 public class RegenerationListener implements Listener {
 
-    private Kerminal plugin;
-
     @EventHandler
     public void InventoryClick(EntityRegainHealthEvent e) {
-        if(!e.getRegainReason().equals(EntityRegainHealthEvent.RegainReason.CUSTOM))
+        if(e.getRegainReason().equals(EntityRegainHealthEvent.RegainReason.CUSTOM))
             e.setCancelled(true);
     }
 }

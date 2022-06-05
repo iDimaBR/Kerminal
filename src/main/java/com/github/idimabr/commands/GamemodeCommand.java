@@ -12,6 +12,7 @@ import me.saiintbrisson.minecraft.command.command.Context;
 import me.saiintbrisson.minecraft.command.target.CommandTarget;
 import me.saiintbrisson.minecraft.command.util.StringUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -53,7 +54,7 @@ public class GamemodeCommand {
                             .replace("%player%", player.getName())
                             .replace("%mode%", nameOfMode)
             );
-            Bukkit.getPluginManager().callEvent(new PlayerGamemodeChange(player, mode));
+            Bukkit.getPluginManager().callEvent(new PlayerGamemodeChange(player, mode.getGameMode()));
             return;
         }
 
@@ -63,13 +64,12 @@ public class GamemodeCommand {
             return;
         }
 
-
         targetPlayer.setGameMode(mode.getGameMode());
         targetPlayer.sendMessage(
                 messages.getString("Gamemode.TargetChange")
                         .replace("%player%", targetPlayer.getName())
                         .replace("%mode%", nameOfMode)
         );
-        Bukkit.getPluginManager().callEvent(new PlayerGamemodeChange(targetPlayer, mode));
+        Bukkit.getPluginManager().callEvent(new PlayerGamemodeChange(targetPlayer, mode.getGameMode()));
     }
 }

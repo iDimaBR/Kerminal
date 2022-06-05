@@ -39,19 +39,8 @@ public final class Kerminal extends JavaPlugin {
     public void onEnable() {
         registerListeners();
         registerCommands();
-        setTicksWorld();
+        loadTicksWorld();
         loadRegenSystem();
-    }
-
-    private void loadRegenSystem() {
-        if(config.getBoolean("Regeneration")){
-            final int delay = config.getInt("Regeneration");
-            new RegenerationTask().runTaskTimerAsynchronously(this, delay, delay);
-            PluginManager pluginManager = getServer().getPluginManager();
-            pluginManager.registerEvents(
-                    new RegenerationListener(this), this
-            );
-        }
     }
 
     @Override
@@ -97,7 +86,21 @@ public final class Kerminal extends JavaPlugin {
         );
     }
 
-    private void setTicksWorld(){
+    private void loadRegenSystem() {
+        if(config.getBoolean("Regeneration.Enabled")){
+            final long delay = config.getLong("Regeneration.Delay");
+            new RegenerationTask().runTaskTimerAsynchronously(this, delay, delay);
+            PluginManager pluginManager = getServer().getPluginManager();
+            pluginManager.registerEvents(
+                    new RegenerationListener(), this
+            );
+            getLogger().info("Regeneration System: ENABLED");
+        }else{
+            getLogger().info("Regeneration System: DISABLED");
+        }
+    }
+
+    private void loadTicksWorld(){
         for (World world : Bukkit.getWorlds()) {
             if(!config.isSet("Worlds." + world.getName())) continue;
 

@@ -9,7 +9,10 @@ public class RegenerationTask extends BukkitRunnable {
     @Override
     public void run() {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            Bukkit.getPluginManager().callEvent(new EntityRegainHealthEvent(player, 0, EntityRegainHealthEvent.RegainReason.CUSTOM));
+            if(player.getHealth() == player.getMaxHealth()) continue;
+
+            player.setHealth(Math.max(0, player.getHealth() + 0.5));
+            Bukkit.getPluginManager().callEvent(new EntityRegainHealthEvent(player, 0.5, EntityRegainHealthEvent.RegainReason.MAGIC));
         }
     }
 }
