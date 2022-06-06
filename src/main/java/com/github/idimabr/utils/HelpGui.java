@@ -9,19 +9,13 @@ public class HelpGui {
     public static Inventory getHelpInventory () {
         Inventory helpInventory = Bukkit.createInventory(null, 54, "§aAjuda");
 
-        ItemBuilder builder = new ItemBuilder(Material.POTATO);
-        builder.setName("§a§lComandos");
-        builder.setLore(
-                "§2 Clique aqui para ver todos comandos!"
-        );
         ItemBuilder builder1 = new ItemBuilder(Material.PAPER);
         builder1.setName("§a§lPermissões");
-        builder.setLore(
+        builder1.setLore(
                 "§2 Clique aqui ver todas permissões!"
         );
 
-        helpInventory.setItem(30, builder.toItemStack());
-        helpInventory.setItem(32, builder1.toItemStack());
+        helpInventory.setItem(32, builder1.build());
 
         // TODO: CREATE THE GUI
 

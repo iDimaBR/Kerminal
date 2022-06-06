@@ -163,6 +163,30 @@ public class ItemBuilder {
 
 	}
 
+	public ItemBuilder setLoreIf(boolean condition, String... lore) {
+		if(!condition) return this;
+		ItemMeta im = is.getItemMeta();
+
+		im.setLore(Arrays.asList(lore));
+
+		is.setItemMeta(im);
+
+		return this;
+
+	}
+
+	public ItemBuilder setLoreIf(boolean condition, List<String> lore) {
+		if(!condition) return this;
+		ItemMeta im = is.getItemMeta();
+
+		im.setLore(lore);
+
+		is.setItemMeta(im);
+
+		return this;
+
+	}
+
 	public ItemBuilder removeLoreLine(String linha) {
 
 		ItemMeta im = is.getItemMeta();
@@ -201,32 +225,36 @@ public class ItemBuilder {
 
 	}
 
-	public ItemBuilder addLoreLine(String linha) {
-
+	public ItemBuilder addLoreIf(boolean condition, String string) {
+		if(!condition) return this;
 		ItemMeta im = is.getItemMeta();
-
 		List<String> lore = new ArrayList<>();
-
 		if (im.hasLore())
 			lore = new ArrayList<>(im.getLore());
-
-		lore.add(linha);
-
+		lore.add(string);
 		im.setLore(lore);
-
 		is.setItemMeta(im);
-
 		return this;
-
 	}
 
-	public ItemBuilder addLoreLine(String linha, int pos) {
+	public ItemBuilder addLoreLine(String string) {
+		ItemMeta im = is.getItemMeta();
+		List<String> lore = new ArrayList<>();
+		if (im.hasLore())
+			lore = new ArrayList<>(im.getLore());
+		lore.add(string);
+		im.setLore(lore);
+		is.setItemMeta(im);
+		return this;
+	}
+
+	public ItemBuilder addLoreLine(int pos, String string) {
 
 		ItemMeta im = is.getItemMeta();
 
 		List<String> lore = new ArrayList<>(im.getLore());
 
-		lore.set(pos, linha);
+		lore.set(pos, string);
 
 		im.setLore(lore);
 
@@ -276,7 +304,7 @@ public class ItemBuilder {
 
 	}
 
-	public ItemStack toItemStack() {
+	public ItemStack build() {
 
 		return is;
 
