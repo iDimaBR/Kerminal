@@ -1,21 +1,17 @@
-package com.github.idimabr;
+package com.github.kerminal;
 
-import com.github.idimabr.commands.GamemodeCommand;
-import com.github.idimabr.commands.HelpCommand;
-import com.github.idimabr.commands.TeleportCommand;
-import com.github.idimabr.commands.TpaCommand;
-import com.github.idimabr.listeners.ConfigurableCommandsHandler;
-import com.github.idimabr.listeners.GameMechanicsListener;
-import com.github.idimabr.listeners.InventoryListener;
-import com.github.idimabr.listeners.RegenerationListener;
-import com.github.idimabr.tasks.RegenerationTask;
-import com.github.idimabr.utils.ConfigUtil;
+import com.github.kerminal.commands.*;
+import com.github.kerminal.listeners.ConfigurableCommandsHandler;
+import com.github.kerminal.listeners.GameMechanicsListener;
+import com.github.kerminal.listeners.InventoryListener;
+import com.github.kerminal.listeners.RegenerationListener;
+import com.github.kerminal.tasks.RegenerationTask;
+import com.github.kerminal.utils.ConfigUtil;
 import me.saiintbrisson.bukkit.command.BukkitFrame;
 import me.saiintbrisson.minecraft.command.message.MessageHolder;
 import me.saiintbrisson.minecraft.command.message.MessageType;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -66,11 +62,13 @@ public final class Kerminal extends JavaPlugin {
         messageHolder.setMessage(
                 MessageType.ERROR, "§cOcorreu um erro ao executar este comando!"
         );
+
         bukkitFrame.registerCommands(
                 new TpaCommand(this),
                 new GamemodeCommand(this),
                 new HelpCommand(this),
-                new TeleportCommand(this)
+                new TeleportCommand(this),
+                new FlyCommand(this)
         );
     }
     private void registerListeners() {

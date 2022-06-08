@@ -1,4 +1,4 @@
-package com.github.idimabr.utils;
+package com.github.kerminal.utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

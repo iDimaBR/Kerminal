@@ -1,6 +1,6 @@
-package com.github.idimabr.listeners;
+package com.github.kerminal.listeners;
 
-import com.github.idimabr.Kerminal;
+import com.github.kerminal.Kerminal;
 import lombok.AllArgsConstructor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

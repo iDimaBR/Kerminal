@@ -1,9 +1,7 @@
-package com.github.idimabr.commands;
+package com.github.kerminal.commands;
 
 
-import com.github.idimabr.Kerminal;
-import com.github.idimabr.utils.HelpGui;
-import com.github.idimabr.utils.Mode;
+import com.github.kerminal.Kerminal;
 import lombok.AllArgsConstructor;
 import me.saiintbrisson.minecraft.command.annotation.Command;
 import me.saiintbrisson.minecraft.command.annotation.Optional;

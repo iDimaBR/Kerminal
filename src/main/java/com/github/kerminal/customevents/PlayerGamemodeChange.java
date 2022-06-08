@@ -1,6 +1,5 @@
-package com.github.idimabr.customevents;
+package com.github.kerminal.customevents;
 
-import com.github.idimabr.utils.Mode;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.GameMode;

@@ -1,4 +1,4 @@
-package com.github.idimabr.tasks;
+package com.github.kerminal.tasks;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

@@ -6,7 +6,7 @@ plugins {
     id 'net.minecrell.plugin-yml.bukkit' version '0.3.0'
 }
 
-group 'com.github.idimabr'
+group 'com.github.kerminal'
 version '1.0.0'
 
 repositories {
@@ -31,7 +31,7 @@ dependencies {
 
 bukkit {
     name = 'Kerminal'
-    main = 'com.github.idimabr.Kerminal'
+    main = 'com.github.kerminal.Kerminal'
     version = "${project.version}"
 }
 
@@ -40,7 +40,7 @@ tasks.withType(JavaCompile) {
 }
 
 allprojects {
-    libsDirName = 'C:/Users/rapha/Documents/Servidores/Servidor teste/plugins'
+    libsDirName = 'C:/Users/Murilo Ferrari/Desktop/Projetos/localhost/plugins'
 }
 
 shadowJar {

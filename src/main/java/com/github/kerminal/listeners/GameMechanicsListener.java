@@ -1,7 +1,7 @@
-package com.github.idimabr.listeners;
+package com.github.kerminal.listeners;
 
-import com.github.idimabr.Kerminal;
-import com.github.idimabr.utils.ConfigUtil;
+import com.github.kerminal.Kerminal;
+import com.github.kerminal.utils.ConfigUtil;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;

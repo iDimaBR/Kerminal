@@ -1,20 +1,14 @@
-package com.github.idimabr.commands;
+package com.github.kerminal.commands;
 
 
-import com.github.idimabr.Kerminal;
-import com.github.idimabr.utils.ConfigUtil;
-import com.github.idimabr.utils.Mode;
+import com.github.kerminal.Kerminal;
 import lombok.AllArgsConstructor;
 import me.saiintbrisson.minecraft.command.annotation.Command;
 import me.saiintbrisson.minecraft.command.annotation.Optional;
 import me.saiintbrisson.minecraft.command.command.Context;
-import me.saiintbrisson.minecraft.command.target.CommandTarget;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @AllArgsConstructor
 public class TeleportCommand {

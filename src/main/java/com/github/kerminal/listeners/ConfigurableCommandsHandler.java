@@ -1,8 +1,8 @@
-package com.github.idimabr.listeners;
+package com.github.kerminal.listeners;
 
-import com.github.idimabr.Kerminal;
-import com.github.idimabr.utils.ConfigUtil;
-import com.github.idimabr.utils.TimeUtils;
+import com.github.kerminal.Kerminal;
+import com.github.kerminal.utils.ConfigUtil;
+import com.github.kerminal.utils.TimeUtils;
 import com.google.common.collect.Maps;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.*;
