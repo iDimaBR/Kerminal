@@ -39,7 +39,7 @@ public class GamemodeCommand {
             context.sendMessage(messages.getString("Gamemode.Usage").replace("&", "§"));
             return;
         }
-        //SE O SENDER FOR CONSOLE, REQUISITA O TARGET
+        //IF SENDER IS CONSOLE, REQUIRE TARGET
         if (target != null) {
             final Player targetPlayer = Bukkit.getPlayer(target);
 
@@ -54,7 +54,7 @@ public class GamemodeCommand {
             return;
 
         }
-        // SE O SENDER FOR PLAYER, NAO REQUISITA O TARGET
+        // IF SENDER IS PLAYER, DO NOT REQUIRE TARGET
         if (sender instanceof Player) {
             ((Player) sender).setGameMode(mode.getGameMode());
             ((Player) sender).sendMessage("§aSeu modo de jogo foi alterado para:§f " + mode.getGameMode());
