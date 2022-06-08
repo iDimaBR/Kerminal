@@ -35,6 +35,7 @@ public class EnchantsCommands {
         final Player player = (Player) sender;
         final Enchants enchantment = Enchants.of(enchant);
 
+
         if (player.getInventory().getItem(player.getInventory().getHeldItemSlot()) == null) {
             context.sendMessage("§cVocê não possui um item na mão.");
             return;
@@ -56,14 +57,5 @@ public class EnchantsCommands {
                 }
             }
         }
-        if (enchantment == null) {
-            context.sendMessage("§cEnchant não encontrado.");
-            return;
-        }
-        if (enchant == null) {
-            context.sendMessage("§cEnchant não encontrado.");
-            return;
-        }
-
     }
 }
