@@ -46,6 +46,11 @@ public class EnchantsCommands {
                 //TODO: PUT ALL ENCHANTS IN A LIST IN TEXTCOMPONENT WITH HOVEREVENT AND CLICKEVENT
                 return;
             }
+            if (level.equalsIgnoreCase("0")) {
+                player.getItemInHand().removeEnchantment(enchantment.getEnchantment());
+                context.sendMessage("§aO encantamento§f " + enchantment.name() + " §afoi removido do item.");
+                return;
+            }
             if (level == null) {
                 context.sendMessage("§cNível não encontrado.");
                 return;

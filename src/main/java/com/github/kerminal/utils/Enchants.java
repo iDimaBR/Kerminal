@@ -8,9 +8,9 @@ import java.util.List;
 
 public enum Enchants {
     Protecao(Enchantment.PROTECTION_ENVIRONMENTAL, "protecao", "protection", "proteção"),
-    Afiacao(Enchantment.DAMAGE_ALL, "afiação", "damage", "dano"),
-    Fogo(Enchantment.FIRE_ASPECT, "fogo", "fire"),
-    Inquebravel(Enchantment.DURABILITY, "inquebravel", "mending", "mendigamento");
+    Afiacao(Enchantment.DAMAGE_ALL, "afiação", "damage", "dano", "afiacao", "damage_all"),
+    Fogo(Enchantment.FIRE_ASPECT, "fogo", "fire", "fire_aspect"),
+    Inquebravel(Enchantment.DURABILITY, "inquebravel", "mending", "mendigamento", "durability");
 
     //TODO: PUT ALL PLZ
     private final Enchantment enchant;
