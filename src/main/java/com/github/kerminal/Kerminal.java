@@ -68,7 +68,8 @@ public final class Kerminal extends JavaPlugin {
                 new GamemodeCommand(this),
                 new HelpCommand(this),
                 new TeleportCommand(this),
-                new FlyCommand(this)
+                new FlyCommand(this),
+                new EnchantsCommands(this)
         );
     }
     private void registerListeners() {
