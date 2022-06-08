@@ -34,6 +34,7 @@ public class EnchantsCommands {
         final ConfigUtil messages = plugin.getMessages();
         final Player player = (Player) sender;
         final Enchants enchantment = Enchants.of(enchant);
+        final Integer minLevel = 0;
 
 
         if (player.getInventory().getItem(player.getInventory().getHeldItemSlot()) == null) {
@@ -49,6 +50,14 @@ public class EnchantsCommands {
             if (level.equalsIgnoreCase("0")) {
                 player.getItemInHand().removeEnchantment(enchantment.getEnchantment());
                 context.sendMessage("§aO encantamento§f " + enchantment.name() + " §afoi removido do item.");
+                return;
+            }
+            if (level.startsWith("-")) {
+                context.sendMessage("§cO nivel não pode ser negativo");
+                return;
+            }
+            if (level.equalsIgnoreCase("null")) {
+                context.sendMessage("§cO nivel não pode ser nulo");
                 return;
             }
             if (level == null) {

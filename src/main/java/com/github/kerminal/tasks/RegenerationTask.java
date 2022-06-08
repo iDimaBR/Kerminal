@@ -1,5 +1,7 @@
 package com.github.kerminal.tasks;
 
+import com.github.kerminal.Kerminal;
+import com.github.kerminal.utils.ConfigUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
