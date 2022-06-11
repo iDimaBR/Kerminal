@@ -39,6 +39,9 @@ public class GamemodeCommand {
             context.sendMessage(messages.getString("Gamemode.Usage").replace("&", "§"));
             return;
         }
+
+        final String gamemodeName = mode.name();
+
         //IF SENDER IS CONSOLE, REQUIRE TARGET
         if (target != null) {
             final Player targetPlayer = Bukkit.getPlayer(target);
@@ -49,15 +52,16 @@ public class GamemodeCommand {
             }
 
             targetPlayer.setGameMode(mode.getGameMode());
-            context.sendMessage("§aModo do jogador §f" + targetPlayer.getName() + "§a alterado para §f" + mode.getGameMode());
-            targetPlayer.sendMessage("§aSeu modo foi alterado por §f" + sender.getName() + "§a para §f" + mode.getGameMode());
+            context.sendMessage("§aModo do jogador §f" + targetPlayer.getName() + "§a alterado para §f" + gamemodeName);
+            targetPlayer.sendMessage("§aSeu modo foi alterado por §f" + sender.getName() + "§a para §f" + gamemodeName);
             return;
 
         }
+
         // IF SENDER IS PLAYER, DO NOT REQUIRE TARGET
         if (sender instanceof Player) {
             ((Player) sender).setGameMode(mode.getGameMode());
-            ((Player) sender).sendMessage("§aSeu modo de jogo foi alterado para:§f " + mode.getGameMode());
+            ((Player) sender).sendMessage("§aSeu modo de jogo foi alterado para:§f " + gamemodeName);
         }
     }
 }

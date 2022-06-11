@@ -24,7 +24,6 @@ Regeneration:
   Enabled: true
   Delay: 20
 
-
 Worlds:
   world:
     Tick: 60

@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import me.saiintbrisson.minecraft.command.annotation.Command;
 import me.saiintbrisson.minecraft.command.annotation.Optional;
 import me.saiintbrisson.minecraft.command.command.Context;
+import net.minecraft.server.v1_8_R3.GameRules;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -18,7 +19,7 @@ public class FlyCommand {
 
     @Command(
             name = "fly",
-            aliases = {"voar", "voar.ativar", "fly,on", "fly.enable","voar,on"},
+            aliases = {"voar"},
             permission = "kerminal.fly"
     )
     public void onFly(
