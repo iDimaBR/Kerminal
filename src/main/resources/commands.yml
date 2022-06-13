@@ -10,3 +10,14 @@ feed: true
 heal: true
 hat: true
 enderchest: true
+divulgar: true
+luz: true
+lixo: true
+onlines: true
+jogadores: true
+home: true
+sethome: true
+listhomes: true
+delhome: true
+back: true
+ping: true

@@ -9,6 +9,17 @@
 #
 # MADE BY IDIMABR AND FERRARIBR, A OPEN SOURCE PLUGIN, FOR YOU, :P
 
+ConnectionType: 'mysql'
+Connection:
+  Host: 'localhost'
+  Database: 'kerminal'
+  Port: 3306
+  Username: 'root'
+  Password: ''
+
+Homes:
+  MaxHomes: 3
+
 Motd:
   MaxPlayers: 10
   Normal:
