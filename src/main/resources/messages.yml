@@ -19,6 +19,12 @@ Kick:
 Returns:
   PlayerNotFound: "&cO jogador não foi encontrado."
 
+Commands:
+  DivulgarFormat:
+    - ""
+    - "&a&lANUNCIO> &f%player%: &a%message%"
+    - ""
+
 Gamemode:
   Usage: "&cO modo não foi encontrado, utilize /gamemode <modo>"
   Change: "&aSeu modo de jogo foi atualizado para %mode%"

@@ -84,6 +84,11 @@ public final class Kerminal extends JavaPlugin {
         commandsToEnable.put(new HatCommand(this), hasRegistryCommand("hat"));
         commandsToEnable.put(new ClearCommand(this), hasRegistryCommand("clear"));
         commandsToEnable.put(new EnderChestCommand(this), hasRegistryCommand("enderchest"));
+        commandsToEnable.put(new AnnounceCommand(this), hasRegistryCommand("divulgar"));
+        commandsToEnable.put(new LightCommand(this), hasRegistryCommand("luz"));
+        commandsToEnable.put(new TrashCommand(this), hasRegistryCommand("lixo"));
+        commandsToEnable.put(new OnlineCommand(this), hasRegistryCommand("onlines"));
+        commandsToEnable.put(new OnlinePlayersCommand(this), hasRegistryCommand("jogadores"));
 
         final List<Object> commandsEnableds = commandsToEnable.entrySet().stream()
                 .filter($ -> $.getValue().equals(true))
