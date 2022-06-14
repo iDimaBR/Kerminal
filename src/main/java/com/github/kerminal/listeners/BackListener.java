@@ -32,6 +32,7 @@ public class BackListener implements Listener {
     public void onTeleport(PlayerTeleportEvent e){
         final DataController controller = plugin.getController();
         final Player player = e.getPlayer();
+
         if(!isValid(e.getCause())) return;
         if(!player.hasPermission("kerminal.back")) return;
 

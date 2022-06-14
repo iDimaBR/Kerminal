@@ -15,3 +15,9 @@ luz: true
 lixo: true
 onlines: true
 jogadores: true
+home: true
+sethome: true
+listhomes: true
+delhome: true
+back: true
+ping: true
