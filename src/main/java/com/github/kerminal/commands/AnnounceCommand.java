@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import me.saiintbrisson.minecraft.command.annotation.Command;
 import me.saiintbrisson.minecraft.command.annotation.Optional;
+import me.saiintbrisson.minecraft.command.command.CommandInfo;
 import me.saiintbrisson.minecraft.command.command.Context;
 import me.saiintbrisson.minecraft.command.target.CommandTarget;
 import net.md_5.bungee.api.chat.TranslatableComponent;
@@ -22,16 +23,30 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AnnounceCommand {
 
-    private final Kerminal plugin;
+    private Kerminal plugin;
+    private ConfigUtil commands;
+
     private final HashMap<UUID, Long> DELAY = Maps.newHashMap();
 
-    @Command(
-            name = "divulgar",
-            aliases = {"anunciar"},
-            permission = "kerminal.divulgar",
-            target = CommandTarget.PLAYER
-    )
-    public void onAnnounce(Context<CommandSender> context) {
+    public AnnounceCommand(Kerminal plugin) {
+        this.plugin = plugin;
+        this.commands = plugin.getCommands();
+        if (!commands.getBoolean("Divulgar.enabled", true)) return;
+        plugin.getBukkitFrame().registerCommand(
+                CommandInfo.builder()
+                        .name(commands.getString("Divulgar.command"))
+                        .aliases(commands.getStringList("Divulgar.aliases").toArray(new String[0]))
+                        .permission(commands.getString("Divulgar.permission"))
+                        .async(commands.getBoolean("Divulgar.async", false))
+                        .build(),
+                context -> {
+                    onCommand(context);
+                    return false;
+                }
+        );
+    }
+
+    public void onCommand(Context<CommandSender> context) {
         final CommandSender sender = context.getSender();
         final ConfigUtil messages = plugin.getMessages();
         final Player player = (Player) sender;

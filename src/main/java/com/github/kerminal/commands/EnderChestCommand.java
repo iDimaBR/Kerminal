@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import me.saiintbrisson.minecraft.command.annotation.Command;
 import me.saiintbrisson.minecraft.command.annotation.Optional;
+import me.saiintbrisson.minecraft.command.command.CommandInfo;
 import me.saiintbrisson.minecraft.command.command.Context;
 import me.saiintbrisson.minecraft.command.target.CommandTarget;
 import org.bukkit.Bukkit;
@@ -16,20 +17,31 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 
-@RequiredArgsConstructor
 public class EnderChestCommand {
 
     private final Kerminal plugin;
     public static HashMap<String, String> enderchests = new HashMap<>();
+    private ConfigUtil commands;
 
-    @Command(
-            name = "enderchest",
-            aliases = {"echest"},
-            permission = "kerminal.enderchest",
-            usage = "/echest <jogador>",
-            target = CommandTarget.PLAYER
-    )
-    public void onEnderchest(Context<CommandSender> context, @Optional String targetName) {
+    public EnderChestCommand(Kerminal plugin) {
+        this.plugin = plugin;
+        this.commands = plugin.getCommands();
+        if(!commands.getBoolean("Enderchest.enabled", true)) return;
+        plugin.getBukkitFrame().registerCommand(
+                CommandInfo.builder()
+                        .name(commands.getString("Enderchest.command"))
+                        .aliases(commands.getStringList("Enderchest.aliases").toArray(new String[0]))
+                        .permission(commands.getString("Enderchest.permission"))
+                        .async(commands.getBoolean("Enderchest.async"))
+                        .build(),
+                context -> {
+                    onCommand(context, context.getArg(0));
+                    return false;
+                }
+        );
+    }
+
+    public void onCommand(Context<CommandSender> context, @Optional String targetName) {
         final ConfigUtil messages = plugin.getMessages();
         final int args = context.argsCount();
         Player player = (Player) context.getSender();

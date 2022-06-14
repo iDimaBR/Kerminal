@@ -10,6 +10,7 @@ import com.github.kerminal.utils.ConfigUtil;
 import lombok.AllArgsConstructor;
 import me.saiintbrisson.minecraft.command.annotation.Command;
 import me.saiintbrisson.minecraft.command.annotation.Optional;
+import me.saiintbrisson.minecraft.command.command.CommandInfo;
 import me.saiintbrisson.minecraft.command.command.Context;
 import me.saiintbrisson.minecraft.command.target.CommandTarget;
 import org.bukkit.Bukkit;
@@ -23,17 +24,27 @@ import org.bukkit.entity.Player;
 public class HomeCommand {
 
     private Kerminal plugin;
+    private ConfigUtil commands;
 
-    @Command(
-            name = "home",
-            aliases = {"casa"},
-            permission = "kerminal.home",
-            target = CommandTarget.PLAYER
-    )
-    public void onHome(
-            Context<CommandSender> context,
-            @Optional String nameHome
-    ) {
+    public HomeCommand(Kerminal plugin) {
+        this.plugin = plugin;
+        this.commands = plugin.getCommands();
+        if(!commands.getBoolean("Home.enabled", true)) return;
+        plugin.getBukkitFrame().registerCommand(
+                CommandInfo.builder()
+                        .name(commands.getString("Home.command"))
+                        .aliases(commands.getStringList("Home.aliases").toArray(new String[0]))
+                        .permission(commands.getString("Home.permission"))
+                        .async(commands.getBoolean("Home.async"))
+                        .build(),
+                context -> {
+                    onCommand(context, context.getArg(0));
+                    return false;
+                }
+        );
+    }
+
+    public void onCommand(Context<CommandSender> context, @Optional String nameHome) {
         final CommandSender sender = context.getSender();
         final ConfigUtil messages = plugin.getMessages();
         final Player player = (Player) sender;

@@ -1,23 +1,172 @@
-tpa: true
-gamemode: true
-tp: true
-fly: true
-enchant: true
-clearchat: true
-clear: true
-craft: true
-feed: true
-heal: true
-hat: true
-enderchest: true
-divulgar: true
-luz: true
-lixo: true
-onlines: true
-jogadores: true
-home: true
-sethome: true
-listhomes: true
-delhome: true
-back: true
-ping: true
+Tpa:
+  enabled: true
+  command: "tpa"
+  permission: kerminal.tpa
+  async: false
+  aliases: {}
+Gamemode:
+  enabled: true
+  command: "gamemode"
+  permission: kerminal.gamemode
+  async: false
+  aliases:
+    - "gm"
+    - "mode"
+Teleport:
+  enabled: true
+  command: "teleport"
+  permission: kerminal.teleport
+  async: false
+  aliases:
+    - "tp"
+    - "teleportar"
+Fly:
+  enabled: true
+  command: "fly"
+  permission: kerminal.fly
+  async: false
+  aliases:
+    - "voar"
+Enchant:
+  enabled: true
+  command: "enchant"
+  permission: kerminal.enchant
+  async: false
+  aliases:
+    - "encantar"
+ClearChat:
+  enabled: true
+  command: "clearchat"
+  permission: kerminal.clearchat
+  async: false
+  aliases:
+    - "limparchat"
+Clear:
+  enabled: true
+  command: "clear"
+  permission: kerminal.clear
+  async: false
+  aliases:
+    - "limpar"
+Craft:
+  enabled: true
+  command: "craft"
+  permission: kerminal.craft
+  async: false
+  aliases:
+    - "craftar"
+Feed:
+  enabled: true
+  command: "feed"
+  permission: kerminal.feed
+  async: false
+  aliases:
+    - "fome"
+    - "comida"
+Heal:
+  enabled: true
+  command: "heal"
+  permission: kerminal.heal
+  async: false
+  aliases:
+    - "vida"
+Hat:
+  enabled: true
+  command: "hat"
+  permission: kerminal.hat
+  async: false
+  aliases:
+    - "chapeu"
+Enderchest:
+  enabled: true
+  command: "enderchest"
+  permission: kerminal.enderchest
+  async: false
+  aliases:
+    - "echest"
+Divulgar:
+  enabled: true
+  command: "divulgar"
+  permission: kerminal.divulgar
+  async: false
+  aliases:
+    - "anunciar"
+Light:
+  enabled: true
+  command: "light"
+  permission: kerminal.light
+  async: false
+  aliases:
+    - "luz"
+Trash:
+  enabled: true
+  command: "trash"
+  permission: kerminal.trash
+  async: false
+  aliases:
+    - "lixo"
+Onlines:
+  enabled: true
+  command: "onlines"
+  permission: kerminal.onlines
+  async: false
+  aliases:
+    - "online"
+Jogadores:
+  enabled: true
+  command: "jogadores"
+  permission: kerminal.jogadores
+  async: false
+  aliases: {}
+Home:
+  enabled: true
+  command: "home"
+  permission: kerminal.home
+  async: false
+  aliases:
+    - "casa"
+Sethome:
+  enabled: true
+  command: "sethome"
+  permission: kerminal.sethome
+  async: false
+  aliases:
+    - "setcasa"
+Delhome:
+  enabled: true
+  command: "delhome"
+  permission: kerminal.delhome
+  async: false
+  aliases:
+    - "deletarhome"
+    - "deletehome"
+Listhome:
+  enabled: true
+  command: "listhome"
+  permission: kerminal.listhome
+  async: false
+  aliases:
+    - "listhomes"
+    - "homes"
+Back:
+  enabled: true
+  command: "back"
+  permission: kerminal.back
+  async: false
+  aliases:
+    - "voltar"
+Ping:
+  enabled: true
+  command: "ping"
+  permission: kerminal.ping
+  async: false
+  aliases:
+    - "pingar"
+Slime:
+  enabled: true
+  command: "slime"
+  permission: kerminal.slime
+  async: false
+  aliases:
+    - "slimechunk"
+

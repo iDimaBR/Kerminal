@@ -6,6 +6,7 @@ import com.github.kerminal.utils.ConfigUtil;
 import lombok.AllArgsConstructor;
 import me.saiintbrisson.minecraft.command.annotation.Command;
 import me.saiintbrisson.minecraft.command.annotation.Optional;
+import me.saiintbrisson.minecraft.command.command.CommandInfo;
 import me.saiintbrisson.minecraft.command.command.Context;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -18,14 +19,27 @@ import org.bukkit.inventory.PlayerInventory;
 public class HatCommand {
 
     private Kerminal plugin;
+    private ConfigUtil commands;
 
-    @Command(
-            name = "hat",
-            aliases = {"chapeu"},
-            permission = "kerminal.hat",
-            usage = "/hat <jogador>"
-    )
-    public void onHat(Context<CommandSender> context) {
+    public HatCommand(Kerminal plugin) {
+        this.plugin = plugin;
+        this.commands = plugin.getCommands();
+        if(!commands.getBoolean("Hat.enabled", true)) return;
+        plugin.getBukkitFrame().registerCommand(
+                CommandInfo.builder()
+                        .name(commands.getString("Hat.command"))
+                        .aliases(commands.getStringList("Hat.aliases").toArray(new String[0]))
+                        .permission(commands.getString("Hat.permission"))
+                        .async(commands.getBoolean("Hat.async"))
+                        .build(),
+                context -> {
+                    onCommand(context);
+                    return false;
+                }
+        );
+    }
+
+    public void onCommand(Context<CommandSender> context) {
         final ConfigUtil messages = plugin.getMessages();
         final CommandSender sender = context.getSender();
 

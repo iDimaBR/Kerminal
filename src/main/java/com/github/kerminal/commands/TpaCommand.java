@@ -2,9 +2,11 @@ package com.github.kerminal.commands;
 
 
 import com.github.kerminal.Kerminal;
+import com.github.kerminal.utils.ConfigUtil;
 import lombok.AllArgsConstructor;
 import me.saiintbrisson.minecraft.command.annotation.Command;
 import me.saiintbrisson.minecraft.command.annotation.Optional;
+import me.saiintbrisson.minecraft.command.command.CommandInfo;
 import me.saiintbrisson.minecraft.command.command.Context;
 import me.saiintbrisson.minecraft.command.target.CommandTarget;
 import org.bukkit.Bukkit;
@@ -19,16 +21,27 @@ public class TpaCommand {
 
     private Kerminal plugin;
     final List<String> tpa = new ArrayList<>();
+    private ConfigUtil commands;
 
-    @Command(
-            name = "tpa",
-            permission = "kerminal.tpa",
-            target = CommandTarget.PLAYER
-    )
-    public void onTpa(
-            Context<CommandSender> c,
-            @Optional String target
-    ) {
+    public TpaCommand(Kerminal plugin) {
+        this.plugin = plugin;
+        this.commands = plugin.getCommands();
+        if(!commands.getBoolean("Tpa.enabled", true)) return;
+        plugin.getBukkitFrame().registerCommand(
+                CommandInfo.builder()
+                        .name(commands.getString("Tpa.command"))
+                        .aliases(commands.getStringList("Tpa.aliases").toArray(new String[0]))
+                        .permission(commands.getString("Tpa.permission"))
+                        .async(commands.getBoolean("Tpa.async"))
+                        .build(),
+                context -> {
+                    onCommand(context, context.getArg(0));
+                    return false;
+                }
+        );
+    }
+
+    public void onCommand(Context<CommandSender> c, @Optional String target) {
         //TODO: Delay para fazer outro tpa
         if (target == null) {
             c.sendMessage("§cUse: /tpa <jogador>");

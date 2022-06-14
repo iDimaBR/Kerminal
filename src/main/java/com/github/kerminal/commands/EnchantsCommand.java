@@ -4,14 +4,11 @@ import com.github.kerminal.Kerminal;
 import com.github.kerminal.utils.ConfigUtil;
 import com.github.kerminal.utils.Enchants;
 import lombok.AllArgsConstructor;
-import me.saiintbrisson.minecraft.command.annotation.Command;
-import me.saiintbrisson.minecraft.command.annotation.Completer;
 import me.saiintbrisson.minecraft.command.annotation.Optional;
+import me.saiintbrisson.minecraft.command.command.CommandInfo;
 import me.saiintbrisson.minecraft.command.command.Context;
-import me.saiintbrisson.minecraft.command.target.CommandTarget;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -20,17 +17,30 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
-public class EnchantsCommands {
+public class EnchantsCommand {
 
     private Kerminal plugin;
+    private ConfigUtil commands;
 
-    @Command(
-            name = "enchant",
-            aliases = {"encantar"},
-            permission = "kerminal.enchant",
-            target = CommandTarget.PLAYER
-    )
-    public void onEnchant(Context<CommandSender> context, @Optional String enchant, @Optional String level) {
+    public EnchantsCommand(Kerminal plugin) {
+        this.plugin = plugin;
+        this.commands = plugin.getCommands();
+        if(!commands.getBoolean("Enchant.enabled", true)) return;
+        plugin.getBukkitFrame().registerCommand(
+                CommandInfo.builder()
+                        .name(commands.getString("Enchant.command"))
+                        .aliases(commands.getStringList("Enchant.aliases").toArray(new String[0]))
+                        .permission(commands.getString("Enchant.permission"))
+                        .async(commands.getBoolean("Enchant.async"))
+                        .build(),
+                context -> {
+                    onCommand(context, context.getArg(0), context.getArg(1));
+                    return false;
+                }
+        );
+    }
+
+    public void onCommand(Context<CommandSender> context, @Optional String enchant, @Optional String level) {
         final CommandSender sender = context.getSender();
         final ConfigUtil messages = plugin.getMessages();
         final Player player = (Player) sender;

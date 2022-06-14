@@ -8,13 +8,10 @@ import com.github.kerminal.storage.MySQL;
 import com.github.kerminal.tasks.RegenerationTask;
 import com.github.kerminal.tasks.TeleportTask;
 import com.github.kerminal.utils.ConfigUtil;
-import com.google.common.collect.Maps;
 import lombok.Getter;
 import me.saiintbrisson.bukkit.command.BukkitFrame;
-import me.saiintbrisson.bukkit.command.command.BukkitCommand;
 import me.saiintbrisson.minecraft.command.message.MessageHolder;
 import me.saiintbrisson.minecraft.command.message.MessageType;
-import org.apache.commons.lang3.ClassUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -22,9 +19,6 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Getter
 public final class Kerminal extends JavaPlugin {
@@ -64,7 +58,6 @@ public final class Kerminal extends JavaPlugin {
         configurableCommands = new ConfigUtil(this,"configurableCommands");
         messages = new ConfigUtil(this,"messages");
         commands = new ConfigUtil(this,"commands");
-
     }
 
     private void registerCommands() {
@@ -83,43 +76,30 @@ public final class Kerminal extends JavaPlugin {
                 MessageType.ERROR, "§cOcorreu um erro ao executar este comando!"
         );
 
-        final Map<Object, Boolean> commandsToEnable = Maps.newHashMap();
-        commandsToEnable.put(new TpaCommand(this), hasRegistryCommand("tpa"));
-        commandsToEnable.put(new GamemodeCommand(this), hasRegistryCommand("gamemode"));
-        commandsToEnable.put(new TeleportCommand(this), hasRegistryCommand("tp"));
-        commandsToEnable.put(new FlyCommand(this), hasRegistryCommand("fly"));
-        commandsToEnable.put(new EnchantsCommands(this), hasRegistryCommand("enchant"));
-        commandsToEnable.put(new ClearChatCommand(this), hasRegistryCommand("clearchat"));
-        commandsToEnable.put(new CraftCommand(this), hasRegistryCommand("craft"));
-        commandsToEnable.put(new FeedCommand(this), hasRegistryCommand("feed"));
-        commandsToEnable.put(new HealCommand(this), hasRegistryCommand("heal"));
-        commandsToEnable.put(new HatCommand(this), hasRegistryCommand("hat"));
-        commandsToEnable.put(new ClearCommand(this), hasRegistryCommand("clear"));
-        commandsToEnable.put(new EnderChestCommand(this), hasRegistryCommand("enderchest"));
-        commandsToEnable.put(new AnnounceCommand(this), hasRegistryCommand("divulgar"));
-        commandsToEnable.put(new LightCommand(this), hasRegistryCommand("luz"));
-        commandsToEnable.put(new TrashCommand(this), hasRegistryCommand("lixo"));
-        commandsToEnable.put(new OnlineCommand(this), hasRegistryCommand("onlines"));
-        commandsToEnable.put(new OnlinePlayersCommand(this), hasRegistryCommand("jogadores"));
-
-        commandsToEnable.put(new HomeCommand(this), hasRegistryCommand("home"));
-        commandsToEnable.put(new SethomeCommand(this), hasRegistryCommand("sethome"));
-        commandsToEnable.put(new ListHomesCommand(this), hasRegistryCommand("listhomes"));
-        commandsToEnable.put(new DeleteHomeCommand(this), hasRegistryCommand("delhome"));
-        commandsToEnable.put(new BackCommand(this), hasRegistryCommand("back"));
-        commandsToEnable.put(new PingCommand(this), hasRegistryCommand("ping"));
-
-        final List<Object> commandsEnableds = commandsToEnable.entrySet().stream()
-                .filter($ -> $.getValue().equals(true))
-                .map(Map.Entry::getKey).collect(Collectors.toList());
-
-        for (Object command : commandsEnableds)
-            bukkitFrame.registerCommands(command);
-    }
-
-    private boolean hasRegistryCommand(String name){
-        if(!commands.isSet(name)) return true;
-        return commands.getBoolean(name);
+        new SlimeCommand(this);
+        new PingCommand(this);
+        new BackCommand(this);
+        new AnnounceCommand(this);
+        new ClearChatCommand(this);
+        new ClearCommand(this);
+        new CraftCommand(this);
+        new DeleteHomeCommand(this);
+        new EnchantsCommand(this);
+        new EnderChestCommand(this);
+        new FeedCommand(this);
+        new FlyCommand(this);
+        new GamemodeCommand(this);
+        new HatCommand(this);
+        new HealCommand(this);
+        new HomeCommand(this);
+        new LightCommand(this);
+        new ListHomesCommand(this);
+        new OnlineCommand(this);
+        new OnlinePlayersCommand(this);
+        new SethomeCommand(this);
+        new TeleportCommand(this);
+        new TpaCommand(this);
+        new TrashCommand(this);
     }
 
     private void registerListeners() {

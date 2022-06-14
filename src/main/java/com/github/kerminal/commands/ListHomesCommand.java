@@ -10,6 +10,7 @@ import com.github.kerminal.utils.ConfigUtil;
 import lombok.AllArgsConstructor;
 import me.saiintbrisson.minecraft.command.annotation.Command;
 import me.saiintbrisson.minecraft.command.annotation.Optional;
+import me.saiintbrisson.minecraft.command.command.CommandInfo;
 import me.saiintbrisson.minecraft.command.command.Context;
 import me.saiintbrisson.minecraft.command.target.CommandTarget;
 import org.apache.commons.lang.StringUtils;
@@ -25,14 +26,27 @@ import java.util.Set;
 public class ListHomesCommand {
 
     private Kerminal plugin;
+    private ConfigUtil commands;
 
-    @Command(
-            name = "listhomes",
-            aliases = {"listhome","homes"},
-            permission = "kerminal.listhomes",
-            target = CommandTarget.PLAYER
-    )
-    public void onListHomes(Context<CommandSender> context) {
+    public ListHomesCommand(Kerminal plugin) {
+        this.plugin = plugin;
+        this.commands = plugin.getCommands();
+        if(!commands.getBoolean("Listhome.enabled", true)) return;
+        plugin.getBukkitFrame().registerCommand(
+                CommandInfo.builder()
+                        .name(commands.getString("Listhome.command"))
+                        .aliases(commands.getStringList("Listhome.aliases").toArray(new String[0]))
+                        .permission(commands.getString("Listhome.permission"))
+                        .async(commands.getBoolean("Listhome.async"))
+                        .build(),
+                context -> {
+                    onCommand(context);
+                    return false;
+                }
+        );
+    }
+
+    public void onCommand(Context<CommandSender> context) {
         final CommandSender sender = context.getSender();
         final ConfigUtil messages = plugin.getMessages();
         final Player player = (Player) sender;

@@ -2,9 +2,11 @@ package com.github.kerminal.commands;
 
 
 import com.github.kerminal.Kerminal;
+import com.github.kerminal.utils.ConfigUtil;
 import lombok.AllArgsConstructor;
 import me.saiintbrisson.minecraft.command.annotation.Command;
 import me.saiintbrisson.minecraft.command.annotation.Optional;
+import me.saiintbrisson.minecraft.command.command.CommandInfo;
 import me.saiintbrisson.minecraft.command.command.Context;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -14,18 +16,27 @@ import org.bukkit.entity.Player;
 public class TeleportCommand {
 
     private Kerminal plugin;
+    private ConfigUtil commands;
 
-    @Command(
-            name = "tp",
-            aliases = {"teleport", "teleportar"},
-            description = "Teleporta um jogador para outro",
-            permission = "kerminal.tp"
-    )
-    public void Teleport(
-            Context<CommandSender> c,
-            @Optional String target,
-            @Optional String target2
-    ) {
+    public TeleportCommand(Kerminal plugin) {
+        this.plugin = plugin;
+        this.commands = plugin.getCommands();
+        if(!commands.getBoolean("Teleport.enabled", true)) return;
+        plugin.getBukkitFrame().registerCommand(
+                CommandInfo.builder()
+                        .name(commands.getString("Teleport.command"))
+                        .aliases(commands.getStringList("Teleport.aliases").toArray(new String[0]))
+                        .permission(commands.getString("Teleport.permission"))
+                        .async(commands.getBoolean("Teleport.async"))
+                        .build(),
+                context -> {
+                    onCommand(context, context.getArg(0), context.getArg(0));
+                    return false;
+                }
+        );
+    }
+
+    public void onCommand(Context<CommandSender> c, @Optional String target, @Optional String target2) {
 
         CommandSender sender = c.getSender();
         if (target == null) {

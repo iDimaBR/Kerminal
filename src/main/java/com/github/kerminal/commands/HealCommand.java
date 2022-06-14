@@ -6,6 +6,7 @@ import com.github.kerminal.utils.ConfigUtil;
 import lombok.AllArgsConstructor;
 import me.saiintbrisson.minecraft.command.annotation.Command;
 import me.saiintbrisson.minecraft.command.annotation.Optional;
+import me.saiintbrisson.minecraft.command.command.CommandInfo;
 import me.saiintbrisson.minecraft.command.command.Context;
 import me.saiintbrisson.minecraft.command.message.MessageHolder;
 import me.saiintbrisson.minecraft.command.target.CommandTarget;
@@ -19,14 +20,27 @@ import java.awt.*;
 public class HealCommand {
 
     private Kerminal plugin;
+    private ConfigUtil commands;
 
-    @Command(
-            name = "heal",
-            aliases = {"vida","regenerar"},
-            permission = "kerminal.heal",
-            usage = "/heal <jogador>"
-    )
-    public void onHeal(Context<CommandSender> context, @Optional String targetName) {
+    public HealCommand(Kerminal plugin) {
+        this.plugin = plugin;
+        this.commands = plugin.getCommands();
+        if(!commands.getBoolean("Heal.enabled", true)) return;
+        plugin.getBukkitFrame().registerCommand(
+                CommandInfo.builder()
+                        .name(commands.getString("Heal.command"))
+                        .aliases(commands.getStringList("Heal.aliases").toArray(new String[0]))
+                        .permission(commands.getString("Heal.permission"))
+                        .async(commands.getBoolean("Heal.async"))
+                        .build(),
+                context -> {
+                    onCommand(context, context.getArg(0));
+                    return false;
+                }
+        );
+    }
+
+    public void onCommand(Context<CommandSender> context, @Optional String targetName) {
         final ConfigUtil messages = plugin.getMessages();
         final int args = context.argsCount();
         final CommandSender sender = context.getSender();
