@@ -1,3 +1,15 @@
+Spawn:
+  enabled: true
+  command: "spawn"
+  permission: kerminal.spawn
+  async: false
+  aliases: {}
+Setspawn:
+  enabled: true
+  command: "setspawn"
+  permission: kerminal.setspawn
+  async: false
+  aliases: {}
 Tpa:
   enabled: true
   command: "tpa"

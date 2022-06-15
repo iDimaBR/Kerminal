@@ -58,6 +58,11 @@ public class HomeCommand {
             return;
         }
 
+        if(isInvalidWorld(player.getLocation())){
+            player.sendMessage("§cNesse mundo não é permitido definir homes.");
+            return;
+        }
+
         if(args == 0) {
             if (data.getDefaultHome() == null) {
                 player.sendMessage("§cSua casa principal não foi definida ainda.");
@@ -98,5 +103,9 @@ public class HomeCommand {
                 player.sendMessage("§cCasa não foi encontrada!");
             }
         }
+    }
+
+    private boolean isInvalidWorld(Location location) {
+        return plugin.getConfig().getStringList("HomeSystem.BlacklistWorlds").contains(location.getWorld().getName());
     }
 }

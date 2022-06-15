@@ -60,4 +60,6 @@ public class BackCommand {
         player.teleport(back);
         player.sendMessage("§aTeleportado de volta para última localização.");
     }
+
+
 }

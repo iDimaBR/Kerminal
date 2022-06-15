@@ -8,11 +8,14 @@ import com.github.kerminal.storage.MySQL;
 import com.github.kerminal.tasks.RegenerationTask;
 import com.github.kerminal.tasks.TeleportTask;
 import com.github.kerminal.utils.ConfigUtil;
+import com.github.kerminal.utils.LocationUtils;
 import lombok.Getter;
+import lombok.Setter;
 import me.saiintbrisson.bukkit.command.BukkitFrame;
 import me.saiintbrisson.minecraft.command.message.MessageHolder;
 import me.saiintbrisson.minecraft.command.message.MessageType;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
@@ -31,6 +34,9 @@ public final class Kerminal extends JavaPlugin {
     private ConfigUtil messages;
     private ConfigUtil commands;
 
+    @Setter
+    private Location Spawn;
+
 
     public void onLoad() {
         saveDefaultConfig();
@@ -39,6 +45,7 @@ public final class Kerminal extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        loadLocations();
         loadStorage();
         loadStorageData();
         loadController();
@@ -100,6 +107,8 @@ public final class Kerminal extends JavaPlugin {
         new TeleportCommand(this);
         new TpaCommand(this);
         new TrashCommand(this);
+        new SpawnCommand(this);
+        new SetspawnCommand(this);
     }
 
     private void registerListeners() {
@@ -147,6 +156,10 @@ public final class Kerminal extends JavaPlugin {
     private void loadController(){
         controller = new DataController();
         new TeleportTask(new TeleportRegistry());
+    }
+
+    private void loadLocations(){
+        Spawn = LocationUtils.getLocationFromConfig(config, "Spawn");
     }
 
     private void loadStorage(){

@@ -17,8 +17,10 @@ Connection:
   Username: 'root'
   Password: ''
 
-Homes:
+HomeSystem:
   MaxHomes: 3
+  BlacklistWorlds:
+    - "worldName"
 
 Motd:
   MaxPlayers: 10
@@ -35,6 +37,12 @@ Regeneration:
   Enabled: true
   Delay: 20
 
+BackSystem:
+  BlacklistWorlds:
+    - "worldName"
+
 Worlds:
   world:
     Tick: 60
+
+Spawn: {}

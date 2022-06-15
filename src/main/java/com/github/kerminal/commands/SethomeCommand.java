@@ -72,7 +72,7 @@ public class SethomeCommand {
                 return;
             }
 
-            int maxHomes = plugin.getConfig().getInt("Homes.MaxHomes");
+            int maxHomes = plugin.getConfig().getInt("HomeSystem.MaxHomes");
 
             if(data.getHomes().size() >= maxHomes){
                 player.sendMessage("§cVocê atingiu o limite de " + maxHomes + " casas.");

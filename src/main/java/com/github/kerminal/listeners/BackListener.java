@@ -3,6 +3,7 @@ package com.github.kerminal.listeners;
 import com.github.kerminal.Kerminal;
 import com.github.kerminal.controllers.DataController;
 import com.github.kerminal.models.PlayerData;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,6 +24,7 @@ public class BackListener implements Listener {
         if(player == null) return;
         if(!player.hasPermission("kerminal.back")) return;
         if((player.getUniqueId()) == null) return;
+        if(isInvalidWorld(player.getLocation())) return;
 
         final PlayerData dataPlayer = controller.getDataPlayer(player.getUniqueId());
         dataPlayer.setLastLocation(player.getLocation());
@@ -35,6 +37,7 @@ public class BackListener implements Listener {
 
         if(!isValid(e.getCause())) return;
         if(!player.hasPermission("kerminal.back")) return;
+        if(isInvalidWorld(player.getLocation())) return;
 
         final PlayerData dataPlayer = controller.getDataPlayer(player.getUniqueId());
         dataPlayer.setLastLocation(e.getFrom());
@@ -42,6 +45,10 @@ public class BackListener implements Listener {
 
     private boolean isValid(PlayerTeleportEvent.TeleportCause cause) {
         return cause == PlayerTeleportEvent.TeleportCause.COMMAND || cause == PlayerTeleportEvent.TeleportCause.PLUGIN;
+    }
+
+    private boolean isInvalidWorld(Location location) {
+        return plugin.getConfig().getStringList("BackSystem.BlacklistWorlds").contains(location.getWorld().getName());
     }
 
 }
