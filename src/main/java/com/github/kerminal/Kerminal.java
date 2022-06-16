@@ -7,6 +7,7 @@ import com.github.kerminal.controllers.KitController;
 import com.github.kerminal.listeners.*;
 import com.github.kerminal.registry.TeleportRegistry;
 import com.github.kerminal.storage.MySQL;
+import com.github.kerminal.tasks.AutoMessageTask;
 import com.github.kerminal.tasks.RegenerationTask;
 import com.github.kerminal.tasks.TeleportTask;
 import com.github.kerminal.utils.ConfigUtil;
@@ -18,6 +19,7 @@ import me.saiintbrisson.minecraft.command.message.MessageHolder;
 import me.saiintbrisson.minecraft.command.message.MessageType;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
@@ -59,6 +61,7 @@ public final class Kerminal extends JavaPlugin {
         registerCommands();
         loadTicksWorld();
         loadRegenSystem();
+        loadAutoMessageSystem();
     }
 
     @Override
@@ -129,6 +132,9 @@ public final class Kerminal extends JavaPlugin {
                 new GameMechanicsListener(this), this
         );
         pluginManager.registerEvents(
+                new PlayerActionsChangeListener(this), this
+        );
+        pluginManager.registerEvents(
                 new ConfigurableCommandsHandler(this), this
         );
         pluginManager.registerEvents(
@@ -142,6 +148,9 @@ public final class Kerminal extends JavaPlugin {
         );
         pluginManager.registerEvents(
                 new EntityDataListener(this), this
+        );
+        pluginManager.registerEvents(
+                new BlockCommandListener(this), this
         );
     }
 
@@ -213,5 +222,12 @@ public final class Kerminal extends JavaPlugin {
 
         for (Player player : onlinePlayers)
             SQL.savePlayer(player.getUniqueId());
+    }
+
+    private void loadAutoMessageSystem(){
+        if(!config.getBoolean("Features.AutoMessage.Enabled")) return;
+
+        final int delayMessage = config.getInt("Features.AutoMessage.Delay");
+        new AutoMessageTask(this).runTaskTimerAsynchronously(this, 80L, delayMessage * 20L);
     }
 }

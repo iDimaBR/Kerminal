@@ -1,10 +1,12 @@
 package com.github.kerminal.utils;
 
+import com.google.common.io.ByteStreams;
 import lombok.Getter;
 import org.bukkit.Color;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.FileConfigurationOptions;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -12,9 +14,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 
-import java.io.File;
-import java.io.InputStream;
-import java.io.Reader;
+import java.io.*;
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -274,6 +275,17 @@ public class ConfigUtil extends FileConfiguration {
 
     public void save(File file) throws java.io.IOException {
         this.configuration.save(file);
+    }
+
+    public static void save2(File file) throws InvalidConfigurationException, IOException {
+        final String text = new String(ByteStreams.toByteArray(
+                new FileInputStream(file)), Charset.defaultCharset()
+        );
+
+        final YamlConfiguration newestConfiguration = new YamlConfiguration();
+        newestConfiguration.loadFromString(text);
+
+        YamlConfiguration.loadConfiguration(file).setDefaults(newestConfiguration);
     }
 
     @Override

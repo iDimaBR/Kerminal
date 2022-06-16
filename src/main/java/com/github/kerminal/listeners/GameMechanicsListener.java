@@ -25,26 +25,6 @@ public class GameMechanicsListener implements Listener {
     private Kerminal plugin;
 
     @EventHandler
-    public void onDeath(PlayerDeathEvent e) {
-        final Player player = e.getEntity().getPlayer();
-        e.setDeathMessage(null);
-
-        if (!player.hasPermission("kerminal.keepxp")) return;
-        e.setKeepLevel(true);
-        e.setDroppedExp(0);
-    }
-
-    @EventHandler
-    public void onKick(PlayerKickEvent e) {
-        e.setLeaveMessage("");
-    }
-
-    @EventHandler
-    public void onQuit(PlayerQuitEvent e) {
-        e.setQuitMessage(null);
-    }
-
-    @EventHandler
     public void onMotd(ServerListPingEvent e){
         final ConfigUtil config = plugin.getConfig();
         e.setMaxPlayers(config.getInt("Motd.Maxplayers"));

@@ -7,7 +7,6 @@
 # 888   Y88b  888        888  T88b  888   "   888   888   888   Y8888  d8888888888 888
 # 888    Y88b 8888888888 888   T88b 888       888 8888888 888    Y888 d88P     888 88888888
 #
-# MADE BY IDIMABR AND FERRARIBR, A OPEN SOURCE PLUGIN, FOR YOU, :P
 
 ConnectionType: 'mysql'
 Connection:
@@ -34,8 +33,33 @@ Motd:
     - "&cThis server in Maintenance"
 
 Regeneration:
-  Enabled: true
+  Enabled: false
   Delay: 20
+
+BlockedCommands:
+  - "plugins"
+  - "pl"
+
+Features:
+  CustomMessages:
+    Enabled: true
+    PlayerJoin: ""
+    PlayerQuit: ""
+    PlayerDeath:
+      Mode: ALL
+      DefaultMessage: ""
+      PrivateAnnounces:
+        Killer: "&aVocê acabou de matar %player%."
+        Victim: "&aVocê foi morto por %player%."
+  AutoMessage:
+    Enabled: true
+    Delay: 30
+    Sound: CAT_MEOW
+    Messages:
+      - "&a【Anúncio】 &fObrigado por usar o Kerminal :3"
+      - "&a【Anúncio】 &fO que acha de mandar o Kerminal para seus amigos?"
+      - "&a【Anúncio】 &fSe precisar falar com os desenvolvedores, entre na BeezCommunity."
+      - "&a【Anúncio】 &fQuer adicionar algo no Kerminal? Envia sua sugestão para nós ;)"
 
 BackSystem:
   BlacklistWorlds:

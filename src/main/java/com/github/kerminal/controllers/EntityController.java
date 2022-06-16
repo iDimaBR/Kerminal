@@ -96,6 +96,5 @@ public class EntityController {
 
             dataEntityMap.put(type, data);
         }
-        System.out.println(dataEntityMap);
     }
 }

@@ -55,9 +55,8 @@ public class KitCommand {
             return;
         }
 
-        final Long delayValue = delayKit.getOrDefault(player.getUniqueId(), 0L);
-        if(delayValue > System.currentTimeMillis()) {
-            player.sendMessage("§cVocê ainda precisa esperar " + TimeUtils.format(delayValue - System.currentTimeMillis()));
+        if(delayKit.containsKey(player.getUniqueId()) && delayKit.get(player.getUniqueId()) > System.currentTimeMillis()) {
+            player.sendMessage("§cVocê ainda precisa esperar " + TimeUtils.format(delayKit.get(player.getUniqueId()) - System.currentTimeMillis()));
             return;
         }
 
