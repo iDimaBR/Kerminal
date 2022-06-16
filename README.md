@@ -49,6 +49,7 @@ Todos os comandos aqui listados são 100% configuráveis no plugin.
 | /ping                     |  Exibe o ping do executor                                  |                kerminal.ping
 | /slime                     |  Exibe se a chunk atual do executor é uma Slime Chunk                                  |                kerminal.slime
 | /kit                     |  Recebe um kit de escolha do executor                                  |                kerminal.kit
+| /listkits                     |  Exibe todos os kits criados no servidor                                  |                kerminal.listkits
 
 ## Eventos Customizados
 
