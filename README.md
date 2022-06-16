@@ -50,6 +50,12 @@ Todos os comandos aqui listados são 100% configuráveis no plugin.
 | /slime                     |  Exibe se a chunk atual do executor é uma Slime Chunk                                  |                kerminal.slime
 | /kit                     |  Recebe um kit de escolha do executor                                  |                kerminal.kit
 
+## Eventos Customizados
+
+`GamemodeChangeEvent` - Chamado na alteração do gamemode.
+`PlayerBackEvent` - Chamado ao executar o comando /back para retornar.
+`PlayerHomeEvent` - Chamado ao teleportar-se para uma Home.
+
 ## Configurações
 
 ### ➥ Principal <sub>[ config.yml ]</sub>
