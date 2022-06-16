@@ -52,9 +52,9 @@ Todos os comandos aqui listados são 100% configuráveis no plugin.
 
 ## Eventos Customizados
 
-`GamemodeChangeEvent` - Chamado na alteração do gamemode.
-`PlayerBackEvent` - Chamado ao executar o comando /back para retornar.
-`PlayerHomeEvent` - Chamado ao teleportar-se para uma Home.
+- `GamemodeChangeEvent` - Chamado na alteração do gamemode.
+- `PlayerBackEvent` - Chamado ao executar o comando /back para retornar.
+- `PlayerHomeEvent` - Chamado ao teleportar-se para uma Home.
 
 ## Configurações
 
