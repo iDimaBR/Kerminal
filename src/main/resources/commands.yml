@@ -152,7 +152,7 @@ Delhome:
   aliases:
     - "deletarhome"
     - "deletehome"
-Listhome:
+Listhomes:
   enabled: true
   command: "listhome"
   permission: kerminal.listhome
@@ -201,4 +201,11 @@ Kit:
   permission: kerminal.kit
   async: false
   aliases: {}
+ListKits:
+  enabled: true
+  command: "kits"
+  permission: kerminal.listkits
+  async: false
+  aliases:
+    - "verkits"
 

@@ -3,6 +3,7 @@ package com.github.kerminal.commands;
 
 import com.github.kerminal.Kerminal;
 import com.github.kerminal.controllers.DataController;
+import com.github.kerminal.customevents.PlayerBackEvent;
 import com.github.kerminal.models.Home;
 import com.github.kerminal.models.PlayerData;
 import com.github.kerminal.registry.TeleportRegistry;
@@ -14,6 +15,7 @@ import me.saiintbrisson.minecraft.command.annotation.Optional;
 import me.saiintbrisson.minecraft.command.command.CommandInfo;
 import me.saiintbrisson.minecraft.command.command.Context;
 import me.saiintbrisson.minecraft.command.target.CommandTarget;
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -56,7 +58,11 @@ public class BackCommand {
             return;
         }
 
-        Location back = data.getLastLocation();
+        final Location back = data.getLastLocation();
+        PlayerBackEvent playerBackEvent = new PlayerBackEvent(player, back);
+        Bukkit.getPluginManager().callEvent(playerBackEvent);
+        if(playerBackEvent.isCancelled()) return;
+
         player.teleport(back);
         player.sendMessage("§aTeleportado de volta para última localização.");
     }

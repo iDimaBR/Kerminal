@@ -120,6 +120,7 @@ public final class Kerminal extends JavaPlugin {
         new InfolagCommand(this);
         new CreateKitCommand(this);
         new KitCommand(this);
+        new ListKitsCommand(this);
     }
 
     private void registerListeners() {

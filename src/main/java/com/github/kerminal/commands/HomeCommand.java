@@ -3,6 +3,7 @@ package com.github.kerminal.commands;
 
 import com.github.kerminal.Kerminal;
 import com.github.kerminal.controllers.DataController;
+import com.github.kerminal.customevents.PlayerHomeTeleportEvent;
 import com.github.kerminal.models.Home;
 import com.github.kerminal.models.PlayerData;
 import com.github.kerminal.registry.TeleportRegistry;
@@ -52,7 +53,7 @@ public class HomeCommand {
         final DataController controller = plugin.getController();
         final TeleportRegistry teleportRegistry = controller.getRegistry();
 
-        PlayerData data = controller.getDataPlayer(player.getUniqueId());
+        final PlayerData data = controller.getDataPlayer(player.getUniqueId());
         if(data == null){
             player.sendMessage("§cSuas informações não foram carregadas, entre novamente no servidor.");
             return;
@@ -64,12 +65,18 @@ public class HomeCommand {
         }
 
         if(args == 0) {
-            if (data.getDefaultHome() == null) {
+            final Home defaultHome = data.getDefaultHome();
+            if (defaultHome == null) {
                 player.sendMessage("§cSua casa principal não foi definida ainda.");
                 return;
             }
 
-            Location location = data.getDefaultHome().getLocation();
+            PlayerHomeTeleportEvent playerHomeTeleportEvent = new PlayerHomeTeleportEvent(player, defaultHome);
+            Bukkit.getPluginManager().callEvent(playerHomeTeleportEvent);
+            if(playerHomeTeleportEvent.isCancelled()) return;
+
+            final Location location = defaultHome.getLocation();
+
             if (player.hasPermission("kerminal.home.delay.bypass")) {
                 player.sendMessage("§aTeleportado!");
                 location.setYaw(player.getLocation().getYaw());
@@ -83,10 +90,14 @@ public class HomeCommand {
             teleportRegistry.register(player, location);
             player.sendMessage("§aTeleportando para casa principal em " + teleportRegistry.getDelay(player) + " segundos.");
         }else{
-
             if(data.getHomes().containsKey(nameHome)) {
-                Home home = data.getHomes().get(nameHome);
-                Location location = home.getLocation();
+                final Home home = data.getHomes().get(nameHome);
+                final Location location = home.getLocation();
+
+                PlayerHomeTeleportEvent playerHomeTeleportEvent = new PlayerHomeTeleportEvent(player, home);
+                Bukkit.getPluginManager().callEvent(playerHomeTeleportEvent);
+                if(playerHomeTeleportEvent.isCancelled()) return;
+
                 if(player.hasPermission("kerminal.home.delay.bypass")){
                     player.sendMessage("§aTeleportado!");
                     location.setYaw(player.getLocation().getYaw());

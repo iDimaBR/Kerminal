@@ -31,13 +31,13 @@ public class ListHomesCommand {
     public ListHomesCommand(Kerminal plugin) {
         this.plugin = plugin;
         this.commands = plugin.getCommands();
-        if(!commands.getBoolean("Listhome.enabled", true)) return;
+        if(!commands.getBoolean("Listhomes.enabled", true)) return;
         plugin.getBukkitFrame().registerCommand(
                 CommandInfo.builder()
-                        .name(commands.getString("Listhome.command"))
-                        .aliases(commands.getStringList("Listhome.aliases").toArray(new String[0]))
-                        .permission(commands.getString("Listhome.permission"))
-                        .async(commands.getBoolean("Listhome.async"))
+                        .name(commands.getString("Listhomes.command"))
+                        .aliases(commands.getStringList("Listhomes.aliases").toArray(new String[0]))
+                        .permission(commands.getString("Listhomes.permission"))
+                        .async(commands.getBoolean("Listhomes.async"))
                         .build(),
                 context -> {
                     onCommand(context);

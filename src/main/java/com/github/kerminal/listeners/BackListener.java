@@ -2,6 +2,7 @@ package com.github.kerminal.listeners;
 
 import com.github.kerminal.Kerminal;
 import com.github.kerminal.controllers.DataController;
+import com.github.kerminal.customevents.GamemodeChangeEvent;
 import com.github.kerminal.models.PlayerData;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -50,5 +51,4 @@ public class BackListener implements Listener {
     private boolean isInvalidWorld(Location location) {
         return plugin.getConfig().getStringList("BackSystem.BlacklistWorlds").contains(location.getWorld().getName());
     }
-
 }
