@@ -26,16 +26,13 @@ public class MySQL {
 	private Kerminal plugin;
 	private Connection connection;
 	private PreparedStatement smt;
-
 	private String connectQuery;
-
 	private String host;
 	private int port;
 	private String database;
 	private String username;
 	private String password;
-
-	private Gson GSON = new Gson();
+	private final Gson GSON = new Gson();
 
 	public MySQL(Kerminal plugin) {
 		this.plugin = plugin;

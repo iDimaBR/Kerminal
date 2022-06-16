@@ -1,0 +1,13 @@
+PIG:
+  Health: 50
+  Drops:
+    ExampleItem:
+      chance: 80
+      quantity: 1
+      material: DIRT
+      data: 0
+      name: "&cExample"
+      lore:
+        - "&7This is a example"
+      enchantments:
+        - "DAMAGE_ALL;5"

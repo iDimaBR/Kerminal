@@ -51,6 +51,11 @@ public class ItemBuilder {
 
 	}
 
+	public ItemBuilder setQuantity(int number){
+		is.setAmount(number);
+		return this;
+	}
+
 	public ItemBuilder setPotion(PotionEffectType type, int duration, int amplifier) {
 		PotionMeta im = (PotionMeta) is.getItemMeta();
 		im.addCustomEffect(new PotionEffect(type, duration, amplifier), true);

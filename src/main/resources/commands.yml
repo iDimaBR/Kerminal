@@ -181,4 +181,24 @@ Slime:
   async: false
   aliases:
     - "slimechunk"
+Infolag:
+  enabled: true
+  command: "infolag"
+  permission: kerminal.infolag
+  async: false
+  aliases:
+    - "lag"
+CreateKit:
+  enabled: true
+  command: "createkit"
+  permission: kerminal.createkit
+  async: false
+  aliases:
+    - "criarkit"
+Kit:
+  enabled: true
+  command: "kit"
+  permission: kerminal.kit
+  async: false
+  aliases: {}
 

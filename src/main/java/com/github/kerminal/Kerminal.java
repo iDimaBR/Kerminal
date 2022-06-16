@@ -2,6 +2,8 @@ package com.github.kerminal;
 
 import com.github.kerminal.commands.*;
 import com.github.kerminal.controllers.DataController;
+import com.github.kerminal.controllers.EntityController;
+import com.github.kerminal.controllers.KitController;
 import com.github.kerminal.listeners.*;
 import com.github.kerminal.registry.TeleportRegistry;
 import com.github.kerminal.storage.MySQL;
@@ -28,11 +30,15 @@ public final class Kerminal extends JavaPlugin {
 
     private BukkitFrame bukkitFrame;
     private DataController controller;
+    private EntityController entityController;
+    private KitController kitController;
     private MySQL SQL;
     private ConfigUtil config;
     private ConfigUtil configurableCommands;
     private ConfigUtil messages;
     private ConfigUtil commands;
+    private ConfigUtil entities;
+    private ConfigUtil kits;
 
     @Setter
     private Location Spawn;
@@ -48,7 +54,7 @@ public final class Kerminal extends JavaPlugin {
         loadLocations();
         loadStorage();
         loadStorageData();
-        loadController();
+        loadControllers();
         registerListeners();
         registerCommands();
         loadTicksWorld();
@@ -62,9 +68,11 @@ public final class Kerminal extends JavaPlugin {
 
     private void loadConfigs(){
         config = new ConfigUtil(this, "config");
-        configurableCommands = new ConfigUtil(this,"configurableCommands");
+        configurableCommands = new ConfigUtil(this,"customCommands");
         messages = new ConfigUtil(this,"messages");
         commands = new ConfigUtil(this,"commands");
+        entities = new ConfigUtil(this, "entities");
+        kits = new ConfigUtil(this, "kits");
     }
 
     private void registerCommands() {
@@ -109,6 +117,9 @@ public final class Kerminal extends JavaPlugin {
         new TrashCommand(this);
         new SpawnCommand(this);
         new SetspawnCommand(this);
+        new InfolagCommand(this);
+        new CreateKitCommand(this);
+        new KitCommand(this);
     }
 
     private void registerListeners() {
@@ -127,6 +138,9 @@ public final class Kerminal extends JavaPlugin {
         );
         pluginManager.registerEvents(
                 new BackListener(this), this
+        );
+        pluginManager.registerEvents(
+                new EntityDataListener(this), this
         );
     }
 
@@ -153,9 +167,14 @@ public final class Kerminal extends JavaPlugin {
         }
     }
 
-    private void loadController(){
+    private void loadControllers(){
         controller = new DataController();
+        entityController = new EntityController(this, entities);
+        kitController = new KitController(this, kits);
+        //
         new TeleportTask(new TeleportRegistry());
+        entityController.loadEntityData();
+        kitController.loadAllKits();
     }
 
     private void loadLocations(){
