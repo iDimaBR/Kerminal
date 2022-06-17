@@ -20,6 +20,7 @@ public class BackListener implements Listener {
         this.plugin = plugin;
     }
 
+    @EventHandler
     public void onDeath(PlayerDeathEvent e){
         final DataController controller = plugin.getController();
         final Player player = e.getEntity().getPlayer();

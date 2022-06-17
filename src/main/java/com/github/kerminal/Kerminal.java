@@ -134,9 +134,11 @@ public final class Kerminal extends JavaPlugin {
         pluginManager.registerEvents(
                 new GameMechanicsListener(this), this
         );
-        pluginManager.registerEvents(
-                new PlayerActionsChangeListener(this), this
-        );
+        if(config.getBoolean("Features.CustomMessages.Enabled", true))
+            pluginManager.registerEvents(
+                    new PlayerActionsChangeListener(this), this
+            );
+
         pluginManager.registerEvents(
                 new ConfigurableCommandsHandler(this), this
         );
@@ -146,15 +148,77 @@ public final class Kerminal extends JavaPlugin {
         pluginManager.registerEvents(
                 new CacheListener(this), this
         );
-        pluginManager.registerEvents(
-                new BackListener(this), this
-        );
+        if(commands.getBoolean("Back.enabled", true))
+            pluginManager.registerEvents(
+                    new BackListener(this), this
+            );
         pluginManager.registerEvents(
                 new EntityDataListener(this), this
         );
-        pluginManager.registerEvents(
-                new BlockCommandListener(this), this
-        );
+        if(!config.getStringList("BlockedCommands").isEmpty())
+            pluginManager.registerEvents(
+                    new BlockCommandListener(this), this
+            );
+
+        if(config.getBoolean("Features.WorldOptions.Block-Decay-Leaves", false))
+            pluginManager.registerEvents(
+                    new BlockDecayListener(this), this
+            );
+
+        if(config.getBoolean("Features.WorldOptions.Block-Explode-Item", false))
+            pluginManager.registerEvents(
+                    new BlockExplodeItemListener(this), this
+            );
+
+        if(config.getBoolean("Features.WorldOptions.Block-Entity-Burn", false))
+            pluginManager.registerEvents(
+                    new BlockFireEntityListener(this), this
+            );
+
+        if(config.getBoolean("Features.WorldOptions.Block-Fire-Spread", false))
+            pluginManager.registerEvents(
+                    new BlockFireListener(this), this
+            );
+
+        if(config.getBoolean("Features.WorldOptions.Block-Food-Down", false))
+            pluginManager.registerEvents(
+                    new BlockFoodWorldListener(this), this
+            );
+
+        if(config.getBoolean("Features.WorldOptions.Block-Freeze-Water", false))
+            pluginManager.registerEvents(
+                    new BlockFreezeListener(this), this
+            );
+
+        if(config.getBoolean("Features.WorldOptions.Block-Entity-Steal-Item", false))
+            pluginManager.registerEvents(
+                    new BlockItemEntityListener(this), this
+            );
+
+        if(config.getBoolean("Features.WorldOptions.Block-Plantation-Destroy", false))
+            pluginManager.registerEvents(
+                    new BlockPlantationDamageListener(this), this
+            );
+
+        if(config.getBoolean("Features.WorldOptions.Block-Create-Portal", false))
+            pluginManager.registerEvents(
+                    new BlockPortalListener(this), this
+            );
+
+        if(config.getBoolean("Features.WorldOptions.Block-Smelt-Snow", false))
+            pluginManager.registerEvents(
+                    new BlockSmeltSnowListener(this), this
+            );
+
+        if(config.getBoolean("Features.WorldOptions.Block-Void-Damage", false))
+            pluginManager.registerEvents(
+                    new BlockVoidListener(this), this
+            );
+
+        if(config.getBoolean("Features.WorldOptions.Block-Weather", false))
+            pluginManager.registerEvents(
+                    new BlockWeatherListener(this), this
+            );
     }
 
     private void loadRegenSystem() {
