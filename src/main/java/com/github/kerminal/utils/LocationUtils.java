@@ -17,7 +17,7 @@ public class LocationUtils {
         }
     }
 
-    public static void setLocationConfig(ConfigUtil config, Location location, String path){
+    public static Location setLocationConfig(ConfigUtil config, Location location, String path){
         try {
             config.set(path + ".world", location.getWorld().getName());
             config.set(path + ".x", location.getBlockX());
@@ -25,5 +25,7 @@ public class LocationUtils {
             config.set(path + ".z", location.getBlockZ());
             config.save();
         } catch (Throwable ignored){}
+
+        return location;
     }
 }

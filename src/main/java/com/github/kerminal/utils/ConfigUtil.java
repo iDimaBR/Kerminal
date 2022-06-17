@@ -2,6 +2,7 @@ package com.github.kerminal.utils;
 
 import com.google.common.io.ByteStreams;
 import lombok.Getter;
+import lombok.SneakyThrows;
 import org.bukkit.Color;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.Configuration;
@@ -16,6 +17,7 @@ import org.bukkit.util.Vector;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -36,6 +38,24 @@ public class ConfigUtil extends FileConfiguration {
         this.name = name;
 
         this.rootFile = new File(owningPlugin.getDataFolder(), name);
+        load();
+    }
+
+    @SneakyThrows
+    public ConfigUtil(Plugin owningPlugin, String name, String root) {
+        if (!name.endsWith(".yml")) name += ".yml";
+
+        this.owningPlugin = owningPlugin;
+        this.name = name;
+
+        File directory = new File(owningPlugin.getDataFolder(), root);
+        if (!directory.exists())
+            directory.mkdirs();
+
+        File file = new File(directory, name);
+        file.createNewFile();
+
+        this.rootFile = file;
         load();
     }
 
@@ -277,15 +297,24 @@ public class ConfigUtil extends FileConfiguration {
         this.configuration.save(file);
     }
 
-    public static void save2(File file) throws InvalidConfigurationException, IOException {
-        final String text = new String(ByteStreams.toByteArray(
-                new FileInputStream(file)), Charset.defaultCharset()
-        );
+    public void saveWithComments() {
+        final String text;
+        try {
+            text = new String(ByteStreams.toByteArray(
+                    Files.newInputStream(rootFile.toPath())), Charset.defaultCharset()
+            );
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         final YamlConfiguration newestConfiguration = new YamlConfiguration();
-        newestConfiguration.loadFromString(text);
+        try {
+            newestConfiguration.loadFromString(text);
+        } catch (InvalidConfigurationException e) {
+            throw new RuntimeException(e);
+        }
 
-        YamlConfiguration.loadConfiguration(file).setDefaults(newestConfiguration);
+        YamlConfiguration.loadConfiguration(rootFile).setDefaults(newestConfiguration);
     }
 
     @Override

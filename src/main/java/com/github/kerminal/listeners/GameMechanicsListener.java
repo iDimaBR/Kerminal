@@ -9,6 +9,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityPortalEnterEvent;
+import org.bukkit.event.entity.EntityPortalExitEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -50,5 +52,15 @@ public class GameMechanicsListener implements Listener {
                                 .collect(Collectors.toList())
                         , "\n")
         );
+    }
+
+    @EventHandler
+    public void AntiDeathEntity(EntityPortalEnterEvent e) {
+        if (e.getEntity().isDead()) e.getEntity().remove();
+    }
+
+    @EventHandler
+    public void AntiDeathEntity(EntityPortalExitEvent e) {
+        if (e.getEntity().isDead()) e.getEntity().remove();
     }
 }

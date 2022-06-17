@@ -219,3 +219,11 @@ ListKits:
   aliases:
     - "verkits"
 
+Nick:
+  enabled: true
+  command: "nick"
+  permission: kerminal.nick
+  async: false
+  aliases:
+    - "camuflar"
+

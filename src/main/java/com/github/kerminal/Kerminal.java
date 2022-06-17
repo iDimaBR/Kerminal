@@ -41,6 +41,7 @@ public final class Kerminal extends JavaPlugin {
     private ConfigUtil commands;
     private ConfigUtil entities;
     private ConfigUtil kits;
+    private ConfigUtil locations;
 
     @Setter
     private Location Spawn;
@@ -75,7 +76,8 @@ public final class Kerminal extends JavaPlugin {
         messages = new ConfigUtil(this,"messages");
         commands = new ConfigUtil(this,"commands");
         entities = new ConfigUtil(this, "entities");
-        kits = new ConfigUtil(this, "kits");
+        kits = new ConfigUtil(this, "kits", "data");
+        locations = new ConfigUtil(this, "locations", "data");
     }
 
     private void registerCommands() {
@@ -124,6 +126,7 @@ public final class Kerminal extends JavaPlugin {
         new CreateKitCommand(this);
         new KitCommand(this);
         new ListKitsCommand(this);
+        new NickCommand(this);
     }
 
     private void registerListeners() {
@@ -155,16 +158,20 @@ public final class Kerminal extends JavaPlugin {
     }
 
     private void loadRegenSystem() {
-        if(config.getBoolean("Regeneration.Enabled")){
-            final long delay = config.getLong("Regeneration.Delay");
+        boolean enabled = config.getBoolean("Regeneration.Enabled");
+        getLogger().info("Sistema de Regeneração: " + (enabled ? "Ativado" : "Desativado"));
+        if(enabled){
+            long delay = config.getLong("Regeneration.Delay");
+            if(delay < 5){
+                delay = 5;
+                getLogger().warning("O intervalo da regeneração não pode ser abaixo de 5 ticks.");
+            }
+
             new RegenerationTask().runTaskTimerAsynchronously(this, delay, delay);
             PluginManager pluginManager = getServer().getPluginManager();
             pluginManager.registerEvents(
                     new RegenerationListener(), this
             );
-            getLogger().info("Regeneration System: ENABLED");
-        }else{
-            getLogger().info("Regeneration System: DISABLED");
         }
     }
 
@@ -188,7 +195,7 @@ public final class Kerminal extends JavaPlugin {
     }
 
     private void loadLocations(){
-        Spawn = LocationUtils.getLocationFromConfig(config, "Spawn");
+        Spawn = LocationUtils.getLocationFromConfig(locations, "Spawn");
     }
 
     private void loadStorage(){
@@ -225,7 +232,9 @@ public final class Kerminal extends JavaPlugin {
     }
 
     private void loadAutoMessageSystem(){
-        if(!config.getBoolean("Features.AutoMessage.Enabled")) return;
+        boolean enabled = config.getBoolean("Features.AutoMessage.Enabled");
+        getLogger().info("Sistema de Auto-Mensagem: " + (enabled ? "Ativado" : "Desativado"));
+        if(!enabled) return;
 
         final int delayMessage = config.getInt("Features.AutoMessage.Delay");
         new AutoMessageTask(this).runTaskTimerAsynchronously(this, 80L, delayMessage * 20L);

@@ -16,11 +16,33 @@ Connection:
   Username: 'root'
   Password: ''
 
+
+#
+#  888    888
+#  888    888
+#  888    888
+#  8888888888  .d88b.  88888b.d88b.   .d88b.  .d8888b
+#  888    888 d88""88b 888 "888 "88b d8P  Y8b 88K
+#  888    888 888  888 888  888  888 88888888 "Y8888b.
+#  888    888 Y88..88P 888  888  888 Y8b.          X88
+#  888    888  "Y88P"  888  888  888  "Y8888   88888P'
+#
 HomeSystem:
-  MaxHomes: 3
+  # Mundos proibidos de definir uma home
   BlacklistWorlds:
     - "worldName"
 
+
+#
+#  888b     d888          888         888
+#  8888b   d8888          888         888
+#  88888b.d88888          888         888
+#  888Y88888P888  .d88b.  888888  .d88888
+#  888 Y888P 888 d88""88b 888    d88" 888
+#  888  Y8P  888 888  888 888    888  888
+#  888   "   888 Y88..88P Y88b.  Y88b 888
+#  888       888  "Y88P"   "Y888  "Y88888
+#
 Motd:
   MaxPlayers: 10
   Normal:
@@ -32,41 +54,119 @@ Motd:
     - "&bThis server in Maintenance"
     - "&cThis server in Maintenance"
 
+
+#
+#  8888888b.
+#  888   Y88b
+#  888    888
+#  888   d88P  .d88b.   .d88b.   .d88b.  88888b.   .d88b.  888d888  8888b.  888d888
+#  8888888P"  d8P  Y8b d88P"88b d8P  Y8b 888 "88b d8P  Y8b 888P"       "88b 888P"
+#  888 T88b   88888888 888  888 88888888 888  888 88888888 888     .d888888 888
+#  888  T88b  Y8b.     Y88b 888 Y8b.     888  888 Y8b.     888     888  888 888
+#  888   T88b  "Y8888   "Y88888  "Y8888  888  888  "Y8888  888     "Y888888 888
+#                            888
+#                       Y8b  d88P
+#                        "Y88P"
+#
 Regeneration:
+  # Ative ou desative o sistema
   Enabled: false
+  # Defina o tempo da regeneração da vida (EM TICKS)
   Delay: 20
 
+
+#
+# .d8888b.                                                888
+# d88P  Y88b                                               888
+# 888    888                                               888
+# 888         .d88b.  88888b.d88b.   8888b.  88888b.   .d88888  .d88b.  .d8888b
+# 888        d88""88b 888 "888 "88b     "88b 888 "88b d88" 888 d88""88b 88K
+# 888    888 888  888 888  888  888 .d888888 888  888 888  888 888  888 "Y8888b.
+# Y88b  d88P Y88..88P 888  888  888 888  888 888  888 Y88b 888 Y88..88P      X88
+# "Y8888P"   "Y88P"  888  888  888 "Y888888 888  888  "Y88888  "Y88P"   88888P'
+#
 BlockedCommands:
   - "plugins"
   - "pl"
 
+
+#
+#  8888888b.
+#  888   Y88b
+#  888    888
+#  888   d88P  .d88b.   .d8888b 888  888 888d888 .d8888b   .d88b.  .d8888b
+#  8888888P"  d8P  Y8b d88P"    888  888 888P"   88K      d88""88b 88K
+#  888 T88b   88888888 888      888  888 888     "Y8888b. 888  888 "Y8888b.
+#  888  T88b  Y8b.     Y88b.    Y88b 888 888          X88 Y88..88P      X88
+#  888   T88b  "Y8888   "Y8888P  "Y88888 888      88888P'  "Y88P"   88888P'
+#
 Features:
+  # Permite trocar as mensagens de Entrada, Saida e Morte
   CustomMessages:
     Enabled: true
+    # Para não exibir nenhuma mensagem, deixe vazio.
+    # Placeholders: %player% (Nome do jogador)
     PlayerJoin: ""
+    # Para não exibir nenhuma mensagem, deixe vazio.
+    # Placeholders: %player% (Nome do jogador)
     PlayerQuit: ""
+    # Configuração da mensagem de morte
     PlayerDeath:
+      # Modos:
+      # ALL - Exibe a mensagem default para todos online
+      # PRIVATE - Exibe as mensagens privadas apenas para assassino e vitima
       Mode: ALL
+      # Para não exibir nenhuma mensagem, deixe vazio.
       DefaultMessage: ""
       PrivateAnnounces:
         Killer: "&aVocê acabou de matar %player%."
         Victim: "&aVocê foi morto por %player%."
+  # Envia mensagens aos jogadores de tempo em tempo
   AutoMessage:
     Enabled: true
-    Delay: 30
+    # Intervalo de tempo entre as mensagens
+    # O valor está em segundos
+    Delay: 240
+    # Som que será enviado para todos a cada mensagem
+    # Para não realizar nenhum som, defina como: "false"
     Sound: CAT_MEOW
+    # Lista de mensagens automáticas em ordem
     Messages:
       - "&a【Anúncio】 &fObrigado por usar o Kerminal :3"
       - "&a【Anúncio】 &fO que acha de mandar o Kerminal para seus amigos?"
       - "&a【Anúncio】 &fSe precisar falar com os desenvolvedores, entre na BeezCommunity."
       - "&a【Anúncio】 &fQuer adicionar algo no Kerminal? Envia sua sugestão para nós ;)"
 
+
+#
+#  888888b.                     888
+#  888  "88b                    888
+#  888  .88P                    888
+#  8888888K.   8888b.   .d8888b 888  888
+#  888  "Y88b     "88b d88P"    888 .88P
+#  888    888 .d888888 888      888888K
+#  888   d88P 888  888 Y88b.    888 "88b
+#  8888888P"  "Y888888  "Y8888P 888  888
+#
 BackSystem:
+  # Lista de mundos onde não é possível voltar com /back
   BlacklistWorlds:
     - "worldName"
 
-Worlds:
-  world:
-    Tick: 60
 
-Spawn: {}
+#
+#  888b     d888                        888
+#  8888b   d8888                        888
+#  88888b.d88888                        888
+#  888Y88888P888 888  888 88888b.   .d88888  .d88b.  .d8888b
+#  888 Y888P 888 888  888 888 "88b d88" 888 d88""88b 88K
+#  888  Y8P  888 888  888 888  888 888  888 888  888 "Y8888b.
+#  888   "   888 Y88b 888 888  888 Y88b 888 Y88..88P      X88
+#  888       888  "Y88888 888  888  "Y88888  "Y88P"   88888P'
+#
+Worlds:
+  # Defina o nome do mundo
+  world:
+    # A quantidade da aceleração dos ticks do mundo
+    # Isso afetará o crescimento de plantações, grama, etc...
+    Tick: 60

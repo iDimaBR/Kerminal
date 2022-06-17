@@ -37,11 +37,11 @@ public class SetspawnCommand {
 
     public void onCommand(Context<CommandSender> context) {
         final ConfigUtil messages = plugin.getMessages();
-        final ConfigUtil config = plugin.getConfig();
-        Player player = (Player) context.getSender();
+        final ConfigUtil locations = plugin.getLocations();
+        final Player player = (Player) context.getSender();
+        final Location spawn = LocationUtils.setLocationConfig(locations, player.getLocation(), "Spawn");
 
-        LocationUtils.setLocationConfig(config, player.getLocation(), "Spawn");
-        plugin.setSpawn(LocationUtils.getLocationFromConfig(config, "Spawn"));
+        plugin.setSpawn(spawn);
         player.sendMessage("§aSpawn definido!");
     }
 

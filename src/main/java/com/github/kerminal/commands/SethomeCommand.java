@@ -7,6 +7,7 @@ import com.github.kerminal.models.Home;
 import com.github.kerminal.models.PlayerData;
 import com.github.kerminal.registry.TeleportRegistry;
 import com.github.kerminal.utils.ConfigUtil;
+import com.github.kerminal.utils.PermissionUtil;
 import lombok.AllArgsConstructor;
 import me.saiintbrisson.minecraft.command.annotation.Command;
 import me.saiintbrisson.minecraft.command.annotation.Optional;
@@ -72,8 +73,7 @@ public class SethomeCommand {
                 return;
             }
 
-            int maxHomes = plugin.getConfig().getInt("HomeSystem.MaxHomes");
-
+            int maxHomes = PermissionUtil.getNumberPermission(player, commands.getString("Sethome.permission"));
             if(data.getHomes().size() >= maxHomes){
                 player.sendMessage("§cVocê atingiu o limite de " + maxHomes + " casas.");
                 return;
