@@ -62,8 +62,8 @@ Há outros tipos de permissões que irei citar abaixo.
 | kerminal.blockedcommands.bypass  | Permite burlar o sistema de comandos bloqueados                    |              
 | kerminal.enderchest.others                     | Permite mecher no enderchest de outros jogadores                |
 | kerminal.keepxp                     | Permite o jogador continuar com sua experiência                |
-| <permissão>.delay.bypass                     | Teleporta o jogador instantaneamente               |
-| kerminal.kit.<nome do kit>                     | Permissão para recolher um kit específico               |
+| PERMISSAO_PADRAO.delay.bypass                     | Teleporta o jogador instantaneamente               |
+| kerminal.kit.NOME_DO_KIT                     | Permissão para recolher um kit específico               |
 
 ## Eventos Customizados
 
