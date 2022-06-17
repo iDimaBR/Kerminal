@@ -51,6 +51,20 @@ Todos os comandos aqui listados são 100% configuráveis no plugin.
 | /kit                     |  Recebe um kit de escolha do executor                                  |                kerminal.kit
 | /listkits                     |  Exibe todos os kits criados no servidor                                  |                kerminal.listkits
 
+## Permissões
+
+As permissões são configuráveis, mas por padrão todo comando será `kerminal.COMANDO`.
+
+Há outros tipos de permissões que irei citar abaixo.
+
+| Permissão                          | Descrição                                                        |
+|------------------------------------|------------------------------------------------------------------|
+| kerminal.blockedcommands.bypass  | Permite burlar o sistema de comandos bloqueados                    |              
+| kerminal.enderchest.others                     | Permite mecher no enderchest de outros jogadores                |
+| kerminal.keepxp                     | Permite o jogador continuar com sua experiência                |
+| PERMISSAO_PADRAO.delay.bypass                     | Teleporta o jogador instantaneamente               |
+| kerminal.kit.NOME_DO_KIT                     | Permissão para recolher um kit específico               |
+
 ## Eventos Customizados
 
 - `GamemodeChangeEvent` - Chamado na alteração do gamemode.
