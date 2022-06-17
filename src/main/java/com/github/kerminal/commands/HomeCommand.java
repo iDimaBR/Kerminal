@@ -77,7 +77,7 @@ public class HomeCommand {
 
             final Location location = defaultHome.getLocation();
 
-            if (player.hasPermission("kerminal.home.delay.bypass")) {
+            if (player.hasPermission(commands.getString("Home.permission") + ".delay.bypass")) {
                 player.sendMessage("§aTeleportado!");
                 location.setYaw(player.getLocation().getYaw());
                 location.setPitch(player.getLocation().getPitch());
@@ -98,7 +98,7 @@ public class HomeCommand {
                 Bukkit.getPluginManager().callEvent(playerHomeTeleportEvent);
                 if(playerHomeTeleportEvent.isCancelled()) return;
 
-                if(player.hasPermission("kerminal.home.delay.bypass")){
+                if(player.hasPermission(commands.getString("Home.permission") + ".delay.bypass")){
                     player.sendMessage("§aTeleportado!");
                     location.setYaw(player.getLocation().getYaw());
                     location.setPitch(player.getLocation().getPitch());

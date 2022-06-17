@@ -55,6 +55,8 @@ public class KitCommand {
             return;
         }
 
+        if(!context.testPermission("kerminal.kit." + name.toLowerCase(), false)) return;
+
         if(delayKit.containsKey(player.getUniqueId()) && delayKit.get(player.getUniqueId()) > System.currentTimeMillis()) {
             player.sendMessage("§cVocê ainda precisa esperar " + TimeUtils.format(delayKit.get(player.getUniqueId()) - System.currentTimeMillis()));
             return;

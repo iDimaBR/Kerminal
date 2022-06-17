@@ -36,11 +36,6 @@ public class OnlineCommand {
         );
     }
 
-    @Command(
-            name = "onlines",
-            aliases = {"online"},
-            permission = "kerminal.onlines"
-    )
     public void onCommand(Context<CommandSender> context) {
         final ConfigUtil messages = plugin.getMessages();
 

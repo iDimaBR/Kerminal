@@ -39,10 +39,6 @@ public class OnlinePlayersCommand {
         );
     }
 
-    @Command(
-            name = "jogadores",
-            permission = "kerminal.jogadores"
-    )
     public void onCommand(Context<CommandSender> context) {
         final ConfigUtil messages = plugin.getMessages();
         context.sendMessage("§aJogadores: §f" +
