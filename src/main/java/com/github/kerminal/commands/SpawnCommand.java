@@ -42,7 +42,7 @@ public class SpawnCommand {
         final ConfigUtil messages = plugin.getMessages();
         Player player = (Player) context.getSender();
         final DataController controller = plugin.getController();
-        final TeleportRegistry teleportRegistry = controller.getRegistry();
+        final TeleportRegistry teleportRegistry = controller.getRegistryTeleport();
 
         final Location spawn = plugin.getSpawn();
         if(spawn == null){

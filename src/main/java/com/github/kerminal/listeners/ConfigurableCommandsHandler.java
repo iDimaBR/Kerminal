@@ -49,6 +49,11 @@ public class ConfigurableCommandsHandler implements Listener {
             }
         }
 
+        if(!applyPermission(player, commandSettings)){
+            player.sendMessage("§cSem permissão!");
+            return;
+        }
+
         sendMessage(player, commandSettings);
         playSound(player, commandSettings);
         teleportPlayer(player, commandSettings);
@@ -64,6 +69,11 @@ public class ConfigurableCommandsHandler implements Listener {
         delaysOfPlayer.put(cmd, System.currentTimeMillis() + (1000L * commandDelay));
         delayCommand.put(player.getUniqueId(), delaysOfPlayer);
         return true;
+    }
+
+    private boolean applyPermission(Player player, ConfigurationSection commandSettings){
+        if (!commandSettings.isSet("Permission")) return false;
+        return player.hasPermission(commandSettings.getString("Permission"));
     }
 
     private void sendMessage(Player player, ConfigurationSection commandSettings){

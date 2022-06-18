@@ -226,4 +226,11 @@ Nick:
   async: false
   aliases:
     - "camuflar"
+Colors:
+  enabled: true
+  command: "colors"
+  permission: kerminal.colors
+  async: false
+  aliases:
+    - "cores"
 

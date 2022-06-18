@@ -31,10 +31,11 @@ import java.util.Collection;
 public final class Kerminal extends JavaPlugin {
 
     private BukkitFrame bukkitFrame;
+    private TeleportRegistry teleportRegistry;
     private DataController controller;
     private EntityController entityController;
     private KitController kitController;
-    private MySQL SQL;
+    private MySQL Storage;
     private ConfigUtil config;
     private ConfigUtil configurableCommands;
     private ConfigUtil messages;
@@ -56,7 +57,6 @@ public final class Kerminal extends JavaPlugin {
     public void onEnable() {
         loadLocations();
         loadStorage();
-        loadStorageData();
         loadControllers();
         registerListeners();
         registerCommands();
@@ -67,7 +67,7 @@ public final class Kerminal extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        saveAllPlayers();
+        //saveAllPlayers();
     }
 
     private void loadConfigs(){
@@ -127,6 +127,7 @@ public final class Kerminal extends JavaPlugin {
         new KitCommand(this);
         new ListKitsCommand(this);
         new NickCommand(this);
+        new ColorsCommand(this);
     }
 
     private void registerListeners() {
@@ -249,13 +250,15 @@ public final class Kerminal extends JavaPlugin {
     }
 
     private void loadControllers(){
-        controller = new DataController();
+        teleportRegistry = new TeleportRegistry(this);
+        controller = new DataController(this, teleportRegistry);
         entityController = new EntityController(this, entities);
         kitController = new KitController(this, kits);
-        //
-        new TeleportTask(new TeleportRegistry());
+
         entityController.loadEntityData();
         kitController.loadAllKits();
+
+        new TeleportTask(teleportRegistry);
     }
 
     private void loadLocations(){
@@ -263,36 +266,9 @@ public final class Kerminal extends JavaPlugin {
     }
 
     private void loadStorage(){
-        SQL = new MySQL(this);
-        SQL.createTable();
-    }
-
-    private void loadStorageData(){
-        Collection<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers();
-        if(onlinePlayers.size() == 0) return;
-        Bukkit.getScheduler().runTaskAsynchronously(this, new Runnable() {
-            @Override
-            public void run() {
-                int loaded = 0;
-                for (Player player : onlinePlayers) {
-                    if(!SQL.loadPlayer(player.getUniqueId())) {
-                        player.kickPlayer("§cSuas informações não foram carregadas, entre em contato com um administrador.");
-                        continue;
-                    }
-
-                    loaded++;
-                }
-                Bukkit.getLogger().info(loaded + " jogadores foram carregados de um total de " + onlinePlayers.size());
-            }
-        });
-    }
-
-    private void saveAllPlayers(){
-        Collection<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers();
-        if(onlinePlayers.size() == 0) return;
-
-        for (Player player : onlinePlayers)
-            SQL.savePlayer(player.getUniqueId());
+        Storage = new MySQL(this);
+        Storage.createTableHomes();
+        Storage.createTableKits();
     }
 
     private void loadAutoMessageSystem(){

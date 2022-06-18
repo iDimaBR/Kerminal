@@ -6,12 +6,11 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+
 import com.github.kerminal.Kerminal;
 import com.github.kerminal.models.Home;
+import com.github.kerminal.models.Kit;
 import com.github.kerminal.models.PlayerData;
 import com.google.common.collect.Maps;
 import com.google.common.reflect.TypeToken;
@@ -20,6 +19,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 
 public class MySQL {
 
@@ -32,7 +32,6 @@ public class MySQL {
 	private String database;
 	private String username;
 	private String password;
-	private final Gson GSON = new Gson();
 
 	public MySQL(Kerminal plugin) {
 		this.plugin = plugin;
@@ -65,32 +64,32 @@ public class MySQL {
 			Bukkit.getPluginManager().disablePlugin(plugin);
 		}
 	}
-	
-	public void createTable() {
+
+	public void createTableHomes() {
 		try {
-			smt = connection.prepareStatement("CREATE TABLE IF NOT EXISTS players(`UUID` varchar(36) NOT NULL, `defaultHome` varchar(50) NULL, `homes` longtext)");
+			smt = connection.prepareStatement("CREATE TABLE IF NOT EXISTS homes(`uuid` varchar(36) NOT NULL, `name` varchar(50) NOT NULL, `is_default` bit NOT NULL DEFAULT 0, `world` varchar(50) NOT NULL, `x` int NOT NULL, `y` int NOT NULL, `z` int NOT NULL, `pitch` double NOT NULL, `yaw` double, PRIMARY KEY (name))");
 			smt.executeUpdate();
 		} catch (SQLException e) {
 			plugin.getLogger().info("Erro na criação da tabela no MYSQL: " + e.getLocalizedMessage());
 		}
 	}
 
-	public boolean savePlayer(UUID uuid){
-		PlayerData data = plugin.getController().getDataPlayer(uuid);
-		if(data == null) return false;
+	public void createTableKits() {
+		try {
+			smt = connection.prepareStatement("CREATE TABLE IF NOT EXISTS kits(`uuid` varchar(36) NOT NULL, `delay` bigint NOT NULL, `kit_name` varchar(50) NOT NULL, PRIMARY KEY (kit_name))");
+			smt.executeUpdate();
+		} catch (SQLException e) {
+			plugin.getLogger().info("Erro na criação da tabela no MYSQL: " + e.getLocalizedMessage());
+		}
+	}
 
-		String query = "UPDATE players SET UUID = ?, defaultHome = ?, homes = ? WHERE UUID = ?";
-		if(!contains(uuid))
-			query = "INSERT INTO players(`UUID`,`defaultHome`,`homes`) VALUES (?,?,?)";
-
-		try (PreparedStatement ps = connection.prepareStatement(query)) {
-
-			final String homesJson = GSON.toJson(data.getHomes().values());
+	public boolean insertDelayKit(Player player, String kit, long delay){
+		final UUID uuid = player.getUniqueId();
+		try (PreparedStatement ps = connection.prepareStatement("INSERT IGNORE INTO kits(uuid, delay, kit_name) VALUES(?,?,?) ON DUPLICATE KEY UPDATE delay = ?")) {
 			ps.setString(1, uuid.toString());
-			ps.setString(2, data.getFormatedDefaultHome());
-			ps.setString(3, homesJson);
-			if (query.contains("WHERE"))
-				ps.setString(4, uuid.toString());
+			ps.setLong(2, delay);
+			ps.setString(3, kit);
+			ps.setLong(4, delay);
 			ps.executeUpdate();
 			return true;
 		} catch (SQLException error) {
@@ -99,42 +98,95 @@ public class MySQL {
 		}
 	}
 
-	public boolean loadPlayer(UUID uuid) {
-		final PlayerData data = new PlayerData(uuid);
-		try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM players WHERE UUID = ?;")) {
+	public boolean saveHome(Player player, Home home){
+		final UUID uuid = player.getUniqueId();
+		final Location location = home.getLocation();
+		try (PreparedStatement ps = connection.prepareStatement("INSERT IGNORE INTO homes(uuid, name, is_default, world, x, y, z, pitch, yaw) VALUES(?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE uuid = ?, is_default = ?, world = ?, x = ?, y = ?, z = ?, pitch = ?, yaw = ?")) {
+			ps.setString(1, uuid.toString());
+			ps.setString(2, home.getName());
+			ps.setBoolean(3, home.isDefault());
+			ps.setString(4, location.getWorld().getName());
+			ps.setInt(5, location.getBlockX());
+			ps.setInt(6, location.getBlockY());
+			ps.setInt(7, location.getBlockZ());
+			ps.setDouble(8, location.getPitch());
+			ps.setDouble(9, location.getYaw());
+
+			ps.setString(10, uuid.toString());
+			ps.setBoolean(11, home.isDefault());
+			ps.setString(12, location.getWorld().getName());
+			ps.setInt(13, location.getBlockX());
+			ps.setInt(14, location.getBlockY());
+			ps.setInt(15, location.getBlockZ());
+			ps.setDouble(16, location.getPitch());
+			ps.setDouble(17, location.getYaw());
+			ps.executeUpdate();
+			return true;
+		} catch (SQLException error) {
+			error.printStackTrace();
+			return false;
+		}
+	}
+
+	public boolean loadKitsDelay(UUID uuid) {
+		final PlayerData data = plugin.getController().getDataPlayer(uuid);
+
+		try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM kits WHERE UUID = ?;")) {
 			ps.setString(1, uuid.toString());
 
 			try(ResultSet rs = ps.executeQuery()){
 				while(rs.next()){
-					final String defaultHomeFormated = rs.getString("defaultHome");
-					if(defaultHomeFormated != null && defaultHomeFormated.contains(";")) {
-						final String[] defaultHomesValues = rs.getString("defaultHome").split(";");
-						final World world = Bukkit.getWorld(defaultHomesValues[0]);
-						final int x = Integer.parseInt(defaultHomesValues[1]);
-						final int y = Integer.parseInt(defaultHomesValues[2]);
-						final int z = Integer.parseInt(defaultHomesValues[3]);
-						final Location defaultHome = new Location(world, x, y, z);
-						data.setDefaultHome(new Home(defaultHome));
-					}
+					final String kitName = rs.getString("kit_name");
+					final long delay = rs.getLong("delay");
 
-					final Type listHomesOBJ = new TypeToken<ArrayList<Home>>() {}.getType();
-					final List<Home> listHomes = GSON.fromJson(rs.getString("homes"), listHomesOBJ);
+					if(delay < System.currentTimeMillis()) continue;
 
-					final HashMap<String, Home> homes = Maps.newHashMap();
-					for (Home home : listHomes) {
-						String[] homeValues = home.getFormatedLocation().split(";");
-						World world2 = Bukkit.getWorld(homeValues[0]);
-						int x2 = Integer.parseInt(homeValues[1]);
-						int y2 = Integer.parseInt(homeValues[2]);
-						int z2 = Integer.parseInt(homeValues[3]);
-						home.setLocation(new Location(world2, x2, y2, z2));
+					final Kit kit = plugin.getKitController().getKit(kitName);
+					final Map<UUID, Long> delayKit = kit.getCooldownMap();
 
-						homes.put(home.getName(), home);
-					}
-					data.setHomes(homes);
+					delayKit.put(uuid, delay);
 				}
 			}
-			plugin.getController().getDATALIST().put(uuid, data);
+			return true;
+		} catch (SQLException error) {
+			error.printStackTrace();
+			return false;
+		}
+	}
+
+	public boolean loadHomes(UUID uuid) {
+		final PlayerData data = plugin.getController().getDataPlayer(uuid);
+
+		final HashMap<String, Home> homes = Maps.newHashMap();
+		try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM homes WHERE UUID = ?;")) {
+			ps.setString(1, uuid.toString());
+
+			try(ResultSet rs = ps.executeQuery()){
+				while(rs.next()){
+					final String name = rs.getString("name");
+					final String worldName = rs.getString("world");
+					final World world = Bukkit.getWorld(worldName);
+					final boolean isDefault = rs.getBoolean("is_default");
+					if(world == null) continue;
+
+					final int x = rs.getInt("x");
+					final int y = rs.getInt("y");
+					final int z = rs.getInt("z");
+					final float pitch = rs.getFloat("pitch");
+					final float yaw = rs.getFloat("yaw");
+					final Location location = new Location(world, x, y, z, pitch, yaw);
+					final Home home = new Home(name, location, isDefault);
+
+					if(isDefault){
+						data.setDefaultHome(home);
+						continue;
+					}
+
+					homes.put(name, new Home(name, location, false));
+				}
+			}
+
+			data.setHomes(homes);
 			return true;
 		} catch (SQLException error) {
 			error.printStackTrace();
@@ -157,19 +209,6 @@ public class MySQL {
 
 	public Connection getConnectionMySQL() {
 		return connection;
-	}
-	
-	public boolean contains(UUID uuid){
-		try {
-			smt = connection.prepareStatement("SELECT `UUID` FROM players WHERE `UUID` = ?");
-			smt.setString(1, uuid.toString());
-			ResultSet result = smt.executeQuery();
-			if(result.next())
-				return true;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return false;
 	}
 	
 	public ResultSet getString(String coluna, String valor) {

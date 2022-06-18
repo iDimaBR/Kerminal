@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -61,7 +62,13 @@ public class CreateKitCommand {
             return;
         }
 
-        kits.set(name + ".itens", Serializer.itemStackArrayToBase64(player.getInventory().getContents()));
+        ItemStack[] contents = player.getInventory().getContents();
+        if(Arrays.stream(contents).noneMatch(Objects::nonNull)){
+            player.sendMessage("§cVocê não pode criar um kit sem itens!");
+            return;
+        }
+
+        kits.set(name + ".itens", Serializer.itemStackArrayToBase64(contents));
         kits.set(name + ".delay", Integer.parseInt(delay));
         kits.save();
         kitController.loadAllKits();

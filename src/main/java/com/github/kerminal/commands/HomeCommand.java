@@ -51,7 +51,7 @@ public class HomeCommand {
         final Player player = (Player) sender;
         final int args = context.argsCount();
         final DataController controller = plugin.getController();
-        final TeleportRegistry teleportRegistry = controller.getRegistry();
+        final TeleportRegistry teleportRegistry = controller.getRegistryTeleport();
 
         final PlayerData data = controller.getDataPlayer(player.getUniqueId());
         if(data == null){

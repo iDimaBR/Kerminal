@@ -50,6 +50,7 @@ public class SethomeCommand {
         final Player player = (Player) sender;
         final int args = context.argsCount();
         final DataController controller = plugin.getController();
+        nameHome = nameHome.toLowerCase();
 
         PlayerData data = controller.getDataPlayer(player.getUniqueId());
         if(data == null){
@@ -66,8 +67,9 @@ public class SethomeCommand {
 
         if(args == 1) {
             if (nameHome.equalsIgnoreCase("padrao")){
-                Home home = new Home(nameHome, player.getLocation(), false);
+                Home home = new Home(nameHome, player.getLocation(), true);
                 data.setDefaultHome(home);
+                plugin.getStorage().saveHome(player, home);
                 player.sendMessage("§aHome principal setada com sucesso!");
                 player.playSound(player.getLocation(), Sound.ANVIL_LAND, 1, 1);
                 return;
@@ -81,6 +83,7 @@ public class SethomeCommand {
 
             Home home = new Home(nameHome, player.getLocation(), false);
             data.getHomes().put(nameHome, home);
+            plugin.getStorage().saveHome(player, home);
             player.sendMessage("§aHome setada com sucesso!");
             player.playSound(player.getLocation(), Sound.ANVIL_LAND, 1, 1);
         }

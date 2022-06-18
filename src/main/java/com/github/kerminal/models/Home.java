@@ -5,22 +5,19 @@ import org.bukkit.Location;
 public class Home {
 
     private String name;
-    private transient Location location;
-    private String locationFormated;
-    private boolean isPublic;
+    private Location location;
+    private boolean isDefault;
 
     public Home(Location location) {
         this.name = "";
         this.location = location;
-        this.isPublic = false;
-        this.locationFormated = location.getWorld().getName() + ";" + location.getBlockX() + ";" + location.getBlockY() + ";" + location.getBlockZ();
+        this.isDefault = false;
     }
 
-    public Home(String name, Location location, boolean isPublic) {
+    public Home(String name, Location location, boolean isDefault) {
         this.name = name;
         this.location = location;
-        this.isPublic = isPublic;
-        this.locationFormated = location.getWorld().getName() + ";" + location.getBlockX() + ";" + location.getBlockY() + ";" + location.getBlockZ();
+        this.isDefault = isDefault;
     }
 
     public String getName() {
@@ -39,15 +36,11 @@ public class Home {
         this.location = location;
     }
 
-    public boolean isPublic() {
-        return isPublic;
+    public boolean isDefault() {
+        return isDefault;
     }
 
-    public void setPublic(boolean aPublic) {
-        isPublic = aPublic;
-    }
-
-    public String getFormatedLocation(){
-        return locationFormated;
+    public void setDefault(boolean isDefault) {
+        this.isDefault = isDefault;
     }
 }

@@ -24,8 +24,6 @@ public class KitCommand {
     private final ConfigUtil commands;
     private final ConfigUtil kits;
 
-    private final Map<UUID, Long> delayKit = new HashMap<>();
-
     public KitCommand(Kerminal plugin) {
         this.plugin = plugin;
         this.kits = plugin.getKits();
@@ -49,6 +47,7 @@ public class KitCommand {
         final ConfigUtil messages = plugin.getMessages();
         Player player = (Player) context.getSender();
         final KitController kitController = plugin.getKitController();
+        name = name.toLowerCase();
 
         if(!kitController.existsKit(name)){
             player.sendMessage("§cO Kit '" + name + "' não existe!");
@@ -57,14 +56,15 @@ public class KitCommand {
 
         if(!context.testPermission("kerminal.kit." + name.toLowerCase(), false)) return;
 
+        final Kit kit = kitController.getKit(name);
+        final ItemStack[] itens = kit.getItens();
+        final int delay = kit.getDelay();
+        final Map<UUID, Long> delayKit = kit.getCooldownMap();
+
         if(delayKit.containsKey(player.getUniqueId()) && delayKit.get(player.getUniqueId()) > System.currentTimeMillis()) {
             player.sendMessage("§cVocê ainda precisa esperar " + TimeUtils.format(delayKit.get(player.getUniqueId()) - System.currentTimeMillis()));
             return;
         }
-
-        final Kit kit = kitController.getKit(name);
-        final ItemStack[] itens = kit.getItens();
-        final int delay = kit.getDelay();
 
         if(!hasSpace(player, kit.getNeedSlots())){
             player.sendMessage("§cVocê não tem espaço suficiente no inventário para receber o Kit.");
@@ -77,7 +77,10 @@ public class KitCommand {
         }
 
         player.sendMessage("§aVocê recebeu o kit '" + name + "'.");
-        delayKit.put(player.getUniqueId(), System.currentTimeMillis() + (1000L * delay));
+
+        final long millis = System.currentTimeMillis() + (1000L * delay);
+        delayKit.put(player.getUniqueId(), millis);
+        plugin.getStorage().insertDelayKit(player, name, millis);
     }
 
     private boolean hasSpace(Player player, int needed){

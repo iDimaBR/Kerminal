@@ -1,6 +1,8 @@
 package com.github.kerminal.listeners;
 
 import com.github.kerminal.Kerminal;
+import com.github.kerminal.models.PlayerData;
+import com.github.kerminal.storage.MySQL;
 import lombok.AllArgsConstructor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,15 +19,17 @@ public class CacheListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
-        Player player = e.getPlayer();
-        UUID uuid = player.getUniqueId();
-        if(!plugin.getSQL().loadPlayer(uuid))
-            player.kickPlayer("§cNão foi possível carregar suas informações, contacte um administrador.");
+        final Player player = e.getPlayer();
+        final UUID uuid = player.getUniqueId();
+        final PlayerData dataPlayer = plugin.getController().getDataPlayer(uuid);
+        final MySQL storage = plugin.getStorage();
+        storage.loadHomes(uuid);
+        storage.loadKitsDelay(uuid);
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent e){
         UUID uuid = e.getPlayer().getUniqueId();
-        plugin.getSQL().savePlayer(uuid);
+        //plugin.getSQL().savePlayer(uuid);
     }
 }

@@ -45,10 +45,6 @@ public class PlayerData {
         return uuid;
     }
 
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
-    }
-
     public Map<String, Home> getHomes() {
         return homes;
     }
@@ -59,13 +55,6 @@ public class PlayerData {
 
     public Home getDefaultHome() {
         return defaultHome;
-    }
-
-    public String getFormatedDefaultHome(){
-        if(defaultHome == null) return "";
-        Location location = defaultHome.getLocation();
-        if(location.getWorld() == null) return "";
-        return location.getWorld().getName() + ";" + location.getBlockX() + ";" + location.getBlockY() + ";" + location.getBlockZ();
     }
 
     public void setDefaultHome(Home defaultHome) {
