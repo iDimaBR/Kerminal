@@ -335,7 +335,7 @@ public class ConfigUtil extends FileConfiguration {
     }
 
     public String getString(String s) {
-        return this.configuration.getString(s);
+        return this.configuration.getString(s).replace("&","§");
     }
 
     public boolean isString(String s) {

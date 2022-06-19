@@ -19,7 +19,7 @@ public class RepairCommand {
     public RepairCommand(Kerminal plugin) {
         this.plugin = plugin;
         this.commands = plugin.getCommands();
-        if(!commands.getBoolean("Slime.enabled", true)) return;
+        if(!commands.getBoolean("Repair.enabled", true)) return;
         plugin.getBukkitFrame().registerCommand(
                 CommandInfo.builder()
                         .name(commands.getString("Repair.command"))

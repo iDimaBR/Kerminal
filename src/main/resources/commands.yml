@@ -259,4 +259,19 @@ Repair:
   async: false
   aliases:
     - "reparar"
+Speed:
+  enabled: true
+  command: "speed"
+  permission: kerminal.speed
+  async: false
+  aliases:
+    - "velocidade"
+Invsee:
+  enabled: true
+  command: "invsee"
+  permission: kerminal.invsee
+  async: false
+  aliases:
+    - "inv"
+    - "inventario"
 

@@ -18,12 +18,14 @@ public class TeleportRegistry {
 
     private final Kerminal plugin;
     private final int DEFAULT_DELAY;
+    private final int DEFAULT_INVENCIBLE_DELAY;
     private Map<UUID, Pair<Location, Long>> longMap;
 
 
     public TeleportRegistry(Kerminal plugin) {
         this.plugin = plugin;
         this.DEFAULT_DELAY = plugin.getConfig().getInt("Teleport.Delay");
+        this.DEFAULT_INVENCIBLE_DELAY = plugin.getConfig().getInt("Teleport.InvencibleDelay");
         this.longMap = new ConcurrentHashMap<>();
     }
     public TeleportRegistry register(Player player, Location location) {
@@ -56,5 +58,6 @@ public class TeleportRegistry {
         player.getWorld().playEffect(player.getLocation(), Effect.ENDER_SIGNAL, null, 3);
         player.playSound(player.getLocation(), Sound.ENDERMAN_TELEPORT, 1f, 1f);
         player.sendMessage("§aTeleportado!");
+        player.setNoDamageTicks(DEFAULT_INVENCIBLE_DELAY * 20);
     }
 }

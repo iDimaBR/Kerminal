@@ -53,6 +53,8 @@ Motd:
 Teleport:
   # Defina o tempo de teleportar (EM SEGUNDOS)
   Delay: 3
+  # Defina o tempo que o jogador não recebá danos após teleportar
+  InvencibleDelay: 3
 
 
 ########################################
@@ -63,6 +65,23 @@ Regeneration:
   Enabled: false
   # Defina o tempo da regeneração da vida (EM TICKS)
   Delay: 20
+
+########################################
+#       Mensagem de boas vindas        #
+########################################
+Welcome:
+  SendTitle:
+    Enabled: true
+    Title: "&eKerminal"
+    Subtitle: "&7Bem-vindo ao servidor!"
+  Message:
+    Enabled: true
+    Text:
+      - ""
+      - ""
+      - "&9Este servidor utiliza Kerminal! Bem-vindo!"
+      - ""
+      - ""
 
 
 ########################################
@@ -117,7 +136,20 @@ Features:
       - "&a【Anúncio】 &fO que acha de mandar o Kerminal para seus amigos?"
       - "&a【Anúncio】 &fSe precisar falar com os desenvolvedores, entre na BeezCommunity."
       - "&a【Anúncio】 &fQuer adicionar algo no Kerminal? Envia sua sugestão para nós ;)"
-  # Algumas opções para customizar os mundos
+  # Habilitar ou desabilitar Drop de Cabeça
+  Heads:
+    Enabled: true
+    # Chance de dropar no chão
+    Chance: 100
+    # Formato do nome da cabeça
+    # Caso não queira um nome, deixe vazio
+    Name: "&aCabeça do jogador %player%"
+    # Descrição da cabeça
+    # Caso não queira uma descrição, coloque -> Lore: {}
+    Lore:
+      - "&7É uma cabeça especial"
+
+  # Algumas opções para customizar o servidor
   Options:
     # Bloqueia a queda das folhas das arvores
     Block-Decay-Leaves: true

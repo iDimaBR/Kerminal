@@ -132,6 +132,8 @@ public final class Kerminal extends JavaPlugin {
         new SetWarpCommand(this);
         new WarpListCommand(this);
         new RepairCommand(this);
+        new SpeedCommand(this);
+        new InvseeCommand(this);
     }
 
     private void registerListeners() {
@@ -239,6 +241,19 @@ public final class Kerminal extends JavaPlugin {
             pluginManager.registerEvents(
                     new BlockNaturalSpawnListener(this), this
             );
+        if(config.getBoolean("Features.Heads.Enabled", false))
+            pluginManager.registerEvents(
+                    new DropHeadListener(this), this
+            );
+        pluginManager.registerEvents(
+                new TitleJoinListener(this), this
+        );
+        pluginManager.registerEvents(
+                new InvseeListener(), this
+        );
+        pluginManager.registerEvents(
+                new AnvilColorListener(this), this
+        );
     }
 
     private void loadRegenSystem() {
