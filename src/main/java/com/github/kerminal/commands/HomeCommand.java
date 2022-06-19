@@ -78,12 +78,7 @@ public class HomeCommand {
             final Location location = defaultHome.getLocation();
 
             if (player.hasPermission(commands.getString("Home.permission") + ".delay.bypass")) {
-                player.sendMessage("§aTeleportado!");
-                location.setYaw(player.getLocation().getYaw());
-                location.setPitch(player.getLocation().getPitch());
-                player.teleport(location);
-                player.getWorld().playEffect(player.getLocation(), Effect.ENDER_SIGNAL, null, 3);
-                player.playSound(player.getLocation(), Sound.ENDERMAN_TELEPORT, 1f, 1f);
+                teleportRegistry.teleport(player, location);
                 return;
             }
 
@@ -99,12 +94,7 @@ public class HomeCommand {
                 if(playerHomeTeleportEvent.isCancelled()) return;
 
                 if(player.hasPermission(commands.getString("Home.permission") + ".delay.bypass")){
-                    player.sendMessage("§aTeleportado!");
-                    location.setYaw(player.getLocation().getYaw());
-                    location.setPitch(player.getLocation().getPitch());
-                    player.teleport(location);
-                    player.getWorld().playEffect(player.getLocation(), Effect.ENDER_SIGNAL, null, 3);
-                    player.playSound(player.getLocation(), Sound.ENDERMAN_TELEPORT, 1f, 1f);
+                    teleportRegistry.teleport(player, location);
                     return;
                 }
 

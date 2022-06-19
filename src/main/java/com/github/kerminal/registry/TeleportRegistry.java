@@ -3,8 +3,10 @@ package com.github.kerminal.registry;
 import com.github.kerminal.Kerminal;
 import com.github.kerminal.utils.TimeUtils;
 import lombok.RequiredArgsConstructor;
-import net.minecraft.server.v1_8_R3.Tuple;
+import org.apache.commons.lang3.tuple.Pair;
+import org.bukkit.Effect;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import java.util.Map;
 import java.util.UUID;
@@ -16,7 +18,7 @@ public class TeleportRegistry {
 
     private final Kerminal plugin;
     private final int DEFAULT_DELAY;
-    private Map<UUID, Tuple<Location, Long>> longMap;
+    private Map<UUID, Pair<Location, Long>> longMap;
 
 
     public TeleportRegistry(Kerminal plugin) {
@@ -30,22 +32,29 @@ public class TeleportRegistry {
     }
 
     public void register(UUID uniqueId, Location location) {
-        this.longMap.put(uniqueId, new Tuple<>(location, System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(DEFAULT_DELAY))); //
+        this.longMap.put(uniqueId, Pair.of(location, System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(DEFAULT_DELAY))); //
     }
 
     public void remove(UUID uniqueId) {
         this.longMap.remove(uniqueId);
     }
 
-    public Map<UUID, Tuple<Location, Long>> getAll() {
+    public Map<UUID, Pair<Location, Long>> getAll() {
         return longMap;
     }
 
     public String getDelay(Player player) {
-        return TimeUtils.formatOneLetter(longMap.get(player.getUniqueId()).b());
+        return TimeUtils.formatOneLetter(longMap.get(player.getUniqueId()).getValue());
     }
 
     public int getDefaultDelay() {
         return DEFAULT_DELAY;
+    }
+
+    public void teleport(Player player, Location location) {
+        player.teleport(location);
+        player.getWorld().playEffect(player.getLocation(), Effect.ENDER_SIGNAL, null, 3);
+        player.playSound(player.getLocation(), Sound.ENDERMAN_TELEPORT, 1f, 1f);
+        player.sendMessage("§aTeleportado!");
     }
 }

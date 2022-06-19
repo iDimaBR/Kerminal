@@ -6,15 +6,15 @@ import lombok.AllArgsConstructor;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPortalEnterEvent;
 import org.bukkit.event.entity.EntityPortalExitEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 
 @AllArgsConstructor
-public class GameMechanicsListener implements Listener {
+public class MechanicListener implements Listener {
 
     private Kerminal plugin;
 
@@ -52,6 +52,18 @@ public class GameMechanicsListener implements Listener {
                                 .collect(Collectors.toList())
                         , "\n")
         );
+    }
+
+    @EventHandler
+    public void onTeleportNether(PlayerTeleportEvent e) {
+        final Player player = e.getPlayer();
+        final Location to = e.getTo();
+        if(to == null) return;
+        if(to.getWorld().getEnvironment() != World.Environment.NETHER) return;
+        if(to.getY() < 124) return;
+
+        e.setCancelled(true);
+        player.teleport(plugin.getSpawn(), PlayerTeleportEvent.TeleportCause.PLUGIN);
     }
 
     @EventHandler

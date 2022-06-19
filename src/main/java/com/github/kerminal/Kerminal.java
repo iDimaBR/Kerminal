@@ -5,6 +5,7 @@ import com.github.kerminal.controllers.DataController;
 import com.github.kerminal.controllers.EntityController;
 import com.github.kerminal.controllers.KitController;
 import com.github.kerminal.listeners.*;
+import com.github.kerminal.models.Warp;
 import com.github.kerminal.registry.TeleportRegistry;
 import com.github.kerminal.storage.MySQL;
 import com.github.kerminal.tasks.AutoMessageTask;
@@ -12,6 +13,7 @@ import com.github.kerminal.tasks.RegenerationTask;
 import com.github.kerminal.tasks.TeleportTask;
 import com.github.kerminal.utils.ConfigUtil;
 import com.github.kerminal.utils.LocationUtils;
+import com.google.common.collect.Maps;
 import lombok.Getter;
 import lombok.Setter;
 import me.saiintbrisson.bukkit.command.BukkitFrame;
@@ -19,13 +21,11 @@ import me.saiintbrisson.minecraft.command.message.MessageHolder;
 import me.saiintbrisson.minecraft.command.message.MessageType;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Sound;
 import org.bukkit.World;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Collection;
+import java.util.Map;
 
 @Getter
 public final class Kerminal extends JavaPlugin {
@@ -46,7 +46,7 @@ public final class Kerminal extends JavaPlugin {
 
     @Setter
     private Location Spawn;
-
+    private final Map<String, Warp> warpsList = Maps.newHashMap();
 
     public void onLoad() {
         saveDefaultConfig();
@@ -56,8 +56,8 @@ public final class Kerminal extends JavaPlugin {
     @Override
     public void onEnable() {
         loadLocations();
-        loadStorage();
         loadControllers();
+        loadStorage();
         registerListeners();
         registerCommands();
         loadTicksWorld();
@@ -128,12 +128,16 @@ public final class Kerminal extends JavaPlugin {
         new ListKitsCommand(this);
         new NickCommand(this);
         new ColorsCommand(this);
+        new WarpCommand(this);
+        new SetWarpCommand(this);
+        new WarpListCommand(this);
+        new RepairCommand(this);
     }
 
     private void registerListeners() {
         PluginManager pluginManager = getServer().getPluginManager();
         pluginManager.registerEvents(
-                new GameMechanicsListener(this), this
+                new MechanicListener(this), this
         );
         if(config.getBoolean("Features.CustomMessages.Enabled", true))
             pluginManager.registerEvents(
@@ -161,64 +165,79 @@ public final class Kerminal extends JavaPlugin {
                     new BlockCommandListener(this), this
             );
 
-        if(config.getBoolean("Features.WorldOptions.Block-Decay-Leaves", false))
+        if(config.getBoolean("Features.Options.Block-Decay-Leaves", false))
             pluginManager.registerEvents(
                     new BlockDecayListener(this), this
             );
 
-        if(config.getBoolean("Features.WorldOptions.Block-Explode-Item", false))
+        if(config.getBoolean("Features.Options.Block-Explode-Item", false))
             pluginManager.registerEvents(
                     new BlockExplodeItemListener(this), this
             );
 
-        if(config.getBoolean("Features.WorldOptions.Block-Entity-Burn", false))
+        if(config.getBoolean("Features.Options.Block-Entity-Burn", false))
             pluginManager.registerEvents(
                     new BlockFireEntityListener(this), this
             );
 
-        if(config.getBoolean("Features.WorldOptions.Block-Fire-Spread", false))
+        if(config.getBoolean("Features.Options.Block-Fire-Spread", false))
             pluginManager.registerEvents(
                     new BlockFireListener(this), this
             );
 
-        if(config.getBoolean("Features.WorldOptions.Block-Food-Down", false))
+        if(config.getBoolean("Features.Options.Block-Food-Down", false))
             pluginManager.registerEvents(
                     new BlockFoodWorldListener(this), this
             );
 
-        if(config.getBoolean("Features.WorldOptions.Block-Freeze-Water", false))
+        if(config.getBoolean("Features.Options.Block-Freeze-Water", false))
             pluginManager.registerEvents(
                     new BlockFreezeListener(this), this
             );
 
-        if(config.getBoolean("Features.WorldOptions.Block-Entity-Steal-Item", false))
+        if(config.getBoolean("Features.Options.Block-Entity-Steal-Item", false))
             pluginManager.registerEvents(
                     new BlockItemEntityListener(this), this
             );
 
-        if(config.getBoolean("Features.WorldOptions.Block-Plantation-Destroy", false))
+        if(config.getBoolean("Features.Options.Block-Plantation-Destroy", false))
             pluginManager.registerEvents(
                     new BlockPlantationDamageListener(this), this
             );
 
-        if(config.getBoolean("Features.WorldOptions.Block-Create-Portal", false))
+        if(config.getBoolean("Features.Options.Block-Create-Portal", false))
             pluginManager.registerEvents(
                     new BlockPortalListener(this), this
             );
 
-        if(config.getBoolean("Features.WorldOptions.Block-Smelt-Snow", false))
+        if(config.getBoolean("Features.Options.Block-Smelt-Snow", false))
             pluginManager.registerEvents(
                     new BlockSmeltSnowListener(this), this
             );
 
-        if(config.getBoolean("Features.WorldOptions.Block-Void-Damage", false))
+        if(config.getBoolean("Features.Options.Block-Void-Damage", false))
             pluginManager.registerEvents(
                     new BlockVoidListener(this), this
             );
 
-        if(config.getBoolean("Features.WorldOptions.Block-Weather", false))
+        if(config.getBoolean("Features.Options.Block-Weather", false))
             pluginManager.registerEvents(
                     new BlockWeatherListener(this), this
+            );
+
+        pluginManager.registerEvents(
+                new BlockCraftListener(this), this
+        );
+        pluginManager.registerEvents(
+                new BlockDoubleLoginListener(this), this
+        );
+        if(config.getBoolean("Features.Options.Block-Vehicle-Enter", true))
+            pluginManager.registerEvents(
+                    new BlockVehicleListener(this), this
+            );
+        if(config.getBoolean("Features.Options.Block-Naturally-Spawn", false))
+            pluginManager.registerEvents(
+                    new BlockNaturalSpawnListener(this), this
             );
     }
 
@@ -263,6 +282,12 @@ public final class Kerminal extends JavaPlugin {
 
     private void loadLocations(){
         Spawn = LocationUtils.getLocationFromConfig(locations, "Spawn");
+
+        if(locations.isSet("Warps"))
+            for (String warpKey : locations.getConfigurationSection("Warps").getKeys(false)) {
+                final Location location = LocationUtils.getLocationFromConfig(locations, "Warps." + warpKey);
+                warpsList.put(warpKey, new Warp(warpKey, location));
+            }
     }
 
     private void loadStorage(){

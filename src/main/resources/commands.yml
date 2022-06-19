@@ -233,4 +233,30 @@ Colors:
   async: false
   aliases:
     - "cores"
+Warp:
+  enabled: true
+  command: "warp"
+  permission: kerminal.warp
+  async: false
+  aliases: {}
+SetWarp:
+  enabled: true
+  command: "setwarp"
+  permission: kerminal.setwarp
+  async: false
+  aliases: {}
+WarpList:
+  enabled: true
+  command: "warplist"
+  permission: kerminal.warplist
+  async: false
+  aliases:
+    - "warps"
+Repair:
+  enabled: true
+  command: "repair"
+  permission: kerminal.repair
+  async: false
+  aliases:
+    - "reparar"
 

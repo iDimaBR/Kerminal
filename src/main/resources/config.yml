@@ -25,6 +25,13 @@ HomeSystem:
   BlacklistWorlds:
     - "worldName"
 
+########################################
+#      Bloquear craft de itens         #
+########################################
+Crafts:
+  # Escreva abaixo os materiais dos itens bloqueados
+  Blacklist:
+    - "EXAMPLE"
 
 ########################################
 #                 Motd                 #
@@ -111,7 +118,7 @@ Features:
       - "&a【Anúncio】 &fSe precisar falar com os desenvolvedores, entre na BeezCommunity."
       - "&a【Anúncio】 &fQuer adicionar algo no Kerminal? Envia sua sugestão para nós ;)"
   # Algumas opções para customizar os mundos
-  WorldOptions:
+  Options:
     # Bloqueia a queda das folhas das arvores
     Block-Decay-Leaves: true
     # Bloqueia o jogador de cair no void (Teleporta pro spawn)
@@ -123,7 +130,7 @@ Features:
     # Bloqueia de criar portais
     Block-Create-Portal: true
     # Bloqueia os jogadores de ficarem com fome
-    # Na lista abaixo você define os mundos que ficarão sem fome
+    # Na lista abaixo é definido os mundos que ficarão sem fome
     Block-Food-Down: true
     FoodWorlds:
       - "world"
@@ -139,6 +146,10 @@ Features:
     Block-Entity-Steal-Item: true
     # Bloqueia o fogo de se espalhar pelo mapa
     Block-Fire-Spred: true
+    # Bloqueia de subir em veículos
+    Block-Vehicle-Enter: true
+    # Bloqueia entidades de nascerem naturalmente
+    Block-Naturally-Spawn: false
 
 ########################################
 #        Opções do Comando Back        #

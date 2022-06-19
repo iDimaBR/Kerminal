@@ -129,8 +129,6 @@ public class MySQL {
 	}
 
 	public boolean loadKitsDelay(UUID uuid) {
-		final PlayerData data = plugin.getController().getDataPlayer(uuid);
-
 		try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM kits WHERE UUID = ?;")) {
 			ps.setString(1, uuid.toString());
 
@@ -142,6 +140,7 @@ public class MySQL {
 					if(delay < System.currentTimeMillis()) continue;
 
 					final Kit kit = plugin.getKitController().getKit(kitName);
+					if(kit == null) continue;
 					final Map<UUID, Long> delayKit = kit.getCooldownMap();
 
 					delayKit.put(uuid, delay);
