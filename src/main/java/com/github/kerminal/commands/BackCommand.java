@@ -3,6 +3,7 @@ package com.github.kerminal.commands;
 
 import com.github.kerminal.Kerminal;
 import com.github.kerminal.controllers.DataController;
+import com.github.kerminal.controllers.LangController;
 import com.github.kerminal.customevents.PlayerBackEvent;
 import com.github.kerminal.models.Home;
 import com.github.kerminal.models.PlayerData;
@@ -27,34 +28,28 @@ public class BackCommand {
 
     private Kerminal plugin;
     private ConfigUtil commands;
+    private final String identifierCommand = "Back";
+    private final String command;
+    private final String[] aliases;
+    private final String permission;
 
     public BackCommand(Kerminal plugin) {
         this.plugin = plugin;
         this.commands = plugin.getCommands();
-        if(!commands.getBoolean("Back.enabled", true)) return;
-        plugin.getBukkitFrame().registerCommand(
-                CommandInfo.builder()
-                        .name(commands.getString("Back.command"))
-                        .aliases(commands.getStringList("Back.aliases").toArray(new String[0]))
-                        .permission(commands.getString("Back.permission"))
-                        .async(commands.getBoolean("Back.async"))
-                        .build(),
-                context -> {
-                    onCommand(context);
-                    return false;
-                }
-        );
+        this.command = commands.getString(identifierCommand + ".command");
+        this.aliases = commands.getStringList(identifierCommand + ".aliases").toArray(new String[0]);
+        this.permission = commands.getString(identifierCommand + ".permission");
     }
 
     public void onCommand(Context<CommandSender> context) {
         final CommandSender sender = context.getSender();
-        final ConfigUtil messages = plugin.getMessages();
+        final LangController messages = plugin.getLangController();
         final Player player = (Player) sender;
         final DataController controller = plugin.getController();
 
         PlayerData data = controller.getDataPlayer(player.getUniqueId());
         if(data.getLastLocation() == null){
-            player.sendMessage("§cNenhuma localização foi registrada.");
+            player.sendMessage(messages.getString("Commands.Back.NotFoundLocation"));
             return;
         }
 
@@ -64,7 +59,22 @@ public class BackCommand {
         if(playerBackEvent.isCancelled()) return;
 
         player.teleport(back);
-        player.sendMessage("§aTeleportado de volta para última localização.");
+        player.sendMessage(messages.getString("Commands.Back.Teleport"));
+    }
+
+    public void register(){
+        if (!commands.getBoolean(identifierCommand + ".enabled", true)) return;
+        plugin.getBukkitFrame().registerCommand(
+                CommandInfo.builder()
+                        .name(command)
+                        .aliases(aliases)
+                        .permission(permission)
+                        .build(),
+                context -> {
+                    onCommand(context);
+                    return false;
+                }
+        );
     }
 
 

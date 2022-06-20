@@ -3,6 +3,7 @@ package com.github.kerminal.commands;
 
 import com.github.kerminal.Kerminal;
 import com.github.kerminal.controllers.KitController;
+import com.github.kerminal.controllers.LangController;
 import com.github.kerminal.utils.ConfigUtil;
 import com.github.kerminal.utils.Serializer;
 import lombok.AllArgsConstructor;
@@ -26,45 +27,38 @@ public class CreateKitCommand {
     private Kerminal plugin;
     private ConfigUtil commands;
     private ConfigUtil kits;
+    private final String identifierCommand = "CreateKit";
+    private final String command;
+    private final String[] aliases;
+    private final String permission;
 
     public CreateKitCommand(Kerminal plugin) {
         this.plugin = plugin;
         this.kits = plugin.getKits();
         this.commands = plugin.getCommands();
-        if(!commands.getBoolean("CreateKit.enabled", true)) return;
-        plugin.getBukkitFrame().registerCommand(
-                CommandInfo.builder()
-                        .name(commands.getString("CreateKit.command"))
-                        .aliases(commands.getStringList("CreateKit.aliases").toArray(new String[0]))
-                        .permission(commands.getString("CreateKit.permission"))
-                        .async(commands.getBoolean("CreateKit.async"))
-                        .build(),
-                context -> {
-                    onCommand(context, context.getArg(0), context.getArg(1));
-                    return false;
-                }
-        );
+        this.command = commands.getString(identifierCommand + ".command");
+        this.aliases = commands.getStringList(identifierCommand + ".aliases").toArray(new String[0]);
+        this.permission = commands.getString(identifierCommand + ".permission");
     }
 
     public void onCommand(Context<CommandSender> context, String name, String delay) {
-        final ConfigUtil messages = plugin.getMessages();
+        final LangController messages = plugin.getLangController();
         Player player = (Player) context.getSender();
         final KitController kitController = plugin.getKitController();
 
         if(!NumberUtils.isNumber(delay)){
-            player.sendMessage("§cColoque um tempo válido no kit!");
-            player.sendMessage("§cPara definir sem tempo, coloque: 0");
+            player.sendMessage(messages.getString("Commands.KitSection.CreateKit.InvalidTime"));
             return;
         }
 
         if(kits.contains(name.toLowerCase())){
-            player.sendMessage("§cO Kit '" + name + "' já existe!");
+            player.sendMessage(messages.getString("Commands.KitSection.CreateKit.ExistKit").replace("%name%", name));
             return;
         }
 
         ItemStack[] contents = player.getInventory().getContents();
         if(Arrays.stream(contents).noneMatch(Objects::nonNull)){
-            player.sendMessage("§cVocê não pode criar um kit sem itens!");
+            player.sendMessage(messages.getString("Commands.KitSection.CreateKit.NoHaveItem"));
             return;
         }
 
@@ -72,7 +66,23 @@ public class CreateKitCommand {
         kits.set(name + ".delay", Integer.parseInt(delay));
         kits.save();
         kitController.loadAllKits();
-        player.sendMessage("§aKit '" + name + "' foi criado!");
+        player.sendMessage(messages.getString("Commands.KitSection.CreateKit.Success").replace("%name%", name));
+
+    }
+
+    public void register(){
+        if (!commands.getBoolean(identifierCommand + ".enabled", true)) return;
+        plugin.getBukkitFrame().registerCommand(
+                CommandInfo.builder()
+                        .name(command)
+                        .aliases(aliases)
+                        .permission(permission)
+                        .build(),
+                context -> {
+                    onCommand(context, context.getArg(0), context.getArg(0));
+                    return false;
+                }
+        );
     }
 
 }

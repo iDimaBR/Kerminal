@@ -15,25 +15,19 @@ import org.bukkit.entity.Player;
 @AllArgsConstructor
 public class TeleportCommand {
 
-    private Kerminal plugin;
-    private ConfigUtil commands;
+    private final Kerminal plugin;
+    private final ConfigUtil commands;
+    private final String identifierCommand = "Teleport";
+    private final String command;
+    private final String[] aliases;
+    private final String permission;
 
     public TeleportCommand(Kerminal plugin) {
         this.plugin = plugin;
         this.commands = plugin.getCommands();
-        if(!commands.getBoolean("Teleport.enabled", true)) return;
-        plugin.getBukkitFrame().registerCommand(
-                CommandInfo.builder()
-                        .name(commands.getString("Teleport.command"))
-                        .aliases(commands.getStringList("Teleport.aliases").toArray(new String[0]))
-                        .permission(commands.getString("Teleport.permission"))
-                        .async(commands.getBoolean("Teleport.async"))
-                        .build(),
-                context -> {
-                    onCommand(context, context.getArg(0), context.getArg(0));
-                    return false;
-                }
-        );
+        this.command = commands.getString(identifierCommand + ".command");
+        this.aliases = commands.getStringList(identifierCommand + ".aliases").toArray(new String[0]);
+        this.permission = commands.getString(identifierCommand + ".permission");
     }
 
     public void onCommand(Context<CommandSender> c, @Optional String target, @Optional String target2) {
@@ -76,5 +70,20 @@ public class TeleportCommand {
         } else {
             sender.sendMessage("§cUse: /tp <player> <player>");
         }
+    }
+
+    public void register(){
+        if (!commands.getBoolean(identifierCommand + ".enabled", true)) return;
+        plugin.getBukkitFrame().registerCommand(
+                CommandInfo.builder()
+                        .name(command)
+                        .aliases(aliases)
+                        .permission(permission)
+                        .build(),
+                context -> {
+                    onCommand(context, context.getArg(0), context.getArg(1));
+                    return false;
+                }
+        );
     }
 }

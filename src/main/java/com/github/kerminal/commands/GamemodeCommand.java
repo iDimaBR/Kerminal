@@ -2,6 +2,7 @@ package com.github.kerminal.commands;
 
 
 import com.github.kerminal.Kerminal;
+import com.github.kerminal.controllers.LangController;
 import com.github.kerminal.customevents.GamemodeChangeEvent;
 import com.github.kerminal.customevents.PlayerHomeTeleportEvent;
 import com.github.kerminal.utils.ConfigUtil;
@@ -21,48 +22,42 @@ public class GamemodeCommand {
 
     private Kerminal plugin;
     private ConfigUtil commands;
+    private final String identifierCommand = "Gamemode";
+    private final String command;
+    private final String[] aliases;
+    private final String permission;
 
     public GamemodeCommand(Kerminal plugin) {
         this.plugin = plugin;
         this.commands = plugin.getCommands();
-        if(!commands.getBoolean("Gamemode.enabled", true)) return;
-        plugin.getBukkitFrame().registerCommand(
-                CommandInfo.builder()
-                        .name(commands.getString("Gamemode.command"))
-                        .aliases(commands.getStringList("Gamemode.aliases").toArray(new String[0]))
-                        .permission(commands.getString("Gamemode.permission"))
-                        .async(commands.getBoolean("Gamemode.async"))
-                        .build(),
-                context -> {
-                    onCommand(context, context.getArg(0), context.getArg(1));
-                    return false;
-                }
-        );
+
+        this.command = commands.getString(identifierCommand + ".command");
+        this.aliases = commands.getStringList(identifierCommand + ".aliases").toArray(new String[0]);
+        this.permission = commands.getString(identifierCommand + ".permission");
     }
 
     public void onCommand(Context<CommandSender> context, @Optional String gamemode, @Optional String target) {
         final CommandSender sender = context.getSender();
-        final ConfigUtil messages = plugin.getMessages();
+        final LangController messages = plugin.getLangController();
         final Mode mode = Mode.of(gamemode);
 
         if (gamemode == null) {
-            context.sendMessage(messages.getString("Gamemode.Usage").replace("&", "§"));
+            context.sendMessage(messages.getString("Gamemode.Usage").replace("%command%", command));
             return;
         }
         if (mode == null) {
-            context.sendMessage(messages.getString("Gamemode.Usage").replace("&", "§"));
+            context.sendMessage(messages.getString("Gamemode.Usage").replace("%command%", command));
             return;
         }
 
         final String gamemodeName = mode.name();
 
-        //IF SENDER IS CONSOLE, REQUIRE TARGET
         GameMode gameMode = mode.getGameMode();
         if (target != null) {
             final Player targetPlayer = Bukkit.getPlayer(target);
 
             if (targetPlayer == null) {
-                context.sendMessage("§cJogador não encontrado");
+                context.sendMessage(messages.getString("DefaultCallback.PlayerNotFound"));
                 return;
             }
 
@@ -71,19 +66,33 @@ public class GamemodeCommand {
             if(gamemodeChangeEvent.isCancelled()) return;
 
             targetPlayer.setGameMode(gameMode);
-            context.sendMessage("§aModo do jogador §f" + targetPlayer.getName() + "§a alterado para §f" + gamemodeName);
-            targetPlayer.sendMessage("§aSeu modo foi alterado por §f" + sender.getName() + "§a para §f" + gamemodeName);
+            context.sendMessage(messages.getString("Commands.Gamemode.SuccessOther").replace("%target%", targetPlayer.getName()).replace("%gamemode%", gamemodeName));
+            targetPlayer.sendMessage(messages.getString("Commands.Gamemode.Success").replace("%gamemode%", gamemodeName));
             return;
         }
 
-        // IF SENDER IS PLAYER, DO NOT REQUIRE TARGET
         if (sender instanceof Player) {
             GamemodeChangeEvent gamemodeChangeEvent = new GamemodeChangeEvent((Player) sender, gameMode);
             Bukkit.getPluginManager().callEvent(gamemodeChangeEvent);
             if(gamemodeChangeEvent.isCancelled()) return;
 
             ((Player) sender).setGameMode(gameMode);
-            ((Player) sender).sendMessage("§aSeu modo de jogo foi alterado para:§f " + gamemodeName);
+            ((Player) sender).sendMessage(messages.getString("Commands.Gamemode.Success").replace("%gamemode%", gamemodeName));
         }
+    }
+
+    public void register(){
+        if (!commands.getBoolean(identifierCommand + ".enabled", true)) return;
+        plugin.getBukkitFrame().registerCommand(
+                CommandInfo.builder()
+                        .name(command)
+                        .aliases(aliases)
+                        .permission(permission)
+                        .build(),
+                context -> {
+                    onCommand(context, context.getArg(0), context.getArg(1));
+                    return false;
+                }
+        );
     }
 }

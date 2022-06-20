@@ -2,6 +2,7 @@ package com.github.kerminal.commands;
 
 
 import com.github.kerminal.Kerminal;
+import com.github.kerminal.controllers.LangController;
 import com.github.kerminal.utils.ConfigUtil;
 import com.github.kerminal.utils.Utils;
 import lombok.AllArgsConstructor;
@@ -23,27 +24,21 @@ public class EnderChestCommand {
     private final Kerminal plugin;
     public static HashMap<String, String> enderchests = new HashMap<>();
     private ConfigUtil commands;
+    private final String identifierCommand = "Enderchest";
+    private final String command;
+    private final String[] aliases;
+    private final String permission;
 
     public EnderChestCommand(Kerminal plugin) {
         this.plugin = plugin;
         this.commands = plugin.getCommands();
-        if(!commands.getBoolean("Enderchest.enabled", true)) return;
-        plugin.getBukkitFrame().registerCommand(
-                CommandInfo.builder()
-                        .name(commands.getString("Enderchest.command"))
-                        .aliases(commands.getStringList("Enderchest.aliases").toArray(new String[0]))
-                        .permission(commands.getString("Enderchest.permission"))
-                        .async(commands.getBoolean("Enderchest.async"))
-                        .build(),
-                context -> {
-                    onCommand(context, context.getArg(0));
-                    return false;
-                }
-        );
+        this.command = commands.getString(identifierCommand + ".command");
+        this.aliases = commands.getStringList(identifierCommand + ".aliases").toArray(new String[0]);
+        this.permission = commands.getString(identifierCommand + ".permission");
     }
 
     public void onCommand(Context<CommandSender> context, @Optional String targetName) {
-        final ConfigUtil messages = plugin.getMessages();
+        final LangController messages = plugin.getLangController();
         final int args = context.argsCount();
         Player player = (Player) context.getSender();
 
@@ -54,13 +49,27 @@ public class EnderChestCommand {
 
         Player target = Utils.getPlayer(targetName);
         if(target == null){
-            player.sendMessage("§cJogador não encontrado!");
+            player.sendMessage(messages.getString("DefaultCallback.PlayerNotFound"));
             return;
         }
 
         player.openInventory(target.getEnderChest());
         enderchests.put(player.getName(), target.getName());
-        player.sendMessage("§aEnderchest de " + target.getName() + " foi aberto!");
+        player.sendMessage(messages.getString("Commands.Enderchest.Success"));
     }
 
+    public void register(){
+        if (!commands.getBoolean(identifierCommand + ".enabled", true)) return;
+        plugin.getBukkitFrame().registerCommand(
+                CommandInfo.builder()
+                        .name(command)
+                        .aliases(aliases)
+                        .permission(permission)
+                        .build(),
+                context -> {
+                    onCommand(context, context.getArg(0));
+                    return false;
+                }
+        );
+    }
 }

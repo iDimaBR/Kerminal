@@ -12,25 +12,21 @@ Spawn:
   enabled: true
   command: "spawn"
   permission: kerminal.spawn
-  async: false
   aliases: {}
 Setspawn:
   enabled: true
   command: "setspawn"
   permission: kerminal.setspawn
-  async: false
   aliases: {}
 Tpa:
   enabled: true
   command: "tpa"
   permission: kerminal.tpa
-  async: false
   aliases: {}
 Gamemode:
   enabled: true
   command: "gamemode"
   permission: kerminal.gamemode
-  async: false
   aliases:
     - "gm"
     - "mode"
@@ -38,7 +34,6 @@ Teleport:
   enabled: true
   command: "teleport"
   permission: kerminal.teleport
-  async: false
   aliases:
     - "tp"
     - "teleportar"
@@ -46,42 +41,36 @@ Fly:
   enabled: true
   command: "fly"
   permission: kerminal.fly
-  async: false
   aliases:
     - "voar"
 Enchant:
   enabled: true
   command: "enchant"
   permission: kerminal.enchant
-  async: false
   aliases:
     - "encantar"
 ClearChat:
   enabled: true
   command: "clearchat"
   permission: kerminal.clearchat
-  async: false
   aliases:
     - "limparchat"
 Clear:
   enabled: true
   command: "clear"
   permission: kerminal.clear
-  async: false
   aliases:
     - "limpar"
 Craft:
   enabled: true
   command: "craft"
   permission: kerminal.craft
-  async: false
   aliases:
     - "craftar"
 Feed:
   enabled: true
   command: "feed"
   permission: kerminal.feed
-  async: false
   aliases:
     - "fome"
     - "comida"
@@ -89,76 +78,65 @@ Heal:
   enabled: true
   command: "heal"
   permission: kerminal.heal
-  async: false
   aliases:
     - "vida"
 Hat:
   enabled: true
   command: "hat"
   permission: kerminal.hat
-  async: false
   aliases:
     - "chapeu"
 Enderchest:
   enabled: true
   command: "enderchest"
   permission: kerminal.enderchest
-  async: false
   aliases:
     - "echest"
 Divulgar:
   enabled: true
   command: "divulgar"
   permission: kerminal.divulgar
-  async: false
   aliases:
     - "anunciar"
 Light:
   enabled: true
   command: "light"
   permission: kerminal.light
-  async: false
   aliases:
     - "luz"
 Trash:
   enabled: true
   command: "trash"
   permission: kerminal.trash
-  async: false
   aliases:
     - "lixo"
 Onlines:
   enabled: true
   command: "onlines"
   permission: kerminal.onlines
-  async: false
   aliases:
     - "online"
-Jogadores:
+OnlinePlayers:
   enabled: true
   command: "jogadores"
-  permission: kerminal.jogadores
-  async: false
+  permission: kerminal.onlineplayers
   aliases: {}
 Home:
   enabled: true
   command: "home"
   permission: kerminal.home
-  async: false
   aliases:
     - "casa"
 Sethome:
   enabled: true
   command: "sethome"
   permission: kerminal.sethome
-  async: false
   aliases:
     - "setcasa"
 Delhome:
   enabled: true
   command: "delhome"
   permission: kerminal.delhome
-  async: false
   aliases:
     - "deletarhome"
     - "deletehome"
@@ -166,7 +144,6 @@ Listhomes:
   enabled: true
   command: "listhome"
   permission: kerminal.listhome
-  async: false
   aliases:
     - "listhomes"
     - "homes"
@@ -174,48 +151,49 @@ Back:
   enabled: true
   command: "back"
   permission: kerminal.back
-  async: false
   aliases:
     - "voltar"
 Ping:
   enabled: true
   command: "ping"
   permission: kerminal.ping
-  async: false
   aliases:
     - "pingar"
 Slime:
   enabled: true
   command: "slime"
   permission: kerminal.slime
-  async: false
   aliases:
     - "slimechunk"
 Infolag:
   enabled: true
   command: "infolag"
   permission: kerminal.infolag
-  async: false
   aliases:
     - "lag"
 CreateKit:
   enabled: true
   command: "createkit"
   permission: kerminal.createkit
-  async: false
   aliases:
     - "criarkit"
+DeleteKit:
+  enabled: true
+  command: "deletekit"
+  permission: kerminal.deletekit
+  aliases:
+    - "deletarkit"
+    - "removerkit"
+    - "delkit"
 Kit:
   enabled: true
   command: "kit"
   permission: kerminal.kit
-  async: false
   aliases: {}
 ListKits:
   enabled: true
   command: "kits"
   permission: kerminal.listkits
-  async: false
   aliases:
     - "verkits"
 
@@ -223,54 +201,46 @@ Nick:
   enabled: true
   command: "nick"
   permission: kerminal.nick
-  async: false
   aliases:
     - "camuflar"
 Colors:
   enabled: true
   command: "colors"
   permission: kerminal.colors
-  async: false
   aliases:
     - "cores"
 Warp:
   enabled: true
   command: "warp"
   permission: kerminal.warp
-  async: false
   aliases: {}
 SetWarp:
   enabled: true
   command: "setwarp"
   permission: kerminal.setwarp
-  async: false
   aliases: {}
 WarpList:
   enabled: true
   command: "warplist"
   permission: kerminal.warplist
-  async: false
   aliases:
     - "warps"
 Repair:
   enabled: true
   command: "repair"
   permission: kerminal.repair
-  async: false
   aliases:
     - "reparar"
 Speed:
   enabled: true
   command: "speed"
   permission: kerminal.speed
-  async: false
   aliases:
     - "velocidade"
 Invsee:
   enabled: true
   command: "invsee"
   permission: kerminal.invsee
-  async: false
   aliases:
     - "inv"
     - "inventario"

@@ -26,26 +26,20 @@ public class InfolagCommand {
 
     private Kerminal plugin;
     private ConfigUtil commands;
+    private final String identifierCommand = "Infolag";
+    private String command;
+    private String[] aliases;
+    private String permission;
 
     public InfolagCommand(Kerminal plugin) {
         this.plugin = plugin;
         this.commands = plugin.getCommands();
-        if(!commands.getBoolean("Infolag.enabled", true)) return;
-        plugin.getBukkitFrame().registerCommand(
-                CommandInfo.builder()
-                        .name(commands.getString("Infolag.command"))
-                        .aliases(commands.getStringList("Infolag.aliases").toArray(new String[0]))
-                        .permission(commands.getString("Infolag.permission"))
-                        .async(commands.getBoolean("Infolag.async"))
-                        .build(),
-                context -> {
-                    onCommand(context, context.getArg(0));
-                    return false;
-                }
-        );
+        this.command = commands.getString(identifierCommand + ".command");
+        this.aliases = commands.getStringList(identifierCommand + ".aliases").toArray(new String[0]);
+        this.permission = commands.getString(identifierCommand + ".permission");
     }
 
-    public void onCommand(Context<CommandSender> context, @Optional String target) {
+    public void onCommand(Context<CommandSender> context) {
         final CommandSender sender = context.getSender();
 
         final long uptime = ManagementFactory.getRuntimeMXBean().getUptime();
@@ -87,6 +81,21 @@ public class InfolagCommand {
     private String formatSize(long v) {
         int z = (63 - Long.numberOfLeadingZeros(v)) / 10;
         return String.format("%.1f %sB", (double)v / (1L << (z*10)), " KMGTPE".charAt(z));
+    }
+
+    public void register(){
+        if (!commands.getBoolean(identifierCommand + ".enabled", true)) return;
+        plugin.getBukkitFrame().registerCommand(
+                CommandInfo.builder()
+                        .name(command)
+                        .aliases(aliases)
+                        .permission(permission)
+                        .build(),
+                context -> {
+                    onCommand(context);
+                    return false;
+                }
+        );
     }
 
 }

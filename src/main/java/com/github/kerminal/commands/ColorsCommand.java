@@ -14,27 +14,20 @@ public class ColorsCommand {
 
     private Kerminal plugin;
     private ConfigUtil commands;
+    private final String identifierCommand = "Colors";
+    private final String command;
+    private final String[] aliases;
+    private final String permission;
 
     public ColorsCommand(Kerminal plugin) {
         this.plugin = plugin;
         this.commands = plugin.getCommands();
-        if(!commands.getBoolean("Colors.enabled", true)) return;
-        plugin.getBukkitFrame().registerCommand(
-                CommandInfo.builder()
-                        .name(commands.getString("Colors.command"))
-                        .aliases(commands.getStringList("Colors.aliases").toArray(new String[0]))
-                        .permission(commands.getString("Colors.permission"))
-                        .async(commands.getBoolean("Colors.async"))
-                        .build(),
-                context -> {
-                    onCommand(context);
-                    return false;
-                }
-        );
+        this.command = commands.getString(identifierCommand + ".command");
+        this.aliases = commands.getStringList(identifierCommand + ".aliases").toArray(new String[0]);
+        this.permission = commands.getString(identifierCommand + ".permission");
     }
 
     public void onCommand(Context<CommandSender> context) {
-        final ConfigUtil messages = plugin.getMessages();
         Player player = (Player) context.getSender();
         player.sendMessage("§7Lista de cores:");
         player.sendMessage("");
@@ -60,6 +53,21 @@ public class ColorsCommand {
         player.sendMessage("    §f&n §7- §f§nSublinhado");
         player.sendMessage("    §f&o §7- §f§oItálico");
 
+    }
+
+    public void register(){
+        if (!commands.getBoolean(identifierCommand + ".enabled", true)) return;
+        plugin.getBukkitFrame().registerCommand(
+                CommandInfo.builder()
+                        .name(command)
+                        .aliases(aliases)
+                        .permission(permission)
+                        .build(),
+                context -> {
+                    onCommand(context);
+                    return false;
+                }
+        );
     }
 
 }

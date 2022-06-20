@@ -2,6 +2,7 @@ package com.github.kerminal.commands;
 
 
 import com.github.kerminal.Kerminal;
+import com.github.kerminal.controllers.LangController;
 import com.github.kerminal.utils.ConfigUtil;
 import lombok.AllArgsConstructor;
 import me.saiintbrisson.minecraft.command.command.CommandInfo;
@@ -15,29 +16,23 @@ import org.bukkit.inventory.ItemStack;
 @AllArgsConstructor
 public class SpeedCommand {
 
-    private Kerminal plugin;
-    private ConfigUtil commands;
+    private final Kerminal plugin;
+    private final ConfigUtil commands;
+    private final String identifierCommand = "Speed";
+    private final String command;
+    private final String[] aliases;
+    private final String permission;
 
     public SpeedCommand(Kerminal plugin) {
         this.plugin = plugin;
         this.commands = plugin.getCommands();
-        if(!commands.getBoolean("Speed.enabled", true)) return;
-        plugin.getBukkitFrame().registerCommand(
-                CommandInfo.builder()
-                        .name(commands.getString("Speed.command"))
-                        .aliases(commands.getStringList("Speed.aliases").toArray(new String[0]))
-                        .permission(commands.getString("Speed.permission"))
-                        .async(commands.getBoolean("Speed.async"))
-                        .build(),
-                context -> {
-                    onCommand(context);
-                    return false;
-                }
-        );
+        this.command = commands.getString(identifierCommand + ".command");
+        this.aliases = commands.getStringList(identifierCommand + ".aliases").toArray(new String[0]);
+        this.permission = commands.getString(identifierCommand + ".permission");
     }
 
     public void onCommand(Context<CommandSender> context) {
-        final ConfigUtil messages = plugin.getMessages();
+        final LangController messages = plugin.getLangController();
         final Player player = (Player) context.getSender();
         final int args = context.argsCount();
 
@@ -46,7 +41,7 @@ public class SpeedCommand {
             if(arg1.equalsIgnoreCase("clear")){
                 player.setFlySpeed(0.1f);
                 player.setWalkSpeed(0.2f);
-                player.sendMessage("§aVocê voltou para a velocidade padrão");
+                player.sendMessage(messages.getString("Commands.Speed.BackDefault"));
                 return;
             }
 
@@ -54,18 +49,18 @@ public class SpeedCommand {
             try {
                 speed = Float.parseFloat(arg1);
             } catch (NumberFormatException e) {
-                player.sendMessage("§cColoque uma velocidade válida!!");
+                player.sendMessage(messages.getString("Commands.Speed.InvalidSpeed"));
                 return;
             }
 
             if(speed > 1){
-                player.sendMessage("§cA velocidade não pode passar de 1.");
+                player.sendMessage(messages.getString("Commands.Speed.ExceedSpeed"));
                 return;
             }
 
             player.setWalkSpeed(speed);
             player.setFlySpeed(speed);
-            player.sendMessage("§aVelocidade alterada para: §f" + speed);
+            player.sendMessage(messages.getString("Commands.Speed.Success").replace("%speed%", speed+""));
             return;
         }
 
@@ -74,14 +69,14 @@ public class SpeedCommand {
             final String arg2 = context.getArg(1);
             final Player target = Bukkit.getPlayer(arg2);
             if(target == null){
-                player.sendMessage("§cO jogador " + arg2 + " não foi encontrado.");
+                player.sendMessage(messages.getString("DefaultCallback.PlayerNotFound"));
                 return;
             }
 
             if(arg1.equalsIgnoreCase("clear")){
                 target.setFlySpeed(0.1f);
                 target.setWalkSpeed(0.2f);
-                player.sendMessage("§aO jogador " + arg2 + " voltou para a velocidade padrão");
+                player.sendMessage(messages.getString("Commands.Speed.BackDefaultOther").replace("%target%", target.getName()));
                 return;
             }
 
@@ -89,18 +84,33 @@ public class SpeedCommand {
             try {
                 speed = Float.parseFloat(arg1);
             } catch (NumberFormatException e) {
-                player.sendMessage("§cColoque uma velocidade válida!!");
+                player.sendMessage(messages.getString("Commands.Speed.InvalidSpeed"));
                 return;
             }
 
             if(speed > 1){
-                player.sendMessage("§cA velocidade não pode passar de 1.");
+                player.sendMessage(messages.getString("Commands.Speed.ExceedSpeed"));
                 return;
             }
 
             target.setWalkSpeed(speed);
             target.setFlySpeed(speed);
-            player.sendMessage("§aVelocidade de " + arg2 + " alterada para: §f" + speed);
+            player.sendMessage(messages.getString("Commands.Speed.SuccessOther"));
         }
+    }
+
+    public void register(){
+        if (!commands.getBoolean(identifierCommand + ".enabled", true)) return;
+        plugin.getBukkitFrame().registerCommand(
+                CommandInfo.builder()
+                        .name(command)
+                        .aliases(aliases)
+                        .permission(permission)
+                        .build(),
+                context -> {
+                    onCommand(context);
+                    return false;
+                }
+        );
     }
 }

@@ -2,6 +2,7 @@ package com.github.kerminal.commands;
 
 
 import com.github.kerminal.Kerminal;
+import com.github.kerminal.controllers.LangController;
 import com.github.kerminal.utils.ConfigUtil;
 import lombok.AllArgsConstructor;
 import me.saiintbrisson.minecraft.command.annotation.Command;
@@ -18,29 +19,23 @@ import org.bukkit.inventory.PlayerInventory;
 @AllArgsConstructor
 public class HatCommand {
 
-    private Kerminal plugin;
-    private ConfigUtil commands;
+    private final Kerminal plugin;
+    private final ConfigUtil commands;
+    private final String identifierCommand = "Hat";
+    private final String command;
+    private final String[] aliases;
+    private final String permission;
 
     public HatCommand(Kerminal plugin) {
         this.plugin = plugin;
         this.commands = plugin.getCommands();
-        if(!commands.getBoolean("Hat.enabled", true)) return;
-        plugin.getBukkitFrame().registerCommand(
-                CommandInfo.builder()
-                        .name(commands.getString("Hat.command"))
-                        .aliases(commands.getStringList("Hat.aliases").toArray(new String[0]))
-                        .permission(commands.getString("Hat.permission"))
-                        .async(commands.getBoolean("Hat.async"))
-                        .build(),
-                context -> {
-                    onCommand(context);
-                    return false;
-                }
-        );
+        this.command = commands.getString(identifierCommand + ".command");
+        this.aliases = commands.getStringList(identifierCommand + ".aliases").toArray(new String[0]);
+        this.permission = commands.getString(identifierCommand + ".permission");
     }
 
     public void onCommand(Context<CommandSender> context) {
-        final ConfigUtil messages = plugin.getMessages();
+        final LangController messages = plugin.getLangController();
         final CommandSender sender = context.getSender();
 
         if(!(sender instanceof Player)){
@@ -50,11 +45,11 @@ public class HatCommand {
 
         Player player = (Player) sender;
         if(!applyHat(player)){
-            player.sendMessage("§cVocê precisa segurar algo em suas maõs");
+            player.sendMessage(messages.getString("DefaultCallback.HandEmpty"));
             return;
         }
 
-        player.sendMessage("§aAproveite seu chapeu novo :3");
+        player.sendMessage(messages.getString("Commands.Hat.Success"));
     }
 
     private boolean applyHat(Player player){
@@ -70,6 +65,21 @@ public class HatCommand {
 
         inventory.setHelmet(itemInHand);
         return true;
+    }
+
+    public void register(){
+        if (!commands.getBoolean(identifierCommand + ".enabled", true)) return;
+        plugin.getBukkitFrame().registerCommand(
+                CommandInfo.builder()
+                        .name(command)
+                        .aliases(aliases)
+                        .permission(permission)
+                        .build(),
+                context -> {
+                    onCommand(context);
+                    return false;
+                }
+        );
     }
 
 }

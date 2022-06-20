@@ -23,7 +23,7 @@ public class BlockPlayerFlyListener implements Listener {
         if(player.hasPermission("kerminal.blockfly.bypass")) return;
 
         final ConfigUtil config = plugin.getConfig();
-        final List<String> blockFlyList = config.getStringList("BlockWorldsFly");
+        final List<String> blockFlyList = config.getStringList("BlockedWorlds.Fly");
         if(blockFlyList.contains(player.getWorld().getName())){
             e.setCancelled(true);
             player.setFlying(false);

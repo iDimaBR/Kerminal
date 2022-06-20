@@ -1,6 +1,7 @@
 package com.github.kerminal.listeners;
 
 import com.github.kerminal.Kerminal;
+import com.github.kerminal.controllers.LangController;
 import com.github.kerminal.utils.ConfigUtil;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang.StringUtils;
@@ -41,7 +42,7 @@ public class MechanicListener implements Listener {
 
     @EventHandler
     public void onKickWhitelist(PlayerLoginEvent e) {
-        final ConfigUtil messages = plugin.getMessages();
+        final LangController messages = plugin.getLangController();
         if (e.getResult() != PlayerLoginEvent.Result.KICK_WHITELIST) return;
 
         e.setKickMessage(

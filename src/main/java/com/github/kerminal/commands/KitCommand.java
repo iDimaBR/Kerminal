@@ -3,6 +3,7 @@ package com.github.kerminal.commands;
 
 import com.github.kerminal.Kerminal;
 import com.github.kerminal.controllers.KitController;
+import com.github.kerminal.controllers.LangController;
 import com.github.kerminal.models.Kit;
 import com.github.kerminal.utils.ConfigUtil;
 import com.github.kerminal.utils.Serializer;
@@ -23,38 +24,32 @@ public class KitCommand {
     private final Kerminal plugin;
     private final ConfigUtil commands;
     private final ConfigUtil kits;
+    private final String identifierCommand = "Kit";
+    private final String command;
+    private final String[] aliases;
+    private final String permission;
 
     public KitCommand(Kerminal plugin) {
         this.plugin = plugin;
         this.kits = plugin.getKits();
         this.commands = plugin.getCommands();
-        if(!commands.getBoolean("Kit.enabled", true)) return;
-        plugin.getBukkitFrame().registerCommand(
-                CommandInfo.builder()
-                        .name(commands.getString("Kit.command"))
-                        .aliases(commands.getStringList("Kit.aliases").toArray(new String[0]))
-                        .permission(commands.getString("Kit.permission"))
-                        .async(commands.getBoolean("Kit.async"))
-                        .build(),
-                context -> {
-                    onCommand(context, context.getArg(0));
-                    return false;
-                }
-        );
+        this.command = commands.getString(identifierCommand + ".command");
+        this.aliases = commands.getStringList(identifierCommand + ".aliases").toArray(new String[0]);
+        this.permission = commands.getString(identifierCommand + ".permission");
     }
 
     public void onCommand(Context<CommandSender> context, String name) {
-        final ConfigUtil messages = plugin.getMessages();
+        final LangController messages = plugin.getLangController();
         Player player = (Player) context.getSender();
         final KitController kitController = plugin.getKitController();
         name = name.toLowerCase();
 
         if(!kitController.existsKit(name)){
-            player.sendMessage("§cO Kit '" + name + "' não existe!");
+            player.sendMessage(messages.getString("Commands.KitSection.NoExistKit").replace("%name%", name));
             return;
         }
 
-        if(!context.testPermission("kerminal.kit." + name.toLowerCase(), false)) return;
+        if(!context.testPermission(permission + "." + name.toLowerCase(), false)) return;
 
         final Kit kit = kitController.getKit(name);
         final ItemStack[] itens = kit.getItens();
@@ -62,12 +57,12 @@ public class KitCommand {
         final Map<UUID, Long> delayKit = kit.getCooldownMap();
 
         if(delayKit.containsKey(player.getUniqueId()) && delayKit.get(player.getUniqueId()) > System.currentTimeMillis()) {
-            player.sendMessage("§cVocê ainda precisa esperar " + TimeUtils.format(delayKit.get(player.getUniqueId()) - System.currentTimeMillis()));
+            player.sendMessage(messages.getString("DefaultCallback.WaitingDelay").replace("%delay%", TimeUtils.format(delayKit.get(player.getUniqueId()) - System.currentTimeMillis())));
             return;
         }
 
         if(!hasSpace(player, kit.getNeedSlots())){
-            player.sendMessage("§cVocê não tem espaço suficiente no inventário para receber o Kit.");
+            player.sendMessage(messages.getString("Commands.KitSection.Kit.NoHaveSpace"));
             return;
         }
 
@@ -76,7 +71,7 @@ public class KitCommand {
             player.getInventory().addItem(item);
         }
 
-        player.sendMessage("§aVocê recebeu o kit '" + name + "'.");
+        player.sendMessage(messages.getString("Commands.KitSection.Kit.Success").replace("%name%", kit.getName()));
 
         final long millis = System.currentTimeMillis() + (1000L * delay);
         delayKit.put(player.getUniqueId(), millis);
@@ -85,5 +80,20 @@ public class KitCommand {
 
     private boolean hasSpace(Player player, int needed){
         return Arrays.stream(player.getInventory().getContents()).filter(Objects::isNull).count() >= needed;
+    }
+
+    public void register(){
+        if (!commands.getBoolean(identifierCommand + ".enabled", true)) return;
+        plugin.getBukkitFrame().registerCommand(
+                CommandInfo.builder()
+                        .name(command)
+                        .aliases(aliases)
+                        .permission(permission)
+                        .build(),
+                context -> {
+                    onCommand(context, context.getArg(0));
+                    return false;
+                }
+        );
     }
 }

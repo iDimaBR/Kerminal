@@ -3,6 +3,7 @@ package com.github.kerminal.commands;
 
 import com.github.kerminal.Kerminal;
 import com.github.kerminal.controllers.DataController;
+import com.github.kerminal.controllers.LangController;
 import com.github.kerminal.models.Home;
 import com.github.kerminal.models.PlayerData;
 import com.github.kerminal.registry.TeleportRegistry;
@@ -25,44 +26,48 @@ import java.util.Set;
 @AllArgsConstructor
 public class ListHomesCommand {
 
-    private Kerminal plugin;
-    private ConfigUtil commands;
+    private final Kerminal plugin;
+    private final ConfigUtil commands;
+    private final String identifierCommand = "Listhomes";
+    private final String command;
+    private final String[] aliases;
+    private final String permission;
 
     public ListHomesCommand(Kerminal plugin) {
         this.plugin = plugin;
         this.commands = plugin.getCommands();
-        if(!commands.getBoolean("Listhomes.enabled", true)) return;
+        this.command = commands.getString(identifierCommand + ".command");
+        this.aliases = commands.getStringList(identifierCommand + ".aliases").toArray(new String[0]);
+        this.permission = commands.getString(identifierCommand + ".permission");
+    }
+
+    public void onCommand(Context<CommandSender> context) {
+        final CommandSender sender = context.getSender();
+        final LangController messages = plugin.getLangController();
+        final Player player = (Player) sender;
+        final DataController controller = plugin.getController();
+
+        PlayerData data = controller.getDataPlayer(player.getUniqueId());
+        final Set<String> homes = data.getHomes().keySet();
+
+        player.sendMessage(messages.getString("Commands.HomeSection.Listhome.Listing").replace("%homes%", (homes.size() == 0 ? "Nenhum" : StringUtils.join(homes.toArray(), ", "))));
+        if(data.getDefaultHome() == null)
+            player.sendMessage(messages.getString("Commands.HomeSection.Listhome.DefaultHomeWarning").replace("%command%", commands.getString("Sethome.command") + " " + messages.getString("Commands.HomeSection.NameOfDefaultHome")));
+        player.playSound(player.getLocation(), Sound.ANVIL_LAND, 1, 1);
+    }
+
+    public void register(){
+        if (!commands.getBoolean(identifierCommand + ".enabled", true)) return;
         plugin.getBukkitFrame().registerCommand(
                 CommandInfo.builder()
-                        .name(commands.getString("Listhomes.command"))
-                        .aliases(commands.getStringList("Listhomes.aliases").toArray(new String[0]))
-                        .permission(commands.getString("Listhomes.permission"))
-                        .async(commands.getBoolean("Listhomes.async"))
+                        .name(command)
+                        .aliases(aliases)
+                        .permission(permission)
                         .build(),
                 context -> {
                     onCommand(context);
                     return false;
                 }
         );
-    }
-
-    public void onCommand(Context<CommandSender> context) {
-        final CommandSender sender = context.getSender();
-        final ConfigUtil messages = plugin.getMessages();
-        final Player player = (Player) sender;
-        final DataController controller = plugin.getController();
-
-        PlayerData data = controller.getDataPlayer(player.getUniqueId());
-        if(data == null){
-            player.sendMessage("§cSuas informações não foram carregadas, entre novamente no servidor.");
-            return;
-        }
-
-        final Set<String> homes = data.getHomes().keySet();
-
-        player.sendMessage("§aSuas casas: §f" + (homes.size() == 0 ? "Nenhuma" : StringUtils.join(homes.toArray(), "§7,§f ")));
-        if(data.getDefaultHome() == null)
-            player.sendMessage("§cObs: §7Defina sua casa principal com §f/sethome padrao");
-        player.playSound(player.getLocation(), Sound.ANVIL_LAND, 1, 1);
     }
 }

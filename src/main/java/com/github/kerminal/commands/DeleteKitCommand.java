@@ -2,56 +2,60 @@ package com.github.kerminal.commands;
 
 
 import com.github.kerminal.Kerminal;
+import com.github.kerminal.controllers.KitController;
 import com.github.kerminal.controllers.LangController;
-import com.github.kerminal.models.Warp;
-import com.github.kerminal.registry.TeleportRegistry;
 import com.github.kerminal.utils.ConfigUtil;
-import com.github.kerminal.utils.LocationUtils;
+import com.github.kerminal.utils.Serializer;
 import lombok.AllArgsConstructor;
 import me.saiintbrisson.minecraft.command.command.CommandInfo;
 import me.saiintbrisson.minecraft.command.command.Context;
+import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
-import java.util.Map;
+import java.util.Arrays;
+import java.util.Objects;
 
 @AllArgsConstructor
-public class SetWarpCommand {
+public class DeleteKitCommand {
 
-    private final Kerminal plugin;
-    private final ConfigUtil commands;
-    private final String identifierCommand = "SetWarp";
+    private Kerminal plugin;
+    private ConfigUtil commands;
+    private ConfigUtil kits;
+    private final String identifierCommand = "DeleteKit";
     private final String command;
     private final String[] aliases;
     private final String permission;
 
-    public SetWarpCommand(Kerminal plugin) {
+    public DeleteKitCommand(Kerminal plugin) {
         this.plugin = plugin;
+        this.kits = plugin.getKits();
         this.commands = plugin.getCommands();
         this.command = commands.getString(identifierCommand + ".command");
         this.aliases = commands.getStringList(identifierCommand + ".aliases").toArray(new String[0]);
         this.permission = commands.getString(identifierCommand + ".permission");
     }
 
-    public void onCommand(Context<CommandSender> context, String warpName) {
+    public void onCommand(Context<CommandSender> context, String name) {
         final LangController messages = plugin.getLangController();
-        final Player player = (Player) context.getSender();
-        warpName = warpName.toLowerCase();
+        Player player = (Player) context.getSender();
+        final KitController kitController = plugin.getKitController();
 
-        final Map<String, Warp> warpsList = plugin.getWarpsList();
-        if(warpsList.get(warpName) != null){
-            player.sendMessage(messages.getString("Commands.WarpSection.Setwarp.ExistWarp").replace("%warp%", warpName));
+        if(!kitController.existsKit(name)){
+            player.sendMessage(messages.getString("Commands.KitSection.NoExistKit").replace("%name%", name));
             return;
         }
 
-        final ConfigUtil locations = plugin.getLocations();
-        final Warp warp = new Warp(warpName, player.getLocation());
-        LocationUtils.setLocationConfig(locations, player.getLocation(), "Warps." + warpName);
-        warpsList.put(warpName, warp);
-        player.sendMessage(messages.getString("Commands.WarpSection.Setwarp.Success").replace("%warp%", warpName));
+        kits.set(name, null);
+        kits.save();
+        kitController.getLoadedKits().remove(name);
+        player.sendMessage(messages.getString("Commands.KitSection.DeleteKit.Success").replace("%name%", name));
+
     }
 
     public void register(){
+        if (!commands.getBoolean(identifierCommand + ".enabled", true)) return;
         plugin.getBukkitFrame().registerCommand(
                 CommandInfo.builder()
                         .name(command)
@@ -64,4 +68,5 @@ public class SetWarpCommand {
                 }
         );
     }
+
 }

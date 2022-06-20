@@ -2,6 +2,7 @@ package com.github.kerminal.commands;
 
 
 import com.github.kerminal.Kerminal;
+import com.github.kerminal.controllers.LangController;
 import com.github.kerminal.utils.ConfigUtil;
 import com.github.kerminal.utils.TimeUtils;
 import com.google.common.collect.Maps;
@@ -25,34 +26,29 @@ public class AnnounceCommand {
 
     private Kerminal plugin;
     private ConfigUtil commands;
+    private final String identifierCommand = "Divulgar";
+    private final String command;
+    private final String[] aliases;
+    private final String permission;
 
     private final HashMap<UUID, Long> DELAY = Maps.newHashMap();
 
     public AnnounceCommand(Kerminal plugin) {
         this.plugin = plugin;
         this.commands = plugin.getCommands();
-        if (!commands.getBoolean("Divulgar.enabled", true)) return;
-        plugin.getBukkitFrame().registerCommand(
-                CommandInfo.builder()
-                        .name(commands.getString("Divulgar.command"))
-                        .aliases(commands.getStringList("Divulgar.aliases").toArray(new String[0]))
-                        .permission(commands.getString("Divulgar.permission"))
-                        .async(commands.getBoolean("Divulgar.async", false))
-                        .build(),
-                context -> {
-                    onCommand(context);
-                    return false;
-                }
-        );
+        this.command = commands.getString(identifierCommand + ".command");
+        this.aliases = commands.getStringList(identifierCommand + ".aliases").toArray(new String[0]);
+        this.permission = commands.getString(identifierCommand + ".permission");
     }
 
     public void onCommand(Context<CommandSender> context) {
         final CommandSender sender = context.getSender();
-        final ConfigUtil messages = plugin.getMessages();
+        final LangController messages = plugin.getLangController();
         final Player player = (Player) sender;
 
         if(DELAY.getOrDefault(player.getUniqueId(), 0L) > System.currentTimeMillis()){
-            player.sendMessage("§cVocê tem que aguardar " + TimeUtils.formatOneLetter(DELAY.get(player.getUniqueId()) - System.currentTimeMillis()));
+            final String delay = TimeUtils.formatOneLetter(DELAY.get(player.getUniqueId()) - System.currentTimeMillis());
+            player.sendMessage(messages.getString("DefaultCallback.WaitingDelay").replace("%delay%", delay));
             return;
         }
 
@@ -64,15 +60,29 @@ public class AnnounceCommand {
         DELAY.put(player.getUniqueId(), System.currentTimeMillis() + 3000);
 
         Collection<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers();
-        List<String> formated = messages.getStringList("Commands.DivulgarFormat").stream().map(
-                $ -> $.replace("&", "§")
-                        .replace("%player%", player.getDisplayName())
+        List<String> formated = messages.getStringList("Commands.Divulgar.Format").stream().map(
+                $ -> $.replace("%player%", player.getDisplayName())
                         .replace("%message%", announce)
         ).collect(Collectors.toList());
 
         for (Player onlinePlayer : onlinePlayers) {
             formated.forEach(onlinePlayer::sendMessage);
         }
+    }
+
+    public void register(){
+        if (!commands.getBoolean(identifierCommand + ".enabled", true)) return;
+        plugin.getBukkitFrame().registerCommand(
+                CommandInfo.builder()
+                        .name(command)
+                        .aliases(aliases)
+                        .permission(permission)
+                        .build(),
+                context -> {
+                    onCommand(context);
+                    return false;
+                }
+        );
     }
 
 }

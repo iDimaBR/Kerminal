@@ -14,16 +14,188 @@ Kick:
     - ""
     - "&cEstamos em manutenção!"
 
-Returns:
+###################################################
+#       Configuração de mensagens padrões         #
+###################################################
+DefaultCallback:
   PlayerNotFound: "&cO jogador não foi encontrado."
+  WaitingDelay: "&cAinda precisa aguardar %delay%."
+  OnlyPlayers: "&cApenas jogadores podem executar esse comando."
+  HandEmpty: "&cVocê precisa ter um item válido em suas mãos."
+  NoPermission: "&cVocê não tem permissão."
 
+###################################################
+# Configuração de todas as mensagens dos comandos #
+###################################################
 Commands:
-  DivulgarFormat:
-    - ""
-    - "&a&lANUNCIO> &f%player%: &a%message%"
-    - ""
+  # Mensagens do comando de divulgar
+  Divulgar:
+    Format:
+      - ""
+      - "&a&lANUNCIO> &f%player%: &a%message%"
+      - ""
 
-Gamemode:
-  Usage: "&cO modo não foi encontrado, utilize /gamemode <modo>"
-  Change: "&aSeu modo de jogo foi atualizado para %mode%"
-  TargetChange: "&aModo de %player% foi atualizado para %mode%"
+  SpawnSection:
+    Setspawn: "&aSpawn definido!"
+    Spawn:
+      NotDefined: "&cO spawn não foi definido."
+
+  # Mensagens do comando de back
+  Back:
+    NotFoundLocation: "&cNenhuma localização foi encontrada."
+    Teleport: "&aTeleportado para a última localização."
+
+  # Mensagens do comando de clear chat
+  ClearChat:
+    Success: "&aO chat foi limpo!"
+
+  # Mensagens do comando de clear
+  Clear:
+    Success: "&aSeu inventário foi limpo!"
+    SuccessOther: "&aInventário de %target% foi limpo!"
+
+  # Mensagens do comando de encantar
+  Enchant:
+    Usage: "&cUtilize /%command% <encantamento> <nivel> para encantar"
+    NotFound:
+      - "&cO encantamento não foi encontrado!"
+      - "&cLista de encantamentos: &f%enchantments%"
+    LevelInvalid: "&cColoque um nível válido!"
+    Success: "&aO encantamento &f%name% &afoi adicionado."
+
+  # Mensagens do comando enderchest
+  Enderchest:
+    Success: "&aEnderchest do jogador &f%name% &afoi aberto."
+
+  # Mensagens do comando feed
+  Feed:
+    Success: "&aA fome foi recuperada!"
+    SuccessOther: "&aA fome de %target% foi recuperada!"
+
+  # Mensagens do comando fly
+  Fly:
+    Success-On: "&aO fly foi ativado."
+    Success-Off: "&cO fly foi desativado"
+    SuccessOther-On: "&aO modo voar do jogador %target% foi ativado!"
+    SuccessOther-Off: "&cO modo voar do jogador %target% foi desativado!"
+
+  # Mensagens do comando Gamemode
+  Gamemode:
+    Usage: "&cO modo não foi encontrado, utilize /%command% <modo>"
+    Success: "&aSeu modo de jogo foi atualizado para %gamemode%"
+    SuccessOther: "&aModo de %target% foi atualizado para %gamemode%"
+
+  # Mensagens do comando hat
+  Hat:
+    Success: "&aAproveite seu novo chapéu!"
+
+  # Mensagens do comando heal
+  Heal:
+    Success: "&aVida foi recuperada!"
+    SuccessOther: "&aVida de &f%target% &afoi recuperada!"
+
+  # Mensagens do comando invsee
+  Invsee:
+    Usage: "&cUtilize /%command% <player>"
+    Success: "&aInventário de &f%target% &afoi aberto!"
+
+  # Mensagens do comando de luz
+  Light:
+    Success-On: "&aLuz foi ativada."
+    Success-Off: "&cLuz foi desativada."
+
+  # Seção de configuração dos comandos de kit
+  KitSection:
+    # Mensagem de quando não existir o kit
+    NoExistKit: "&cO kit '%name%' não existe."
+    # Mensagens da listagem de kits
+    ListKits:
+      Listing: "&aKits: &f %kits%"
+    # Mensagens sobre kits
+    Kit:
+      NoHaveSpace: "&cVocê não tem espaço suficiente no inventário para receber o Kit."
+      Success: "&aVocê recebeu o kit '%name%'."
+    # Mensagens de criar kit
+    CreateKit:
+      InvalidTime: "&cDefina um tempo válido para o kit ou deixe '0' para não definir nenhum delay."
+      ExistKit: "&cO kit %name% já existe!"
+      NoHaveItem: "&cVocê não pode criar um kit vazio."
+      Success: "&aO kit %name% foi criado com sucesso!"
+    # Mensagens e quando deletar o kit
+    DeleteKit:
+      Success: "&aO kit '%name%' foi deletado."
+
+  # Mensagens do comando nick
+  Nick:
+    Success: "&aVocê se camuflou como '%nick%'."
+
+  # Mensagens do comando onlines
+  Onlines:
+    Listing: "&aTemos %onlines% jogadores onlines"
+
+  # Mensagens do comando jogadores
+  OnlinePlayers:
+    Listing: "&aJogadores: &f%playerlist%"
+
+  # Mensagens do comando ping
+  Ping:
+    Success: "&aSeu ping é %ping%"
+    SuccessOther: "&aO ping do jogador &f%target% &aé %ping%"
+
+  # Mensagens do comando repair
+  Repair:
+    Usage: "&cUtilize /%command% <all>"
+    IsFull: "&cEsse item não precisa de conserto."
+    Success: "&aItem foi consertado."
+    SuccessAll: "&cTodos seus itens foram concertados."
+
+  # Seção de configuração dos comandos de home
+  HomeSection:
+    # Nome da home principal do jogador
+    NameOfDefaultHome: "padrao"
+    # Aviso que aparecerá em algumas mensagens caso não tenha uma home principal
+    DefaultHomeWarning: "&c&lAVISO! &cDefina sua home principal com /%command%"
+    # Mensagens do sethome
+    Sethome:
+      NotAllowedWorld: "&cÉ proibido definir homes neste mundo."
+      Usage: "&cUtilize /%command% <nome>"
+      DefineDefaultHome: "&aHome principal definida."
+      DefineHome: "&aHome '%home%' definida."
+      ExceedLimit: "&cVocê atingiu o limite de %limit% homes."
+    # Mensagens do listhome
+    Listhome:
+      Listing: "&aSuas casas: &f %homes%"
+    # Mensagens do home
+    Home:
+      DefaultHomeWarning: "&c&lAVISO! &cSua home principal não está definida."
+      Teleporting: "&aTeleportando para %home% em %delay% segundos."
+      NotFound: "A home '%home%' não existe."
+    # Mensagens do delhome
+    Delhome:
+      Usage: "&cUtilize /%command% <nome> para deletar sua home"
+      NotFound: "&cA home %name% não foi encontrada."
+      Success: "&aA home &f%name% &afoi deletada com sucesso!"
+
+  # Mensagens do comando de speed
+  Speed:
+    BackDefault: "&aVocê voltou para a velocidade padrão."
+    BackDefaultOther: "&aO jogador &f%target% &avoltou para a velocidade padrão"
+    InvalidSpeed: "&cColoque um velocidade válida."
+    ExceedSpeed: "&cA velocidade vai de 0 a 1."
+    Success: "&aVelocidade alterada para &f%speed%&a."
+    SuccessOther: "&aVelocidade de &f%target% &aalterada para &f%speed&a."
+
+  # Seção de configuração dos comandos de warp
+  WarpSection:
+    Warp:
+      NoExist: "&aA warp %warp% não existe."
+    WarpList:
+      Listing: "&aWarps: &f%warps%"
+    Setwarp:
+      ExistWarp: "&aA warp '%warp%' já existe!"
+      Success: "&aVocê definiu a warp '%warp'."
+
+  Slime:
+    Status-True: "&aEstá"
+    Status-False: "&cNão está"
+    Success: "&aVocê %status% em uma slime chunk."

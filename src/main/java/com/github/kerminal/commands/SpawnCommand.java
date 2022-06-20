@@ -3,6 +3,7 @@ package com.github.kerminal.commands;
 
 import com.github.kerminal.Kerminal;
 import com.github.kerminal.controllers.DataController;
+import com.github.kerminal.controllers.LangController;
 import com.github.kerminal.registry.TeleportRegistry;
 import com.github.kerminal.utils.ConfigUtil;
 import lombok.AllArgsConstructor;
@@ -17,47 +18,54 @@ import org.bukkit.potion.PotionEffectType;
 @AllArgsConstructor
 public class SpawnCommand {
 
-    private Kerminal plugin;
-    private ConfigUtil commands;
+    private final Kerminal plugin;
+    private final ConfigUtil commands;
+    private final String identifierCommand = "Spawn";
+    private final String command;
+    private final String[] aliases;
+    private final String permission;
 
     public SpawnCommand(Kerminal plugin) {
         this.plugin = plugin;
         this.commands = plugin.getCommands();
-        if(!commands.getBoolean("Spawn.enabled", true)) return;
-        plugin.getBukkitFrame().registerCommand(
-                CommandInfo.builder()
-                        .name(commands.getString("Spawn.command"))
-                        .aliases(commands.getStringList("Spawn.aliases").toArray(new String[0]))
-                        .permission(commands.getString("Spawn.permission"))
-                        .async(commands.getBoolean("Spawn.async"))
-                        .build(),
-                context -> {
-                    onCommand(context);
-                    return false;
-                }
-        );
+        this.command = commands.getString(identifierCommand + ".command");
+        this.aliases = commands.getStringList(identifierCommand + ".aliases").toArray(new String[0]);
+        this.permission = commands.getString(identifierCommand + ".permission");
     }
 
     public void onCommand(Context<CommandSender> context) {
-        final ConfigUtil messages = plugin.getMessages();
+        final LangController messages = plugin.getLangController();
         Player player = (Player) context.getSender();
         final DataController controller = plugin.getController();
         final TeleportRegistry teleportRegistry = controller.getRegistryTeleport();
 
         final Location spawn = plugin.getSpawn();
         if(spawn == null){
-            player.sendMessage("§cO spawn não foi definido corretamente.");
+            player.sendMessage(messages.getString("Commands.SpawnSection.Spawn.NotDefined"));
             return;
         }
 
-        if (player.hasPermission(commands.getString("Spawn.permission") + ".delay.bypass")) {
-            player.sendMessage("§aTeleportado!");
-            player.teleport(spawn);
+        if (player.hasPermission(permission + ".delay.bypass")) {
+            teleportRegistry.teleport(player, spawn);
             return;
         }
 
-        teleportRegistry.register(player, spawn);
-        player.sendMessage("§aTeleportando em " + teleportRegistry.getDelay(player) + " segundos.");
+        teleportRegistry.register(player, spawn, false);
+    }
+
+    public void register(){
+        if (!commands.getBoolean(identifierCommand + ".enabled", true)) return;
+        plugin.getBukkitFrame().registerCommand(
+                CommandInfo.builder()
+                        .name(command)
+                        .aliases(aliases)
+                        .permission(permission)
+                        .build(),
+                context -> {
+                    onCommand(context);
+                    return false;
+                }
+        );
     }
 
 }

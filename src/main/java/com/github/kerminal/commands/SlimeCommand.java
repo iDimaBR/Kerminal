@@ -2,6 +2,7 @@ package com.github.kerminal.commands;
 
 
 import com.github.kerminal.Kerminal;
+import com.github.kerminal.controllers.LangController;
 import com.github.kerminal.utils.ConfigUtil;
 import lombok.AllArgsConstructor;
 import me.saiintbrisson.bukkit.command.BukkitFrame;
@@ -20,32 +21,26 @@ import java.util.Random;
 @AllArgsConstructor
 public class SlimeCommand {
 
-    private Kerminal plugin;
-    private ConfigUtil commands;
+    private final Kerminal plugin;
+    private final ConfigUtil commands;
+    private final String identifierCommand = "Slime";
+    private final String command;
+    private final String[] aliases;
+    private final String permission;
 
     public SlimeCommand(Kerminal plugin) {
         this.plugin = plugin;
         this.commands = plugin.getCommands();
-        if(!commands.getBoolean("Slime.enabled", true)) return;
-        plugin.getBukkitFrame().registerCommand(
-                CommandInfo.builder()
-                        .name(commands.getString("Slime.command"))
-                        .aliases(commands.getStringList("Slime.aliases").toArray(new String[0]))
-                        .permission(commands.getString("Slime.permission"))
-                        .async(commands.getBoolean("Slime.async"))
-                        .build(),
-                context -> {
-                    onCommand(context);
-                    return false;
-                }
-        );
+        this.command = commands.getString(identifierCommand + ".command");
+        this.aliases = commands.getStringList(identifierCommand + ".aliases").toArray(new String[0]);
+        this.permission = commands.getString(identifierCommand + ".permission");
     }
 
     public void onCommand(Context<CommandSender> context) {
-        final ConfigUtil messages = plugin.getMessages();
+        final LangController messages = plugin.getLangController();
         Player player = (Player) context.getSender();
 
-        player.sendMessage("§a§lSLIME> §7Você " + (isSlimeChunk(player) ? "§aESTÁ" : "§cNÃO ESTÁ") + " §7em uma slime chunk.");
+        player.sendMessage(messages.getString("Commands.Slime.Success").replace("%status%", (isSlimeChunk(player) ? messages.getString("Commands.Slime.Status-True") : messages.getString("Commands.Slime.Status-False"))));
     }
 
     public boolean isSlimeChunk(Player player) {
@@ -55,5 +50,20 @@ public class SlimeCommand {
         final int z = chunk.getZ();
         final Random random = new Random(worldSeed + (x * x * 4987142) + (x * 5947611) + (z * z) * 4392871L + (z * 389711) ^ 0x3AD8025FL);
         return (random.nextInt(10) == 0);
+    }
+
+    public void register(){
+        if (!commands.getBoolean(identifierCommand + ".enabled", true)) return;
+        plugin.getBukkitFrame().registerCommand(
+                CommandInfo.builder()
+                        .name(command)
+                        .aliases(aliases)
+                        .permission(permission)
+                        .build(),
+                context -> {
+                    onCommand(context);
+                    return false;
+                }
+        );
     }
 }

@@ -2,6 +2,7 @@ package com.github.kerminal.commands;
 
 
 import com.github.kerminal.Kerminal;
+import com.github.kerminal.controllers.LangController;
 import com.github.kerminal.utils.ConfigUtil;
 import lombok.AllArgsConstructor;
 import me.saiintbrisson.minecraft.command.annotation.Command;
@@ -21,50 +22,59 @@ public class HealCommand {
 
     private Kerminal plugin;
     private ConfigUtil commands;
+    private final String identifierCommand = "Heal";
+    private String command;
+    private String[] aliases;
+    private String permission;
 
     public HealCommand(Kerminal plugin) {
         this.plugin = plugin;
         this.commands = plugin.getCommands();
-        if(!commands.getBoolean("Heal.enabled", true)) return;
+        this.command = commands.getString(identifierCommand + ".command");
+        this.aliases = commands.getStringList(identifierCommand + ".aliases").toArray(new String[0]);
+        this.permission = commands.getString(identifierCommand + ".permission");
+    }
+
+    public void onCommand(Context<CommandSender> context, @Optional String targetName) {
+        final LangController messages = plugin.getLangController();
+        final int args = context.argsCount();
+        final CommandSender sender = context.getSender();
+
+        if(args == 0){
+            if(!(sender instanceof Player)){
+                sender.sendMessage(messages.getString("DefaultCallback.OnlyPlayers"));
+                return;
+            }
+
+            Player player = (Player) sender;
+            player.setHealth(20);
+            player.sendMessage(messages.getString("Commands.Heal.Success"));
+            return;
+        }
+
+        Player target = Bukkit.getPlayer(targetName);
+        if(target == null){
+            sender.sendMessage(messages.getString("DefaultCallback.PlayerNotFound"));
+            return;
+        }
+
+        target.setHealth(20);
+        sender.sendMessage(messages.getString("Commands.Heal.SuccessOther").replace("%target%", target.getName()));
+    }
+
+    public void register(){
+        if (!commands.getBoolean(identifierCommand + ".enabled", true)) return;
         plugin.getBukkitFrame().registerCommand(
                 CommandInfo.builder()
-                        .name(commands.getString("Heal.command"))
-                        .aliases(commands.getStringList("Heal.aliases").toArray(new String[0]))
-                        .permission(commands.getString("Heal.permission"))
-                        .async(commands.getBoolean("Heal.async"))
+                        .name(command)
+                        .aliases(aliases)
+                        .permission(permission)
                         .build(),
                 context -> {
                     onCommand(context, context.getArg(0));
                     return false;
                 }
         );
-    }
-
-    public void onCommand(Context<CommandSender> context, @Optional String targetName) {
-        final ConfigUtil messages = plugin.getMessages();
-        final int args = context.argsCount();
-        final CommandSender sender = context.getSender();
-
-        if(args == 0){
-            if(!(sender instanceof Player)){
-                sender.sendMessage("§cApenas jogadores podem executar esse comando.");
-                return;
-            }
-
-            Player player = (Player) sender;
-            player.setHealth(20);
-            player.sendMessage("§aVida recuperada!");
-            return;
-        }
-
-        Player target = Bukkit.getPlayer(targetName);
-        if(target == null){
-            sender.sendMessage("§cJogador não encontrado!");
-            return;
-        }
-
-        target.setHealth(20);
-        sender.sendMessage("§aVida de " + target.getName() + " foi recuperada!");
     }
 
 }

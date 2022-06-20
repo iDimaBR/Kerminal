@@ -67,6 +67,13 @@ Regeneration:
   Delay: 20
 
 ########################################
+#         Comandos Bloqueados          #
+########################################
+BlockedCommands:
+  - "plugins"
+  - "pl"
+
+########################################
 #       Mensagem de boas vindas        #
 ########################################
 Welcome:
@@ -82,20 +89,6 @@ Welcome:
       - "&9Este servidor utiliza Kerminal! Bem-vindo!"
       - ""
       - ""
-
-
-########################################
-#         Comandos Bloqueados          #
-########################################
-BlockedCommands:
-  - "plugins"
-  - "pl"
-
-########################################
-#       Mundos bloqueados de voar      #
-########################################
-BlockWorldsFly:
-  - "exampleWorld"
 
 ########################################
 #        Recursos do Kerminal          #
@@ -184,13 +177,15 @@ Features:
     Block-Naturally-Spawn: false
 
 ########################################
-#        Opções do Comando Back        #
+#       Opções de bloquear mundos      #
 ########################################
-BackSystem:
-  # Lista de mundos onde não é possível voltar com /back
-  BlacklistWorlds:
-    - "worldName"
-
+BlockedWorlds:
+  Fly:
+    - "exampleWorld"
+  BackCommand:
+    - "exampleWorld"
+  HomeCommand:
+    - "exampleWorld"
 
 ########################################
 #      Opções dos Mundos em Ticks      #

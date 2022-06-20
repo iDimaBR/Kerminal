@@ -54,6 +54,6 @@ public class BackListener implements Listener {
     }
 
     private boolean isInvalidWorld(Location location) {
-        return plugin.getConfig().getStringList("BackSystem.BlacklistWorlds").contains(location.getWorld().getName());
+        return plugin.getConfig().getStringList("BlockedWorlds.BackCommand").contains(location.getWorld().getName());
     }
 }

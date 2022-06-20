@@ -4,6 +4,7 @@ import com.github.kerminal.commands.*;
 import com.github.kerminal.controllers.DataController;
 import com.github.kerminal.controllers.EntityController;
 import com.github.kerminal.controllers.KitController;
+import com.github.kerminal.controllers.LangController;
 import com.github.kerminal.listeners.*;
 import com.github.kerminal.models.Warp;
 import com.github.kerminal.registry.TeleportRegistry;
@@ -35,6 +36,7 @@ public final class Kerminal extends JavaPlugin {
     private DataController controller;
     private EntityController entityController;
     private KitController kitController;
+    private LangController langController;
     private MySQL Storage;
     private ConfigUtil config;
     private ConfigUtil configurableCommands;
@@ -96,44 +98,46 @@ public final class Kerminal extends JavaPlugin {
                 MessageType.ERROR, "§cOcorreu um erro ao executar este comando!"
         );
 
-        new SlimeCommand(this);
-        new PingCommand(this);
-        new BackCommand(this);
-        new AnnounceCommand(this);
-        new ClearChatCommand(this);
-        new ClearCommand(this);
-        new CraftCommand(this);
-        new DeleteHomeCommand(this);
-        new EnchantsCommand(this);
-        new EnderChestCommand(this);
-        new FeedCommand(this);
-        new FlyCommand(this);
-        new GamemodeCommand(this);
-        new HatCommand(this);
-        new HealCommand(this);
-        new HomeCommand(this);
-        new LightCommand(this);
-        new ListHomesCommand(this);
-        new OnlineCommand(this);
-        new OnlinePlayersCommand(this);
-        new SethomeCommand(this);
-        new TeleportCommand(this);
+        new SlimeCommand(this).register();
+        new PingCommand(this).register();
+        new BackCommand(this).register();
+        new AnnounceCommand(this).register();
+        new ClearChatCommand(this).register();
+        new ClearCommand(this).register();
+        new CraftCommand(this).register();
+        new DeleteHomeCommand(this).register();
+        new EnchantsCommand(this).register();
+        new EnderChestCommand(this).register();
+        new FeedCommand(this).register();
+        new FlyCommand(this).register();
+        new GamemodeCommand(this).register();
+        new HatCommand(this).register();
+        new HealCommand(this).register();
+        new HomeCommand(this).register();
+        new LightCommand(this).register();
+        new ListHomesCommand(this).register();
+        new OnlineCommand(this).register();
+        new OnlinePlayersCommand(this).register();
+        new SethomeCommand(this).register();
+        new TeleportCommand(this).register();
         new TpaCommand(this);
-        new TrashCommand(this);
-        new SpawnCommand(this);
-        new SetspawnCommand(this);
-        new InfolagCommand(this);
-        new CreateKitCommand(this);
-        new KitCommand(this);
-        new ListKitsCommand(this);
-        new NickCommand(this);
-        new ColorsCommand(this);
-        new WarpCommand(this);
-        new SetWarpCommand(this);
-        new WarpListCommand(this);
-        new RepairCommand(this);
-        new SpeedCommand(this);
-        new InvseeCommand(this);
+        new TrashCommand(this).register();
+        new SpawnCommand(this).register();
+        new SetspawnCommand(this).register();
+        new InfolagCommand(this).register();
+        new CreateKitCommand(this).register();
+        new KitCommand(this).register();
+        new ListKitsCommand(this).register();
+        new NickCommand(this).register();
+        new ColorsCommand(this).register();
+        new WarpCommand(this).register();
+        new SetWarpCommand(this).register();
+        new WarpListCommand(this).register();
+        new RepairCommand(this).register();
+        new SpeedCommand(this).register();
+        new InvseeCommand(this).register();
+        new DeleteKitCommand(this).register();
+        new KerminalCommand(this).register();
     }
 
     private void registerListeners() {
@@ -259,19 +263,19 @@ public final class Kerminal extends JavaPlugin {
     private void loadRegenSystem() {
         boolean enabled = config.getBoolean("Regeneration.Enabled");
         getLogger().info("Sistema de Regeneração: " + (enabled ? "Ativado" : "Desativado"));
-        if(enabled){
-            long delay = config.getLong("Regeneration.Delay");
-            if(delay < 5){
-                delay = 5;
-                getLogger().warning("O intervalo da regeneração não pode ser abaixo de 5 ticks.");
-            }
+        if(!enabled) return;
 
-            new RegenerationTask().runTaskTimerAsynchronously(this, delay, delay);
-            PluginManager pluginManager = getServer().getPluginManager();
-            pluginManager.registerEvents(
-                    new RegenerationListener(), this
-            );
+        long delay = config.getLong("Regeneration.Delay");
+        if(delay < 5){
+            delay = 5;
+            getLogger().warning("O intervalo da regeneração não pode ser abaixo de 5 ticks.");
         }
+
+        new RegenerationTask().runTaskTimerAsynchronously(this, delay, delay);
+        PluginManager pluginManager = getServer().getPluginManager();
+        pluginManager.registerEvents(
+                new RegenerationListener(), this
+        );
     }
 
     private void loadTicksWorld(){
@@ -284,6 +288,9 @@ public final class Kerminal extends JavaPlugin {
     }
 
     private void loadControllers(){
+        langController = new LangController(this);
+        langController.loadAllLangs();
+
         teleportRegistry = new TeleportRegistry(this);
         controller = new DataController(this, teleportRegistry);
         entityController = new EntityController(this, entities);

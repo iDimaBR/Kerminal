@@ -4,6 +4,7 @@ import com.github.kerminal.Kerminal;
 import com.github.kerminal.utils.TimeUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.tuple.Pair;
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -28,12 +29,13 @@ public class TeleportRegistry {
         this.DEFAULT_INVENCIBLE_DELAY = plugin.getConfig().getInt("Teleport.InvencibleDelay");
         this.longMap = new ConcurrentHashMap<>();
     }
-    public TeleportRegistry register(Player player, Location location) {
-        register(player.getUniqueId(), location);
+    public TeleportRegistry register(Player player, Location location, boolean silent) {
+        register(player.getUniqueId(), location, silent);
         return this;
     }
 
-    public void register(UUID uniqueId, Location location) {
+    public void register(UUID uniqueId, Location location, boolean silent) {
+        if(!silent) Bukkit.getPlayer(uniqueId).sendMessage("§aTeleportando em " + DEFAULT_DELAY + " segundos.");
         this.longMap.put(uniqueId, Pair.of(location, System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(DEFAULT_DELAY))); //
     }
 
