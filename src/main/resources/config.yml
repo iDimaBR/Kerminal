@@ -8,7 +8,7 @@
 # 888    Y88b 8888888888 888   T88b 888       888 8888888 888    Y888 d88P     888 88888888
 #
 
-ConnectionType: 'mysql'
+ConnectionType: 'sqlite'
 Connection:
   Host: 'localhost'
   Database: 'kerminal'

@@ -33,6 +33,13 @@ public class MySQL {
 	private String username;
 	private String password;
 
+	private String QUERY_TABLE1;
+	private String QUERY_TABLE2;
+
+	private String HOME_QUERY;
+	private String KIT_QUERY;
+
+
 	public MySQL(Kerminal plugin) {
 		this.plugin = plugin;
 		final FileConfiguration config = plugin.getConfig();
@@ -43,6 +50,12 @@ public class MySQL {
 				case "sqlite":
 					Class.forName("org.sqlite.JDBC").newInstance();
 					connectQuery = "jdbc:sqlite://" + plugin.getDataFolder().getAbsolutePath() + "/" + database + ".db";
+
+					QUERY_TABLE1 = "CREATE TABLE IF NOT EXISTS homes(`uuid` varchar(36) NOT NULL, `name` varchar(50) PRIMARY KEY NOT NULL, `is_default` bit NOT NULL DEFAULT 0, `world` varchar(50) NOT NULL, `x` int NOT NULL, `y` int NOT NULL, `z` int NOT NULL, `pitch` double NOT NULL, `yaw` double)";
+					QUERY_TABLE2 = "CREATE TABLE IF NOT EXISTS kits(`uuid` varchar(36) NOT NULL, `delay` bigint NOT NULL, `kit_name` varchar(50) PRIMARY KEY NOT NULL)";
+
+					KIT_QUERY = "INSERT INTO kits(uuid, delay, kit_name) VALUES(?,?,?) ON CONFLICT(kit_name) DO UPDATE SET delay = ?";
+					HOME_QUERY = "INSERT INTO homes(uuid, name, is_default, world, x, y, z, pitch, yaw) VALUES(?,?,?,?,?,?,?,?,?) ON CONFLICT(name) DO UPDATE SET uuid = ?, is_default = ?, world = ?, x = ?, y = ?, z = ?, pitch = ?, yaw = ?";
 					break;
 				case "mysql":
 					Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -52,6 +65,10 @@ public class MySQL {
 					password = config.getString("Connection.Password");
 
 					connectQuery = "jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&" + "user=" + username + "&password=" + password;
+					QUERY_TABLE1 = "CREATE TABLE IF NOT EXISTS homes(`uuid` varchar(36) NOT NULL, `name` varchar(50) NOT NULL, `is_default` bit NOT NULL DEFAULT 0, `world` varchar(50) NOT NULL, `x` int NOT NULL, `y` int NOT NULL, `z` int NOT NULL, `pitch` double NOT NULL, `yaw` double, PRIMARY KEY (name))";
+					QUERY_TABLE2 = "CREATE TABLE IF NOT EXISTS kits(`uuid` varchar(36) NOT NULL, `delay` bigint NOT NULL, `kit_name` varchar(50) NOT NULL, PRIMARY KEY (kit_name))";
+					KIT_QUERY = "INSERT INTO kits(uuid, delay, kit_name) VALUES(?,?,?) ON DUPLICATE KEY UPDATE delay = ?";
+					HOME_QUERY = "INSERT INTO homes(uuid, name, is_default, world, x, y, z, pitch, yaw) VALUES(?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE uuid = ?, is_default = ?, world = ?, x = ?, y = ?, z = ?, pitch = ?, yaw = ?";
 					break;
 				default:
 					break;
@@ -67,7 +84,7 @@ public class MySQL {
 
 	public void createTableHomes() {
 		try {
-			smt = connection.prepareStatement("CREATE TABLE IF NOT EXISTS homes(`uuid` varchar(36) NOT NULL, `name` varchar(50) NOT NULL, `is_default` bit NOT NULL DEFAULT 0, `world` varchar(50) NOT NULL, `x` int NOT NULL, `y` int NOT NULL, `z` int NOT NULL, `pitch` double NOT NULL, `yaw` double, PRIMARY KEY (name))");
+			smt = connection.prepareStatement(QUERY_TABLE1);
 			smt.executeUpdate();
 		} catch (SQLException e) {
 			plugin.getLogger().info("Erro na criação da tabela no MYSQL: " + e.getLocalizedMessage());
@@ -76,7 +93,7 @@ public class MySQL {
 
 	public void createTableKits() {
 		try {
-			smt = connection.prepareStatement("CREATE TABLE IF NOT EXISTS kits(`uuid` varchar(36) NOT NULL, `delay` bigint NOT NULL, `kit_name` varchar(50) NOT NULL, PRIMARY KEY (kit_name))");
+			smt = connection.prepareStatement(QUERY_TABLE2);
 			smt.executeUpdate();
 		} catch (SQLException e) {
 			plugin.getLogger().info("Erro na criação da tabela no MYSQL: " + e.getLocalizedMessage());
@@ -85,7 +102,7 @@ public class MySQL {
 
 	public boolean insertDelayKit(Player player, String kit, long delay){
 		final UUID uuid = player.getUniqueId();
-		try (PreparedStatement ps = connection.prepareStatement("INSERT IGNORE INTO kits(uuid, delay, kit_name) VALUES(?,?,?) ON DUPLICATE KEY UPDATE delay = ?")) {
+		try (PreparedStatement ps = connection.prepareStatement(KIT_QUERY)) {
 			ps.setString(1, uuid.toString());
 			ps.setLong(2, delay);
 			ps.setString(3, kit);
@@ -101,7 +118,7 @@ public class MySQL {
 	public boolean saveHome(Player player, Home home){
 		final UUID uuid = player.getUniqueId();
 		final Location location = home.getLocation();
-		try (PreparedStatement ps = connection.prepareStatement("INSERT IGNORE INTO homes(uuid, name, is_default, world, x, y, z, pitch, yaw) VALUES(?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE uuid = ?, is_default = ?, world = ?, x = ?, y = ?, z = ?, pitch = ?, yaw = ?")) {
+		try (PreparedStatement ps = connection.prepareStatement(HOME_QUERY)){
 			ps.setString(1, uuid.toString());
 			ps.setString(2, home.getName());
 			ps.setBoolean(3, home.isDefault());

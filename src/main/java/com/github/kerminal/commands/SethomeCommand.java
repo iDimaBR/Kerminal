@@ -39,13 +39,12 @@ public class SethomeCommand {
         this.permission = commands.getString(identifierCommand + ".permission");
     }
 
-    public void onCommand(Context<CommandSender> context, @Optional String nameHome) {
+    public void onCommand(Context<CommandSender> context) {
         final CommandSender sender = context.getSender();
         final LangController messages = plugin.getLangController();
         final Player player = (Player) sender;
         final int args = context.argsCount();
         final DataController controller = plugin.getController();
-        nameHome = nameHome.toLowerCase();
 
         final PlayerData data = controller.getDataPlayer(player.getUniqueId());
         if(isInvalidWorld(player.getLocation())){
@@ -61,6 +60,7 @@ public class SethomeCommand {
         }
 
         if(args == 1) {
+            final String nameHome = context.getArg(0).toLowerCase();
             if (nameHome.equalsIgnoreCase(messages.getString("Commands.HomeSection.NameOfDefaultHome"))){
                 Home home = new Home(nameHome, player.getLocation(), true);
                 data.setDefaultHome(home);
@@ -93,7 +93,7 @@ public class SethomeCommand {
                         .permission(permission)
                         .build(),
                 context -> {
-                    onCommand(context, context.getArg(0));
+                    onCommand(context);
                     return false;
                 }
         );
