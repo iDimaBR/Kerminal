@@ -34,7 +34,7 @@ public class ClearChatCommand {
         this.permission = commands.getString(identifierCommand + ".permission");
     }
 
-    public void onCommand(Context<CommandSender> context) {
+    public void onCommand() {
         final LangController messages = plugin.getLangController();
 
         Collection<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers();
@@ -51,7 +51,7 @@ public class ClearChatCommand {
                         .permission(permission)
                         .build(),
                 context -> {
-                    onCommand(context);
+                    onCommand();
                     return false;
                 }
         );

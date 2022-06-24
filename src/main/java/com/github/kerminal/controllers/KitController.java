@@ -33,11 +33,7 @@ public class KitController {
     public void loadAllKits(){
         loadedKits.clear();
         for (String kitName : kits.getKeys(false)) {
-            final ItemStack[] kitItens = Serializer.itemStackArrayFromBase64(kits.getString(kitName + ".itens"));
-            int delay = kits.getInt(kitName + ".delay");
-
-            loadedKits.put(kitName, new Kit(kitName, kitItens, delay));
-            Bukkit.getLogger().info("Kit '" + kitName + "' foi carregado.");
+            registerKit(kitName);
         }
     }
 
@@ -47,5 +43,21 @@ public class KitController {
 
     public Kit getKit(String name){
         return loadedKits.get(name);
+    }
+
+    @SneakyThrows
+    public void registerKit(String name){
+        final ItemStack[] kitItens = Serializer.itemStackArrayFromBase64(kits.getString(name + ".itens"));
+        int delay = kits.getInt(name + ".delay");
+
+        loadedKits.put(name, new Kit(name, kitItens, delay));
+        Bukkit.getLogger().info("Kit '" + name + "' foi carregado.");
+    }
+
+    public void removeKit(String name){
+        if(!existsKit(name)) return;
+        kits.set(name, null);
+        kits.save();
+        loadedKits.remove(name);
     }
 }

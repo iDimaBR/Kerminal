@@ -55,7 +55,7 @@ public class SethomeCommand {
         if(args == 0){
             player.sendMessage(messages.getString("Commands.HomeSection.Sethome.Usage").replace("%command%", command));
             if(data.getDefaultHome() == null)
-                player.sendMessage(messages.getString("Commands.HomeSection.DefaultHomeWarning"));
+                player.sendMessage(messages.getString("Commands.HomeSection.DefaultHomeWarning").replace("%command%", commands.getString("Sethome.command") + " " + messages.getString("Commands.HomeSection.NameOfDefaultHome")));
             return;
         }
 
@@ -64,7 +64,7 @@ public class SethomeCommand {
             if (nameHome.equalsIgnoreCase(messages.getString("Commands.HomeSection.NameOfDefaultHome"))){
                 Home home = new Home(nameHome, player.getLocation(), true);
                 data.setDefaultHome(home);
-                plugin.getStorage().saveHome(player, home);
+                plugin.getRepository().saveHome(player, home);
                 player.sendMessage(messages.getString("Commands.HomeSection.Sethome.DefineDefaultHome"));
                 player.playSound(player.getLocation(), Sound.ANVIL_LAND, 1, 1);
                 return;
@@ -78,7 +78,7 @@ public class SethomeCommand {
 
             final Home home = new Home(nameHome, player.getLocation(), false);
             data.getHomes().put(nameHome, home);
-            plugin.getStorage().saveHome(player, home);
+            plugin.getRepository().saveHome(player, home);
             player.sendMessage(messages.getString("Commands.HomeSection.Sethome.DefineHome").replace("%home%", home.getName()));
             player.playSound(player.getLocation(), Sound.ANVIL_LAND, 1, 1);
         }

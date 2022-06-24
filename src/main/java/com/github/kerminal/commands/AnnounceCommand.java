@@ -45,6 +45,12 @@ public class AnnounceCommand {
         final CommandSender sender = context.getSender();
         final LangController messages = plugin.getLangController();
         final Player player = (Player) sender;
+        final int argsCount = context.argsCount();
+
+        if(argsCount == 0){
+            player.sendMessage(messages.getString("Commands.Divulgar.Usage").replace("%command%", command));
+            return;
+        }
 
         if(DELAY.getOrDefault(player.getUniqueId(), 0L) > System.currentTimeMillis()){
             final String delay = TimeUtils.formatOneLetter(DELAY.get(player.getUniqueId()) - System.currentTimeMillis());
@@ -53,7 +59,7 @@ public class AnnounceCommand {
         }
 
         StringBuilder builder = new StringBuilder();
-        for(int i = 0;i < context.argsCount();i++)
+        for(int i = 0; i < argsCount; i++)
             builder.append(context.getArg(i)).append(" ");
 
         final String announce = builder.toString();

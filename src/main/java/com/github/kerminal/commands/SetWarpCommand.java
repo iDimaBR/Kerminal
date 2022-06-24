@@ -36,8 +36,13 @@ public class SetWarpCommand {
     public void onCommand(Context<CommandSender> context, String warpName) {
         final LangController messages = plugin.getLangController();
         final Player player = (Player) context.getSender();
-        warpName = warpName.toLowerCase();
 
+        if(warpName == null){
+            player.sendMessage(messages.getString("Commands.WarpSection.Setwarp.Usage").replace("%command%", command));
+            return;
+        }
+
+        warpName = warpName.toLowerCase();
         final Map<String, Warp> warpsList = plugin.getWarpsList();
         if(warpsList.get(warpName) != null){
             player.sendMessage(messages.getString("Commands.WarpSection.Setwarp.ExistWarp").replace("%warp%", warpName));

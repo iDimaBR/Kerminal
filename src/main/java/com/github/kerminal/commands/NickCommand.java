@@ -33,6 +33,12 @@ public class NickCommand {
         final LangController messages = plugin.getLangController();
         Player player = (Player) context.getSender();
 
+        final int argsCount = context.argsCount();
+        if(argsCount == 0){
+            player.sendMessage(messages.getString("Commands.Nick.Usage").replace("%command%", command));
+            return;
+        }
+
         player.setPlayerListName(nick);
         player.setDisplayName(nick);
         player.setCustomName(nick);

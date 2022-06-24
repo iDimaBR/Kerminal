@@ -36,6 +36,10 @@ public class LangController {
         return ((String) languageMap.get(key)).replace("&","§");
     }
 
+    public boolean getBoolean(String key){
+        return (Boolean) languageMap.get(key);
+    }
+
     public List<String> getStringList(String key) {
         return ((List<String>) languageMap.get(key)).stream().map(
                 $ -> $.replace("&","§")

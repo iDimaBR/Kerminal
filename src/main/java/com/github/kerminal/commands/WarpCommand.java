@@ -36,6 +36,12 @@ public class WarpCommand {
         final LangController messages = plugin.getLangController();
         final Player player = (Player) context.getSender();
         final TeleportRegistry teleportRegistry = plugin.getTeleportRegistry();
+
+        if(warpName == null){
+            player.sendMessage(messages.getString("Commands.WarpSection.Warp.Usage").replace("%command%", command));
+            return;
+        }
+
         warpName = warpName.toLowerCase();
 
         final Map<String, Warp> warpsList = plugin.getWarpsList();

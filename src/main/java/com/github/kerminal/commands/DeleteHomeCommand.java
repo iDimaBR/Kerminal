@@ -58,6 +58,7 @@ public class DeleteHomeCommand {
             }
 
             data.getHomes().remove(nameHome);
+            plugin.getRepository().deleteHome(player, nameHome);
             player.sendMessage(messages.getString("Commands.HomeSection.Delhome.Success").replace("%name%", nameHome));
             player.playSound(player.getLocation(), Sound.ANVIL_LAND, 1, 1);
         }

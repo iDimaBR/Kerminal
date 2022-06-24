@@ -43,8 +43,14 @@ public class CreateKitCommand {
 
     public void onCommand(Context<CommandSender> context, String name, String delay) {
         final LangController messages = plugin.getLangController();
-        Player player = (Player) context.getSender();
+        final Player player = (Player) context.getSender();
         final KitController kitController = plugin.getKitController();
+        final int argsCount = context.argsCount();
+
+        if(argsCount == 0){
+            player.sendMessage(messages.getString("Commands.KitSection.CreateKit.Usage").replace("%command%", command));
+            return;
+        }
 
         if(!NumberUtils.isNumber(delay)){
             player.sendMessage(messages.getString("Commands.KitSection.CreateKit.InvalidTime"));
@@ -65,7 +71,7 @@ public class CreateKitCommand {
         kits.set(name + ".itens", Serializer.itemStackArrayToBase64(contents));
         kits.set(name + ".delay", Integer.parseInt(delay));
         kits.save();
-        kitController.loadAllKits();
+        kitController.registerKit(name);
         player.sendMessage(messages.getString("Commands.KitSection.CreateKit.Success").replace("%name%", name));
 
     }

@@ -2,7 +2,7 @@ package com.github.kerminal.listeners;
 
 import com.github.kerminal.Kerminal;
 import com.github.kerminal.models.PlayerData;
-import com.github.kerminal.storage.MySQL;
+import com.github.kerminal.storage.dao.StorageRepository;
 import lombok.AllArgsConstructor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,17 +19,14 @@ public class CacheListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
-        final Player player = e.getPlayer();
-        final UUID uuid = player.getUniqueId();
-        final PlayerData dataPlayer = plugin.getController().getDataPlayer(uuid);
-        final MySQL storage = plugin.getStorage();
-        storage.loadHomes(uuid);
-        storage.loadKitsDelay(uuid);
+        final UUID uuid = e.getPlayer().getUniqueId();
+        final StorageRepository storage = plugin.getRepository();
+        storage.loadData(uuid);
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent e){
-        UUID uuid = e.getPlayer().getUniqueId();
-        //plugin.getSQL().savePlayer(uuid);
+        final UUID uuid = e.getPlayer().getUniqueId();
+        plugin.getController().getDATALIST().remove(uuid);
     }
 }

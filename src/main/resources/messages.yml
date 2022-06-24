@@ -30,11 +30,12 @@ DefaultCallback:
 Commands:
   # Mensagens do comando de divulgar
   Divulgar:
+    Usage: "&cUtilize /%command% <anuncio>"
     Format:
       - ""
       - "&a&lANUNCIO> &f%player%: &a%message%"
       - ""
-
+  # Mensagens do comando de spawn
   SpawnSection:
     Setspawn: "&aSpawn definido!"
     Spawn:
@@ -104,29 +105,9 @@ Commands:
     Success-On: "&aLuz foi ativada."
     Success-Off: "&cLuz foi desativada."
 
-  # Seção de configuração dos comandos de kit
-  KitSection:
-    # Mensagem de quando não existir o kit
-    NoExistKit: "&cO kit '%name%' não existe."
-    # Mensagens da listagem de kits
-    ListKits:
-      Listing: "&aKits: &f %kits%"
-    # Mensagens sobre kits
-    Kit:
-      NoHaveSpace: "&cVocê não tem espaço suficiente no inventário para receber o Kit."
-      Success: "&aVocê recebeu o kit '%name%'."
-    # Mensagens de criar kit
-    CreateKit:
-      InvalidTime: "&cDefina um tempo válido para o kit ou deixe '0' para não definir nenhum delay."
-      ExistKit: "&cO kit %name% já existe!"
-      NoHaveItem: "&cVocê não pode criar um kit vazio."
-      Success: "&aO kit %name% foi criado com sucesso!"
-    # Mensagens e quando deletar o kit
-    DeleteKit:
-      Success: "&aO kit '%name%' foi deletado."
-
   # Mensagens do comando nick
   Nick:
+    Usage: "&cUtilize /nick <nome>"
     Success: "&aVocê se camuflou como '%nick%'."
 
   # Mensagens do comando onlines
@@ -149,33 +130,6 @@ Commands:
     Success: "&aItem foi consertado."
     SuccessAll: "&cTodos seus itens foram concertados."
 
-  # Seção de configuração dos comandos de home
-  HomeSection:
-    # Nome da home principal do jogador
-    NameOfDefaultHome: "padrao"
-    # Aviso que aparecerá em algumas mensagens caso não tenha uma home principal
-    DefaultHomeWarning: "&c&lAVISO! &cDefina sua home principal com /%command%"
-    # Mensagens do sethome
-    Sethome:
-      NotAllowedWorld: "&cÉ proibido definir homes neste mundo."
-      Usage: "&cUtilize /%command% <nome>"
-      DefineDefaultHome: "&aHome principal definida."
-      DefineHome: "&aHome '%home%' definida."
-      ExceedLimit: "&cVocê atingiu o limite de %limit% homes."
-    # Mensagens do listhome
-    Listhome:
-      Listing: "&aSuas casas: &f %homes%"
-    # Mensagens do home
-    Home:
-      DefaultHomeWarning: "&c&lAVISO! &cSua home principal não está definida."
-      Teleporting: "&aTeleportando para %home% em %delay% segundos."
-      NotFound: "A home '%home%' não existe."
-    # Mensagens do delhome
-    Delhome:
-      Usage: "&cUtilize /%command% <nome> para deletar sua home"
-      NotFound: "&cA home %name% não foi encontrada."
-      Success: "&aA home &f%name% &afoi deletada com sucesso!"
-
   # Mensagens do comando de speed
   Speed:
     BackDefault: "&aVocê voltou para a velocidade padrão."
@@ -184,17 +138,69 @@ Commands:
     ExceedSpeed: "&cA velocidade vai de 0 a 1."
     Success: "&aVelocidade alterada para &f%speed%&a."
     SuccessOther: "&aVelocidade de &f%target% &aalterada para &f%speed&a."
+  # Seção de configuração dos comandos de kit
+  KitSection:
+    # Mensagem de quando não existir o kit
+    NoExistKit: "&cO kit '%name%' não existe."
+    # Mensagens da listagem de kits
+    ListKits:
+      Listing: "&aKits: &f %kits%"
+    # Mensagens sobre kits
+    Kit:
+      Usage: "&cUtilize /%command% <kit>"
+      NoHaveSpace: "&cVocê não tem espaço suficiente no inventário para receber o Kit."
+      Success: "&aVocê recebeu o kit '%name%'."
+    # Mensagens de criar kit
+    CreateKit:
+      Usage: "&cUtilize /%command% <kit> <delay>"
+      InvalidTime: "&cDefina um tempo válido para o kit ou deixe '0' para não definir nenhum delay."
+      ExistKit: "&cO kit %name% já existe!"
+      NoHaveItem: "&cVocê não pode criar um kit vazio."
+      Success: "&aO kit %name% foi criado com sucesso!"
+    # Mensagens e quando deletar o kit
+    DeleteKit:
+      Usage: "&cUtilize /%command% <kit>"
+      Success: "&aO kit '%name%' foi deletado."
+
+  # Seção de configuração dos comandos de home
+  HomeSection:
+    # Nome da home principal do jogador
+    NameOfDefaultHome: "padrao"
+    EnableWarning: false
+    # Aviso que aparecerá em algumas mensagens caso não tenha uma home principal
+    DefaultHomeWarning: "&c&lAVISO! &cDefina sua home principal com /%command%"
+    # Mensagens do comando sethome
+    Sethome:
+      NotAllowedWorld: "&cÉ proibido definir homes neste mundo."
+      Usage: "&cUtilize /%command% <home>"
+      DefineDefaultHome: "&aHome principal definida."
+      DefineHome: "&aHome '%home%' definida."
+      ExceedLimit: "&cVocê atingiu o limite de %limit% homes."
+    # Mensagens do comando listhome
+    Listhome:
+      Listing: "&aSuas casas: &f%homes%"
+    # Mensagens do comando home
+    Home:
+      Teleporting: "&aTeleportando para %home% em %delay% segundos."
+      NotFound: "A home '%home%' não existe."
+    # Mensagens do comando delhome
+    Delhome:
+      Usage: "&cUtilize /%command% <home> para deletar sua home"
+      NotFound: "&cA home %name% não foi encontrada."
+      Success: "&aA home &f%name% &afoi deletada com sucesso!"
 
   # Seção de configuração dos comandos de warp
   WarpSection:
     Warp:
+      Usage: "&cUtilize /%command% <warp>"
       NoExist: "&aA warp %warp% não existe."
     WarpList:
       Listing: "&aWarps: &f%warps%"
     Setwarp:
+      Usage: "&cUtilize /%command% <warp>"
       ExistWarp: "&aA warp '%warp%' já existe!"
       Success: "&aVocê definiu a warp '%warp'."
-
+  # Mensagens do comando slime
   Slime:
     Status-True: "&aEstá"
     Status-False: "&cNão está"

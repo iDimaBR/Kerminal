@@ -42,11 +42,11 @@ public class GamemodeCommand {
         final Mode mode = Mode.of(gamemode);
 
         if (gamemode == null) {
-            context.sendMessage(messages.getString("Gamemode.Usage").replace("%command%", command));
+            context.sendMessage(messages.getString("Commands.Gamemode.Usage").replace("%command%", command));
             return;
         }
         if (mode == null) {
-            context.sendMessage(messages.getString("Gamemode.Usage").replace("%command%", command));
+            context.sendMessage(messages.getString("Commands.Gamemode.Usage").replace("%command%", command));
             return;
         }
 
@@ -77,7 +77,7 @@ public class GamemodeCommand {
             if(gamemodeChangeEvent.isCancelled()) return;
 
             ((Player) sender).setGameMode(gameMode);
-            ((Player) sender).sendMessage(messages.getString("Commands.Gamemode.Success").replace("%gamemode%", gamemodeName));
+            sender.sendMessage(messages.getString("Commands.Gamemode.Success").replace("%gamemode%", gamemodeName));
         }
     }
 

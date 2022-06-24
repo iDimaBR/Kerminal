@@ -6,15 +6,18 @@ import com.github.kerminal.controllers.EntityController;
 import com.github.kerminal.controllers.KitController;
 import com.github.kerminal.controllers.LangController;
 import com.github.kerminal.listeners.*;
+import com.github.kerminal.metrics.MetricsLoad;
 import com.github.kerminal.models.Warp;
 import com.github.kerminal.registry.TeleportRegistry;
-import com.github.kerminal.storage.MySQL;
+import com.github.kerminal.storage.SQLDatabaseFactory;
+import com.github.kerminal.storage.dao.StorageRepository;
 import com.github.kerminal.tasks.AutoMessageTask;
 import com.github.kerminal.tasks.RegenerationTask;
 import com.github.kerminal.tasks.TeleportTask;
 import com.github.kerminal.utils.ConfigUtil;
 import com.github.kerminal.utils.LocationUtils;
 import com.google.common.collect.Maps;
+import com.henryfabio.sqlprovider.connector.SQLConnector;
 import lombok.Getter;
 import lombok.Setter;
 import me.saiintbrisson.bukkit.command.BukkitFrame;
@@ -23,6 +26,7 @@ import me.saiintbrisson.minecraft.command.message.MessageType;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -37,7 +41,8 @@ public final class Kerminal extends JavaPlugin {
     private EntityController entityController;
     private KitController kitController;
     private LangController langController;
-    private MySQL Storage;
+    private SQLConnector Storage;
+    private StorageRepository Repository;
     private ConfigUtil config;
     private ConfigUtil configurableCommands;
     private ConfigUtil messages;
@@ -57,6 +62,7 @@ public final class Kerminal extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        loadMetrics();
         loadLocations();
         loadControllers();
         loadStorage();
@@ -65,11 +71,14 @@ public final class Kerminal extends JavaPlugin {
         loadTicksWorld();
         loadRegenSystem();
         loadAutoMessageSystem();
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            Repository.loadData(player.getUniqueId());
+        }
     }
 
-    @Override
-    public void onDisable() {
-        //saveAllPlayers();
+    private void loadMetrics(){
+        new MetricsLoad(this, 15527);
     }
 
     private void loadConfigs(){
@@ -313,9 +322,10 @@ public final class Kerminal extends JavaPlugin {
     }
 
     private void loadStorage(){
-        Storage = new MySQL(this);
-        Storage.createTableHomes();
-        Storage.createTableKits();
+        Storage = SQLDatabaseFactory.createConnector(config.getConfigurationSection("Database"));
+        Repository = new StorageRepository(this);
+        Repository.createTableHomes();
+        Repository.createTableKits();
     }
 
     private void loadAutoMessageSystem(){

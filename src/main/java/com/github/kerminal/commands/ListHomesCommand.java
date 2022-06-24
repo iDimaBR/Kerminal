@@ -51,8 +51,8 @@ public class ListHomesCommand {
         final Set<String> homes = data.getHomes().keySet();
 
         player.sendMessage(messages.getString("Commands.HomeSection.Listhome.Listing").replace("%homes%", (homes.size() == 0 ? "Nenhum" : StringUtils.join(homes.toArray(), ", "))));
-        if(data.getDefaultHome() == null)
-            player.sendMessage(messages.getString("Commands.HomeSection.Listhome.DefaultHomeWarning").replace("%command%", commands.getString("Sethome.command") + " " + messages.getString("Commands.HomeSection.NameOfDefaultHome")));
+        if(data.getDefaultHome() == null && messages.getBoolean("Commands.HomeSection.EnableWarning"))
+            player.sendMessage(messages.getString("Commands.HomeSection.DefaultHomeWarning").replace("%command%", commands.getString("Sethome.command") + " " + messages.getString("Commands.HomeSection.NameOfDefaultHome")));
         player.playSound(player.getLocation(), Sound.ANVIL_LAND, 1, 1);
     }
 

@@ -18,7 +18,7 @@ public class DataController {
     private final Kerminal plugin;
     private final TeleportRegistry registry;
 
-    private HashMap<UUID, PlayerData> DATALIST = Maps.newHashMap();
+    private final HashMap<UUID, PlayerData> DATALIST = Maps.newHashMap();
 
     public PlayerData getDataPlayer(UUID uuid){
         return createData(uuid);

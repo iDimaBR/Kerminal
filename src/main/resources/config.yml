@@ -8,22 +8,15 @@
 # 888    Y88b 8888888888 888   T88b 888       888 8888888 888    Y888 d88P     888 88888888
 #
 
-ConnectionType: 'sqlite'
-Connection:
-  Host: 'localhost'
-  Database: 'kerminal'
-  Port: 3306
-  Username: 'root'
-  Password: ''
-
-
-########################################
-#                 Homes                #
-########################################
-HomeSystem:
-  # Mundos proibidos de definir uma home
-  BlacklistWorlds:
-    - "worldName"
+Database:
+  type: "sqlite" # sqlite ou mysql
+  sqlite:
+    fileName: "database.db"
+  mysql:
+    address: "localhost:3306"
+    username: "root"
+    password: ""
+    database: "kerminal"
 
 ########################################
 #      Bloquear craft de itens         #

@@ -42,6 +42,12 @@ public class KitCommand {
         final LangController messages = plugin.getLangController();
         Player player = (Player) context.getSender();
         final KitController kitController = plugin.getKitController();
+        final int argsCount = context.argsCount();
+
+        if(argsCount == 0){
+            player.sendMessage(messages.getString("Commands.KitSection.Kit.Usage").replace("%command%", command));
+            return;
+        }
         name = name.toLowerCase();
 
         if(!kitController.existsKit(name)){
@@ -75,7 +81,7 @@ public class KitCommand {
 
         final long millis = System.currentTimeMillis() + (1000L * delay);
         delayKit.put(player.getUniqueId(), millis);
-        plugin.getStorage().insertDelayKit(player, name, millis);
+        plugin.getRepository().insertDelayKit(player, name, millis);
     }
 
     private boolean hasSpace(Player player, int needed){

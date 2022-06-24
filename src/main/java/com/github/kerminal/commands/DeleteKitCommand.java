@@ -41,15 +41,19 @@ public class DeleteKitCommand {
         final LangController messages = plugin.getLangController();
         Player player = (Player) context.getSender();
         final KitController kitController = plugin.getKitController();
+        final int argsCount = context.argsCount();
+
+        if(argsCount == 0){
+            player.sendMessage(messages.getString("Commands.KitSection.DeleteKit.Usage").replace("%command%", command));
+            return;
+        }
 
         if(!kitController.existsKit(name)){
             player.sendMessage(messages.getString("Commands.KitSection.NoExistKit").replace("%name%", name));
             return;
         }
 
-        kits.set(name, null);
-        kits.save();
-        kitController.getLoadedKits().remove(name);
+       kitController.removeKit(name);
         player.sendMessage(messages.getString("Commands.KitSection.DeleteKit.Success").replace("%name%", name));
 
     }

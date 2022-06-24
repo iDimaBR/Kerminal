@@ -48,7 +48,7 @@ public class HomeCommand {
         if(args == 0) {
             final Home defaultHome = data.getDefaultHome();
             if (defaultHome == null) {
-                player.sendMessage(messages.getString("Commands.HomeSection.Home.DefaultHomeWarning"));
+                player.sendMessage(messages.getString("Commands.HomeSection.DefaultHomeWarning").replace("%command%", commands.getString("Sethome.command") + " " + messages.getString("Commands.HomeSection.NameOfDefaultHome")));
                 return;
             }
 
