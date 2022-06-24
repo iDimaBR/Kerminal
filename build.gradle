@@ -41,7 +41,7 @@ tasks.withType(JavaCompile) {
 }
 
 allprojects {
-    libsDirName = 'C:/Users/rapha/Documents/Servidores/Servidor teste/plugins'
+    libsDirName = 'C:/Users/Murilo Ferrari/Desktop/Projetos/localhost/plugins'
 }
 
 shadowJar {

@@ -122,6 +122,7 @@ public final class Kerminal extends JavaPlugin {
         new GamemodeCommand(this).register();
         new HatCommand(this).register();
         new HealCommand(this).register();
+        new HeadCommands(this).register();
         new HomeCommand(this).register();
         new LightCommand(this).register();
         new ListHomesCommand(this).register();

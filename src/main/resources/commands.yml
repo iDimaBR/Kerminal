@@ -67,6 +67,12 @@ Craft:
   permission: kerminal.craft
   aliases:
     - "craftar"
+Head:
+  enabled: true
+  command: "head"
+  permission: kerminal.head
+  aliases:
+    - "cabeca"
 Feed:
   enabled: true
   command: "feed"
