@@ -25,7 +25,13 @@ Crafts:
   # Escreva abaixo os materiais dos itens bloqueados
   Blacklist:
     - "EXAMPLE"
-
+########################################
+#           Knockabck da TNT           #
+########################################
+ExplosionRepulsion:
+  NoDamage: true
+  enabled: true
+  multiply: 10.0
 ########################################
 #                 Motd                 #
 ########################################
