@@ -1,6 +1,7 @@
 package com.github.kerminal.storage.dao;
 
 import java.util.*;
+import java.util.function.Function;
 
 import com.github.kerminal.Kerminal;
 import com.github.kerminal.models.Home;
@@ -10,6 +11,7 @@ import com.github.kerminal.storage.adapter.HomeAdapter;
 import com.github.kerminal.utils.LocationAdapter;
 import com.google.common.collect.Maps;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
+import com.henryfabio.sqlprovider.executor.result.SimpleResultSet;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -35,6 +37,12 @@ public class StorageRepository {
                 "`uuid` varchar(36) NOT NULL," +
                 " `delay` bigint NOT NULL, " +
                 "`kit_name` varchar(50) PRIMARY KEY NOT NULL" +
+                ")");
+    }
+    public void createTableRequest() {
+        this.executor().updateQuery("CREATE TABLE IF NOT EXISTS tpa(" +
+                "`uuid` varchar(36) NOT NULL, " +
+                "`name` varchar(50) PRIMARY KEY NOT NULL" +
                 ")");
     }
 
@@ -119,6 +127,31 @@ public class StorageRepository {
                 HomeAdapter.class
         );
     }
+    public void insertRequest(UUID uuid, String name) {
+        this.executor().updateQuery("INSERT INTO tpa(uuid, name) VALUES(?,?)",
+                statement -> {
+                    statement.set(1, uuid.toString());
+                    statement.set(2, name);
+                });
+    }
+    public boolean isRequest(UUID uuid, String name) {
+        return this.executor().resultQuery("SELECT * FROM tpa WHERE uuid = ? AND name = ?",
+                statement -> {
+                    statement.set(1, uuid.toString());
+                    statement.set(2, name);
+                }, resultSet -> {
+                    return resultSet.next();
+                });
+    }
+    public void deleteRequests(UUID uuid, String nome) {
+        this.executor().updateQuery("DELETE FROM tpa WHERE uuid = ? AND name = ?",
+                statement -> {
+                    statement.set(1, uuid.toString());
+                    statement.set(2, nome);
+                });
+    }
+
+
 
     private SQLExecutor executor() {
         return new SQLExecutor(plugin.getStorage());

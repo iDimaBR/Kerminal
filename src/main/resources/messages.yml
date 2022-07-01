@@ -13,6 +13,25 @@ Kick:
     - "&e&lMANUTENCAO"
     - ""
     - "&cEstamos em manutenção!"
+###################################################
+#       Configuração de TPALL                     #
+###################################################
+Tpall:
+  Sucess: "&aTeleportando todos!"
+###################################################
+#       Configuração de TPA                       #
+###################################################
+Tpa:
+  Usage: "&c/tpa <jogador>"
+  CannotTpToSelf: "&cVocê não pode pedir TPA para você mesmo!"
+  PlayerNotFound: "&cJogador não encontrado!"
+  AlreadyRequested: "&cEste jogador ja possui um TPA em andamento!"
+  PlayerAccepted: "&aVocê aceitou o TPA de &e%player%&a!"
+  TargetAccepted: "&a %player% aceitou o TPA de você!"
+  PlayerDenied: "&cVocê recusou o TPA de &e%player%&c!"
+  RequestSent: "&aVocê enviou um TPA para &e%player%&a!"
+  RequestReceived: "&e%player%&a enviou um TPA para você!"
+  NoRequest: "&cVocê não possui nenhum TPA pendente!"
 
 ###################################################
 #       Configuração de mensagens padrões         #

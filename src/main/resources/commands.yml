@@ -8,6 +8,11 @@
 # 888    Y88b 8888888888 888   T88b 888       888 8888888 888    Y888 d88P     888 88888888
 #
 
+Tpall:
+  enabled: true
+  command: "tpall"
+  permission: kerminal.tpall
+  aliases: {}
 Spawn:
   enabled: true
   command: "spawn"
