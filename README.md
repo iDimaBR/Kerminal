@@ -1,3 +1,4 @@
+
 Kerminal
 =============================
 
@@ -50,6 +51,11 @@ Todos os comandos aqui listados são 100% configuráveis no plugin.
 | /slime                     |  Exibe se a chunk atual do executor é uma Slime Chunk                                  |                kerminal.slime
 | /kit                     |  Recebe um kit de escolha do executor                                  |                kerminal.kit
 | /listkits                     |  Exibe todos os kits criados no servidor                                  |                kerminal.listkits
+| /titlep | Manda um title para um jogador especifico!| kerminal.titleplayer
+|/title | Manda um title para todos os jogadores | kerminal.title
+| /aviso | Manda um broadcast para todos os jogadores! | kerminal.broadcast
+|/bigorna | Abre uma bigorna virtual | kerminal.anvil
+| /tpall | Teleporta todos jogadores online para a posição do executor | kerminal.tpall
 
 ## Permissões
 
@@ -63,7 +69,9 @@ Há outros tipos de permissões que irei citar abaixo.
 | kerminal.enderchest.others                     | Permite mecher no enderchest de outros jogadores                |
 | kerminal.keepxp                     | Permite o jogador continuar com sua experiência                |
 | PERMISSAO_PADRAO.delay.bypass                     | Teleporta o jogador instantaneamente               |
-| kerminal.kit.NOME_DO_KIT                     | Permissão para recolher um kit específico               |
+| kerminal.kit.NOME_DO_KIT                     | Permissão para recolher um kit específico  
+|kerminal.sign.repair | Permissao para reparar na placa
+| kerminal.sign.repair.all && kerminal.repair | Reparar ALL na placa, (Precisa das duas permissões)
 
 ## Eventos Customizados
 
@@ -139,3 +147,13 @@ COMANDO_AQUI:
     - "&eVocê executou um comando de exemplo."
 ```
 
+
+
+### ➥ A Special thanks for this guys!
+... and a thanks for all pepls who are or believe in this project, 
+below some names that helped with ideas, codes corrections.
+
+@SrEdu0202, @iDimaBR, @ferraribr, @Kepe, @BadNotice_
+
+##  Bye!
+![ferraribr](https://minotar.net/armor/bust/ferraribr_/190.png)![idimabr](https://minotar.net/armor/bust/Idimabr/190.png)
