@@ -39,12 +39,7 @@ public class StorageRepository {
                 "`kit_name` varchar(50) PRIMARY KEY NOT NULL" +
                 ")");
     }
-    public void createTableRequest() {
-        this.executor().updateQuery("CREATE TABLE IF NOT EXISTS tpa(" +
-                "`uuid` varchar(36) NOT NULL, " +
-                "`name` varchar(50) PRIMARY KEY NOT NULL" +
-                ")");
-    }
+
 
     public void insertDelayKit(Player player, String kit, long delay) {
         final UUID uuid = player.getUniqueId();
@@ -127,29 +122,7 @@ public class StorageRepository {
                 HomeAdapter.class
         );
     }
-    public void insertRequest(UUID uuid, String name) {
-        this.executor().updateQuery("INSERT INTO tpa(uuid, name) VALUES(?,?)",
-                statement -> {
-                    statement.set(1, uuid.toString());
-                    statement.set(2, name);
-                });
-    }
-    public boolean isRequest(UUID uuid, String name) {
-        return this.executor().resultQuery("SELECT * FROM tpa WHERE uuid = ? AND name = ?",
-                statement -> {
-                    statement.set(1, uuid.toString());
-                    statement.set(2, name);
-                }, resultSet -> {
-                    return resultSet.next();
-                });
-    }
-    public void deleteRequests(UUID uuid, String nome) {
-        this.executor().updateQuery("DELETE FROM tpa WHERE uuid = ? AND name = ?",
-                statement -> {
-                    statement.set(1, uuid.toString());
-                    statement.set(2, nome);
-                });
-    }
+
 
 
 

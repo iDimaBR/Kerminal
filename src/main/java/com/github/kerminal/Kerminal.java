@@ -110,6 +110,7 @@ public final class Kerminal extends JavaPlugin {
         new SlimeCommand(this).register();
         new PingCommand(this).register();
         new BackCommand(this).register();
+        new AnvilCommand(this).register();
         new AnnounceCommand(this).register();
         new ClearChatCommand(this).register();
         new ClearCommand(this).register();
@@ -131,7 +132,6 @@ public final class Kerminal extends JavaPlugin {
         new SethomeCommand(this).register();
         new TeleportCommand(this).register();
         new TeleportAllCommand(this).register();
-        new TpaCommand(this);
         new TrashCommand(this).register();
         new SpawnCommand(this).register();
         new SetspawnCommand(this).register();
@@ -330,7 +330,6 @@ public final class Kerminal extends JavaPlugin {
         Repository = new StorageRepository(this);
         Repository.createTableHomes();
         Repository.createTableKits();
-        Repository.createTableRequest();
     }
 
     private void loadAutoMessageSystem(){

@@ -22,12 +22,13 @@ Tpall:
 #       Configuração de TPA                       #
 ###################################################
 Tpa:
-  Usage: "&c/tpa <jogador>"
+  Usage: "&c/tpa <enviar/recusar/aceitar> <jogador>"
   CannotTpToSelf: "&cVocê não pode pedir TPA para você mesmo!"
   PlayerNotFound: "&cJogador não encontrado!"
   AlreadyRequested: "&cEste jogador ja possui um TPA em andamento!"
   PlayerAccepted: "&aVocê aceitou o TPA de &e%player%&a!"
   TargetAccepted: "&a %player% aceitou o TPA de você!"
+  TargetDenied: "&a %player% recusou o TPA de você!"
   PlayerDenied: "&cVocê recusou o TPA de &e%player%&c!"
   RequestSent: "&aVocê enviou um TPA para &e%player%&a!"
   RequestReceived: "&e%player%&a enviou um TPA para você!"
