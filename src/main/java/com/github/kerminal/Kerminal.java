@@ -167,6 +167,12 @@ public final class Kerminal extends JavaPlugin {
                 new ExplosionRepulsionListener(this), this
         );
         pluginManager.registerEvents(
+                new BlockPlayerNameListener(this), this
+        );
+        pluginManager.registerEvents(
+                new SignListener(this), this
+        );
+        pluginManager.registerEvents(
                 new ConfigurableCommandsHandler(this), this
         );
         pluginManager.registerEvents(
