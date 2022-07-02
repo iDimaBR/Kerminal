@@ -1,45 +1,47 @@
 package com.github.kerminal.commands;
 
 import com.github.kerminal.Kerminal;
+import com.github.kerminal.controllers.LangController;
 import com.github.kerminal.utils.ConfigUtil;
 import lombok.AllArgsConstructor;
 import me.saiintbrisson.minecraft.command.command.CommandInfo;
 import me.saiintbrisson.minecraft.command.command.Context;
-import org.bukkit.Bukkit;
-import org.bukkit.Sound;
+import org.apache.commons.codec.language.bm.Lang;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.Inventory;
 
 @AllArgsConstructor
-public class AnvilCommand {
+public class BroadcastCommand {
     private Kerminal plugin;
 
     private ConfigUtil commands;
 
-    private final String identifierCommand = "Anvil";
+
+    private final String identifierCommand = "Broadcast";
 
     private final String command;
+
+    private final String prefix;
 
     private final String[] aliases;
 
     private final String permission;
 
-    public AnvilCommand(Kerminal plugin) {
+    public BroadcastCommand(Kerminal plugin) {
         this.plugin = plugin;
         this.commands = plugin.getCommands();
+        this.prefix = commands.getString(identifierCommand + ".prefix");
         this.command = commands.getString(identifierCommand + ".command");
         this.aliases = commands.getStringList(identifierCommand + ".aliases").toArray(new String[0]);
         this.permission = commands.getString(identifierCommand + ".permission");
     }
-    public void onCommand(Context<CommandSender> context) {
-        Player player = (Player) context.getSender();
-        Inventory anvil = Bukkit.createInventory(null, InventoryType.ANVIL, "Bigorna de " + player.getName());
+    public void onCommand(Context<CommandSender> context, String message) {
 
-        player.openInventory(anvil);
-        player.playSound(player.getLocation(), Sound.NOTE_PIANO, 1, 1);
-        player.sendMessage("§aBigorna aberta!");
+        if (message != null) {
+            message = prefix + message;
+            plugin.getServer().broadcastMessage(message);
+        } else {
+            context.sendMessage("§cVocê não pode enviar uma mensagem vazia!");
+        }
     }
     public void register(){
         if (!commands.getBoolean(identifierCommand + ".enabled", true)) return;
@@ -50,11 +52,9 @@ public class AnvilCommand {
                         .permission(permission)
                         .build(),
                 context -> {
-                    onCommand(context);
+                    onCommand(context, context.getArg(0));
                     return false;
                 }
         );
     }
-
-
 }
