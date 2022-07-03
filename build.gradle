@@ -40,8 +40,8 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
-allprojects {
-    libsDirName = 'C:/Users/Murilo Ferrari/Desktop/Projetos/localhost/plugins'
+allprojects {0
+    libsDirName = 'C:/Users/rapha/Documents/Servidores/Servidor teste/plugins'
 }
 
 shadowJar {

@@ -50,7 +50,6 @@ public final class Kerminal extends JavaPlugin {
     private ConfigUtil entities;
     private ConfigUtil kits;
     private ConfigUtil locations;
-
     @Setter
     private Location Spawn;
     private final Map<String, Warp> warpsList = Maps.newHashMap();
@@ -72,9 +71,8 @@ public final class Kerminal extends JavaPlugin {
         loadRegenSystem();
         loadAutoMessageSystem();
 
-        for (Player player : Bukkit.getOnlinePlayers()) {
+        for (Player player : Bukkit.getOnlinePlayers())
             Repository.loadData(player.getUniqueId());
-        }
     }
 
     private void loadMetrics(){
@@ -163,15 +161,17 @@ public final class Kerminal extends JavaPlugin {
             pluginManager.registerEvents(
                     new PlayerActionsChangeListener(this), this
             );
-        pluginManager.registerEvents(
-                new ExplosionRepulsionListener(this), this
-        );
+        if(config.getBoolean("ExplosionRepulse.Enabled"))
+            pluginManager.registerEvents(
+                    new ExplosionRepulsionListener(this), this
+            );
         pluginManager.registerEvents(
                 new BlockPlayerNameListener(this), this
         );
-        pluginManager.registerEvents(
-                new SignListener(this), this
-        );
+        if(config.getBoolean("SignRepair.Enabled"))
+            pluginManager.registerEvents(
+                    new RepairSignListener(this), this
+            );
         pluginManager.registerEvents(
                 new ConfigurableCommandsHandler(this), this
         );

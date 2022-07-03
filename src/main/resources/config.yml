@@ -19,19 +19,40 @@ Database:
     database: "kerminal"
 
 ########################################
+#      Bloquear nicks improprios       #
+########################################
+BlockedPlayerNames:
+  - "CONSOLE"
+  - "CONSOLE_COMMAND"
+  - "CONSOLE_PLAYER"
+  - "MCSTORM_IO"
+
+########################################
+#      Placa de reparar       #
+########################################
+SignRepair:
+  Enabled: true
+  SignModel:
+    - "&a[Reparar]"
+    - "&7Clique para"
+    - "&7reparar"
+
+########################################
 #      Bloquear craft de itens         #
 ########################################
 Crafts:
   # Escreva abaixo os materiais dos itens bloqueados
   Blacklist:
     - "EXAMPLE"
+
 ########################################
-#           Knockabck da TNT           #
+#           Knockback da TNT           #
 ########################################
-ExplosionRepulsion:
-  NoDamage: true
-  enabled: true
-  multiply: 10.0
+ExplosionRepulse:
+  Enabled: false
+  RemoveDamage: true
+  Repulsion: 10.0
+
 ########################################
 #                 Motd                 #
 ########################################
@@ -47,6 +68,26 @@ Motd:
     - "&cThis server in Maintenance"
 
 ########################################
+#                 TAB                  #
+########################################
+TAB:
+  Header:
+    - ""
+    - ""
+    - "ᦽ"
+    - ""
+    - ""
+    - ""
+    - ""
+  Footer:
+    - "  &6Twitter:&f twitter.com/minevil"
+    - "  &6Discord:&f discord.io/minevil"
+    - ""
+    - "  &dCompre VIP acessando &floja.minevil.com.br"
+    - ""
+    - ""
+
+########################################
 #             Teleportes               #
 ########################################
 Teleport:
@@ -54,6 +95,8 @@ Teleport:
   Delay: 3
   # Defina o tempo que o jogador não recebá danos após teleportar
   InvencibleDelay: 3
+  Effect: ENDER_SIGNAL
+  Sound: ENTITY_ENDERMAN_TELEPORT
 
 
 ########################################

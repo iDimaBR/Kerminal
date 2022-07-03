@@ -1,17 +1,15 @@
 package com.github.kerminal.controllers;
 
 import com.github.kerminal.Kerminal;
-import com.github.kerminal.models.Kit;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
 import java.util.HashMap;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @Getter
-public class TeleportController {
+public class TpaController {
 
     private Kerminal plugin;
 

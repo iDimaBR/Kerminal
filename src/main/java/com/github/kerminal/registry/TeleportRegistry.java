@@ -57,8 +57,8 @@ public class TeleportRegistry {
 
     public void teleport(Player player, Location location) {
         player.teleport(location);
-        player.getWorld().playEffect(player.getLocation(), Effect.ENDER_SIGNAL, null, 3);
-        player.playSound(player.getLocation(), Sound.ENDERMAN_TELEPORT, 1f, 1f);
+        player.getWorld().playEffect(player.getLocation(), Effect.getByName(plugin.getConfig().getString("Teleport.Effect")), null, 3);
+        player.playSound(player.getLocation(), plugin.getConfig().getEnum("Teleport.Sound", Sound.class), 1f, 1f);
         player.sendMessage("§aTeleportado!");
         player.setNoDamageTicks(DEFAULT_INVENCIBLE_DELAY * 20);
     }

@@ -4,6 +4,7 @@ package com.github.kerminal.commands;
 import com.github.kerminal.Kerminal;
 import com.github.kerminal.controllers.LangController;
 import com.github.kerminal.utils.ConfigUtil;
+import com.github.kerminal.utils.RepairUtil;
 import lombok.AllArgsConstructor;
 import me.saiintbrisson.minecraft.command.command.CommandInfo;
 import me.saiintbrisson.minecraft.command.command.Context;
@@ -46,7 +47,7 @@ public class RepairCommand {
                 return;
             }
 
-            item.setDurability((short) 0);
+            RepairUtil.repair(item);
             player.sendMessage(messages.getString("Commands.Repair.Success"));
             return;
         }
@@ -57,15 +58,7 @@ public class RepairCommand {
                 return;
             }
 
-            final ItemStack[] contents = player.getInventory().getContents();
-            for (ItemStack item : contents) {
-                if(item == null) continue;
-                if(item.getType().getMaxDurability() == 0) continue;
-                if(item.getDurability() == 0) continue;
-
-                item.setDurability((short) 0);
-            }
-
+            RepairUtil.repairAll(player.getInventory());
             player.sendMessage(messages.getString("Commands.Repair.SuccessAll"));
             return;
         }

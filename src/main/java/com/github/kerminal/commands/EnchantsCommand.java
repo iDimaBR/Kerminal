@@ -35,15 +35,13 @@ public class EnchantsCommand {
         this.permission = commands.getString(identifierCommand + ".permission");
     }
 
-    public void onCommand(Context<CommandSender> context, @Optional String enchant, @Optional String level) {
+    public void onCommand(Context<CommandSender> context) {
         final CommandSender sender = context.getSender();
         final LangController messages = plugin.getLangController();
         final Player player = (Player) sender;
-        final Enchants enchantment = Enchants.of(enchant);
+        final int argsCount = context.argsCount();
 
-        int args = context.argsCount();
-
-        if(args < 2){
+        if(argsCount < 2){
             context.sendMessage(messages.getString("Commands.Enchant.Usage").replace("%command%", command));
             return;
         }
@@ -52,19 +50,30 @@ public class EnchantsCommand {
             context.sendMessage(messages.getString("DefaultCallback.HandEmpty"));
             return;
         }
+
+        final String enchantName = context.getArg(0);
+        final Enchants enchantment = Enchants.of(enchantName);
         if (enchantment == null) {
             for (String string : messages.getStringList("Commands.Enchant.NotFound")) {
                 player.sendMessage(string.replace("%enchantments%", StringUtils.join(Arrays.stream(Enchantment.values()).map(Enchantment::getName).collect(Collectors.toList()), ", ")));
             }
             return;
         }
-        if(!NumberUtils.isNumber(level)){
-            context.sendMessage(messages.getString("Commands.Enchant.Levelinvalid"));
+
+        final String levelString = context.getArg(1);
+        if(!NumberUtils.isNumber(levelString)){
+            context.sendMessage(messages.getString("Commands.Enchant.LevelInvalid"));
             return;
         }
 
-        player.getItemInHand().addUnsafeEnchantment(enchantment.getEnchantment(), Integer.parseInt(level));
-        context.sendMessage(messages.getString("Commands.Enchant.Success").replace("%name%", enchantment.name()));
+        final int level = Integer.parseInt(levelString);
+        try{
+            player.getItemInHand().addUnsafeEnchantment(enchantment.getEnchantment(), level);
+            context.sendMessage(messages.getString("Commands.Enchant.Success").replace("%name%", enchantment.name()));
+        }catch(Exception e){
+            e.printStackTrace();
+            context.sendMessage(messages.getString("Commands.Enchant.LevelInvalid"));
+        }
     }
 
     public void register(){
@@ -76,7 +85,7 @@ public class EnchantsCommand {
                         .permission(permission)
                         .build(),
                 context -> {
-                    onCommand(context, context.getArg(0), context.getArg(0));
+                    onCommand(context);
                     return false;
                 }
         );
