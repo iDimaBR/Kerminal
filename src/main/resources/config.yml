@@ -73,18 +73,12 @@ Motd:
 TAB:
   Header:
     - ""
-    - ""
-    - "ᦽ"
-    - ""
-    - ""
-    - ""
+    - "&a&lYEY! &aEsse servidor utiliza Kerminal :3"
     - ""
   Footer:
-    - "  &6Twitter:&f twitter.com/minevil"
-    - "  &6Discord:&f discord.io/minevil"
     - ""
-    - "  &dCompre VIP acessando &floja.minevil.com.br"
-    - ""
+    - "  &aPrecisa de ajuda com o plugin?"
+    - "  &aAcesse: &7discord.gg/beez"
     - ""
 
 ########################################

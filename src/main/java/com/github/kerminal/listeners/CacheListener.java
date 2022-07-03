@@ -28,7 +28,6 @@ public class CacheListener implements Listener {
         final StorageRepository storage = plugin.getRepository();
         final ConfigUtil config = plugin.getConfig();
 
-        storage.loadData(uuid);
         Utils.setHeaderFooter(player,
                 StringUtils.join(
                         config.getStringList("TAB.Header")
@@ -42,6 +41,8 @@ public class CacheListener implements Listener {
                                 .map($ -> $.replace("&","§"))
                                 .collect(Collectors.toList())
                         , "\n"));
+
+        storage.loadData(uuid);
     }
 
     @EventHandler

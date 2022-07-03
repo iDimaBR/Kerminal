@@ -111,7 +111,6 @@ public final class Kerminal extends JavaPlugin {
         new AnvilCommand(this).register();
         new AnnounceCommand(this).register();
         new BroadcastCommand(this).register();
-        new BroadcastTitleCommand(this).register();
         new ClearChatCommand(this).register();
         new ClearCommand(this).register();
         new CraftCommand(this).register();
@@ -132,7 +131,7 @@ public final class Kerminal extends JavaPlugin {
         new SethomeCommand(this).register();
         new TeleportCommand(this).register();
         new TeleportAllCommand(this).register();
-        new TitleToPlayerCommand(this).register();
+        new SendTitleCommand(this).register();
         new TrashCommand(this).register();
         new SpawnCommand(this).register();
         new SetspawnCommand(this).register();

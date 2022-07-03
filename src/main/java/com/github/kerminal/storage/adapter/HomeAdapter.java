@@ -9,9 +9,9 @@ public class HomeAdapter implements SQLResultAdapter<Home> {
     @Override
     public Home adaptResult(SimpleResultSet rs) {
         final String name = rs.get("name");
-        final int isDefault = rs.get("is_default");
+        final boolean isDefault = rs.get("is_default");
         final Location location = LocationAdapter.toLocation(rs.get("location"));
 
-        return new Home(name, location, isDefault == 0);
+        return new Home(name, location, isDefault);
     }
 }
