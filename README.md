@@ -1,8 +1,10 @@
 
 Kerminal
 =============================
+![](https://bstats.org/signatures/bukkit/Kerminal.svg)
+=============================
 
-Todas as necessidades do seu servidor em apenas um plugin. Esse projeto foi feito para todos da [Comunidade BeezCommunity](https://discord.gg/V5fDvwurE9) e outros poderão utilizar e pedir suporte quando necessário sobre seus problemas.
+
 
 ## Comandos
 
