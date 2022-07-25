@@ -1,8 +1,8 @@
+<strong>Kerminal</strong>
+=============================
 
-Kerminal
-=============================
 ![](https://bstats.org/signatures/bukkit/Kerminal.svg)
-=============================
+
 
 
 
