@@ -1,6 +1,6 @@
 <h1 align="center">Kerminal</h1>
 
-## Comandos
+# Comandos
 
 <strong>Kerminal</strong> possui comandos 100% configuraveis para seus usuários terem maior liberdade.
 
@@ -53,7 +53,7 @@
 |/bigorna | Abre uma bigorna virtual | kerminal.anvil
 | /tpall | Teleporta todos jogadores online para a posição do executor | kerminal.tpall
 
-<h2 align="center">Permissões</h2>
+# Permissões
 
 As permissões são configuráveis, mas por padrão todo comando será `kerminal.COMANDO`.
 
@@ -75,7 +75,7 @@ Há outros tipos de permissões que irei citar abaixo.
 - `PlayerBackEvent` - Chamado ao executar o comando /back para retornar.
 - `PlayerHomeEvent` - Chamado ao teleportar-se para uma Home.
 
-## Configurações
+# Configurações
 
 <h2 align="center">Principal</h2>
 
