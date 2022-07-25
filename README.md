@@ -149,7 +149,7 @@ COMANDO_AQUI:
 
 ![](https://bstats.org/signatures/bukkit/Kerminal.svg)
 
-**👋 Um agradecimento especial.**
+# Agradecimentos
 
 _"Agradeço a todos que estão ou acreditam neste projeto, logo abaixo tem alguns nomes que ajudaram com ideias e correções de códigos."_
 
