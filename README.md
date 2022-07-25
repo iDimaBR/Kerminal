@@ -79,7 +79,7 @@ Há outros tipos de permissões que irei citar abaixo.
 
 ### Principal 
 
-<strong>Kerminal</strong> é muito facil de ser utilizado pois possui as configurações padrão de qualquer plugin com recursos melhorados, veja o arquivo `config.yml`.
+<strong>Kerminal</strong> é muito facil de ser utilizado pois possui as configurações padrão de qualquer plugin com recursos melhorados, veja no arquivo `config.yml`.
 
 - Regeneração
 ```yml
@@ -132,7 +132,7 @@ Spawn:                           # Não mecher... é a identificação do comand
 
 ### Criar comandos: 
 
-No <strong>Kerminal<strong> você possui a possibilidade de criar novos comandos por meio do arquivo `customCommands.yml`.
+No <strong>Kerminal</strong> você possui a possibilidade de criar novos comandos por meio do arquivo `customCommands.yml`.
 
 ```yml
 COMANDO_AQUI:
