@@ -1,10 +1,8 @@
-<strong>Kerminal</strong>
+<h1 align="center">Kerminal</h1>
 =============================
 
+# Bstats
 ![](https://bstats.org/signatures/bukkit/Kerminal.svg)
-
-
-
 
 ## Comandos
 
