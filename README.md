@@ -2,9 +2,9 @@
 
 ## Comandos
 
-Todos os comandos aqui listados são 100% configuráveis no plugin.
+<strong>Kerminal</strong> possui comandos 100% configuraveis para seus usuários terem maior liberdade.
 
-### ➥ Administrativos
+### Comandos de Administração:
 
 | Comando                            | Descrição                                                                                     | Permissão                       |
 |------------------------------------|-------------------------------------------------------------------------------------------|-------------------------------------|
@@ -23,7 +23,7 @@ Todos os comandos aqui listados são 100% configuráveis no plugin.
 | /infolag                     |  Exibe todas as informações do servidor relacionadas ao desempenho                                  |                kerminal.infolag
 | /createkit                     |  Cria um novo kit utilizando o inventário atual do executor                                  |                kerminal.createkit
 
-### ➥ Normais
+### Comandos Normais:
 
 | Comando                            | Descrição                                                                                     | Permissão                       |
 |------------------------------------|-------------------------------------------------------------------------------------------|-------------------------------------|
@@ -77,29 +77,29 @@ Há outros tipos de permissões que irei citar abaixo.
 
 ## Configurações
 
-### ➥ Principal <sub>[ config.yml ]</sub>
+### Principal 
 
-Vou apenas explicar a partes mais "diferentes" da configuração, pois o resto ja é de padrão de outros...
+<strong>Kerminal</strong> é muito facil de ser utilizado pois possui as configurações padrão de qualquer plugin com recursos melhorados, veja o arquivo `config.yml`.
 
 - Regeneração
-```Java
+```yml
 Regeneration:
   Enabled: true          # Habilita ou desabilita a modificação da regeneração
   Delay: 20              # Tempo em ticks para preencher a vida
 ```
 
 - Mundos em Ticks
-```Java
+```yml
 Worlds:
   world:                 # Nome do mundo para a definição
     Tick: 60             # Quantidade da velocidade dos ticks do mundo
 ```
 
-### ➥ Entidades <sub>[ entities.yml ]</sub>
+### Entidades 
 
-Você pode alterar as vidas e os drops de entidades vivas (living entities).
+Você pode alterar as vidas e os drops das entidades vivas (living entities) pelo arquivo `entities.yml`.
 
-```Java
+```yml
 PIG:                       # Nome do tipo da entidade, no caso 'PIG'
   Health: 50               # Quantidade da vida da entidade
   Drops:                   # Configuração de todos os drops novos
@@ -115,11 +115,11 @@ PIG:                       # Nome do tipo da entidade, no caso 'PIG'
         - "DAMAGE_ALL;5"
 ```
 
-### ➥ Alterar comandos <sub>[ commands.yml ]</sub>
+### Alterar comandos:
 
-Você pode mudar o comando principal, aliases, permissão, habilitar ou desabilitar cada um dos comandos existentes.
+Você pode tambem pode alterar os comandos principais, aliases e permissões além de habilitar ou desabilitar cada um dos comandos existentes pelo arquivo `commands.yml`.
 
-```Java
+```yml
 Spawn:                           # Não mecher... é a identificação do comando
   enabled: true                  # Ativa ou desativa o comando    
   command: "spawn"               # Nome do comando principal
@@ -130,11 +130,11 @@ Spawn:                           # Não mecher... é a identificação do comand
     - "lobby"
 ```
 
-### ➥ Criar novos comandos <sub>[ customCommands.yml ]</sub>
+### Criar comandos: 
 
-Com o Kerminal, você tem a opção de criar novos comandos da sua maneira.
+No <strong>Kerminal<strong> você possui a possibilidade de criar novos comandos por meio do arquivo `customCommands.yml`.
 
-```Java
+```yml
 COMANDO_AQUI:
   Sound: NOTE_PLING
   Delay: 5
@@ -151,7 +151,7 @@ COMANDO_AQUI:
 
 # Agradecimentos
 
-_"Agradeço a todos que estão ou acreditam neste projeto, logo abaixo tem alguns nomes que ajudaram com ideias e correções de códigos."_
+_"Agradeço a todos que estão acreditando neste projeto, logo abaixo tem alguns nomes que ajudaram com ideias e correções de códigos."_
 
 @iDimaBR, @ferraribr, @Kepe, @SrEdu0202, @BadNotice_
 
