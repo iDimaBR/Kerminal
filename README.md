@@ -1,8 +1,4 @@
 <h1 align="center">Kerminal</h1>
-=============================
-
-# Bstats
-![](https://bstats.org/signatures/bukkit/Kerminal.svg)
 
 ## Comandos
 
@@ -147,7 +143,11 @@ COMANDO_AQUI:
     - "&eVocê executou um comando de exemplo."
 ```
 
+# Bstats
 
+bStats é um serviço de estatísticas de código aberto para o software Minecraft 
+
+![](https://bstats.org/signatures/bukkit/Kerminal.svg)
 
 ### ➥ A Special thanks for this guys!
 ... and a thanks for all pepls who are or believe in this project, 
