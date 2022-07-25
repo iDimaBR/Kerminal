@@ -145,15 +145,15 @@ COMANDO_AQUI:
 
 # Bstats
 
-bStats é um serviço de estatísticas de código aberto para o software Minecraft 
+<strong>bStats</strong> é um serviço de estatísticas de código aberto para o software Minecraft 
 
 ![](https://bstats.org/signatures/bukkit/Kerminal.svg)
 
-### ➥ A Special thanks for this guys!
-... and a thanks for all pepls who are or believe in this project, 
-below some names that helped with ideas, codes corrections.
+# 👋 Um agradecimento especial para essa galera.
 
-@SrEdu0202, @iDimaBR, @ferraribr, @Kepe, @BadNotice_
+_"Agradeço a todos que estão ou acreditam neste projeto, logo abaixo tem alguns nomes que ajudaram com ideias e correções de códigos."_
 
-##  Bye!
+@iDimaBR, @ferraribr, @Kepe, @SrEdu0202, @BadNotice_
+
+# Desenvolvedores
 ![ferraribr](https://minotar.net/armor/bust/ferraribr_/190.png)![idimabr](https://minotar.net/armor/bust/Idimabr/190.png)
