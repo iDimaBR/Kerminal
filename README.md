@@ -1,14 +1,15 @@
+# Kerminal
 
-Kerminal
-=============================
+<strong>Kerminal</strong> é um plugin com diversas funções e recursos ideias para seu servidor, além de sistemas que nenhum outro "plugin" possui, este projeto foi feito com o apoio da comunidade [BeezCommunity](https://discord.gg/V5fDvwurE9) onde você também pode estar entrando para conhecer ou pedir suporte quando necessário sobre problemas encontrados.
 
-Todas as necessidades do seu servidor em apenas um plugin. Esse projeto foi feito para todos da [Comunidade BeezCommunity](https://discord.gg/V5fDvwurE9) e outros poderão utilizar e pedir suporte quando necessário sobre seus problemas.
+Faça o download clicando [aqui](https://github.com/iDimaBR/Kerminal/releases/tag/1.0.0).
 
-## Comandos
 
-Todos os comandos aqui listados são 100% configuráveis no plugin.
+# Comandos
 
-### ➥ Administrativos
+<strong>Kerminal</strong> possui comandos 100% configuraveis para seus usuários terem maior liberdade.
+
+<h2 align="center">Comandos de Administração</h2>
 
 | Comando                            | Descrição                                                                                     | Permissão                       |
 |------------------------------------|-------------------------------------------------------------------------------------------|-------------------------------------|
@@ -27,7 +28,7 @@ Todos os comandos aqui listados são 100% configuráveis no plugin.
 | /infolag                     |  Exibe todas as informações do servidor relacionadas ao desempenho                                  |                kerminal.infolag
 | /createkit                     |  Cria um novo kit utilizando o inventário atual do executor                                  |                kerminal.createkit
 
-### ➥ Normais
+<h2 align="center">Comandos normais</h2>
 
 | Comando                            | Descrição                                                                                     | Permissão                       |
 |------------------------------------|-------------------------------------------------------------------------------------------|-------------------------------------|
@@ -57,7 +58,7 @@ Todos os comandos aqui listados são 100% configuráveis no plugin.
 |/bigorna | Abre uma bigorna virtual | kerminal.anvil
 | /tpall | Teleporta todos jogadores online para a posição do executor | kerminal.tpall
 
-## Permissões
+# Permissões
 
 As permissões são configuráveis, mas por padrão todo comando será `kerminal.COMANDO`.
 
@@ -73,37 +74,37 @@ Há outros tipos de permissões que irei citar abaixo.
 |kerminal.sign.repair | Permissao para reparar na placa
 | kerminal.sign.repair.all && kerminal.repair | Reparar ALL na placa, (Precisa das duas permissões)
 
-## Eventos Customizados
+<h2 align="center">Eventos customizados</h2>
 
 - `GamemodeChangeEvent` - Chamado na alteração do gamemode.
 - `PlayerBackEvent` - Chamado ao executar o comando /back para retornar.
 - `PlayerHomeEvent` - Chamado ao teleportar-se para uma Home.
 
-## Configurações
+# Configurações
 
-### ➥ Principal <sub>[ config.yml ]</sub>
+<h2 align="center">Principal</h2>
 
-Vou apenas explicar a partes mais "diferentes" da configuração, pois o resto ja é de padrão de outros...
+<strong>Kerminal</strong> é muito facil de ser utilizado pois possui as configurações padrão de qualquer plugin com recursos melhorados, veja no arquivo `config.yml`.
 
 - Regeneração
-```Java
+```yml
 Regeneration:
   Enabled: true          # Habilita ou desabilita a modificação da regeneração
   Delay: 20              # Tempo em ticks para preencher a vida
 ```
 
 - Mundos em Ticks
-```Java
+```yml
 Worlds:
   world:                 # Nome do mundo para a definição
     Tick: 60             # Quantidade da velocidade dos ticks do mundo
 ```
 
-### ➥ Entidades <sub>[ entities.yml ]</sub>
+<h2 align="center">Entidades</h2>
 
-Você pode alterar as vidas e os drops de entidades vivas (living entities).
+Você pode alterar as vidas e os drops das entidades vivas (living entities) pelo arquivo `entities.yml`.
 
-```Java
+```yml
 PIG:                       # Nome do tipo da entidade, no caso 'PIG'
   Health: 50               # Quantidade da vida da entidade
   Drops:                   # Configuração de todos os drops novos
@@ -119,11 +120,11 @@ PIG:                       # Nome do tipo da entidade, no caso 'PIG'
         - "DAMAGE_ALL;5"
 ```
 
-### ➥ Alterar comandos <sub>[ commands.yml ]</sub>
+<h2 align="center">Alterar comandos</h2>
 
-Você pode mudar o comando principal, aliases, permissão, habilitar ou desabilitar cada um dos comandos existentes.
+Você pode tambem pode alterar os comandos principais, aliases e permissões além de habilitar ou desabilitar cada um dos comandos existentes pelo arquivo `commands.yml`.
 
-```Java
+```yml
 Spawn:                           # Não mecher... é a identificação do comando
   enabled: true                  # Ativa ou desativa o comando    
   command: "spawn"               # Nome do comando principal
@@ -134,11 +135,11 @@ Spawn:                           # Não mecher... é a identificação do comand
     - "lobby"
 ```
 
-### ➥ Criar novos comandos <sub>[ customCommands.yml ]</sub>
+<h2 align="center">Criar comandos</h2>
 
-Com o Kerminal, você tem a opção de criar novos comandos da sua maneira.
+No <strong>Kerminal</strong> você possui a possibilidade de criar novos comandos por meio do arquivo `customCommands.yml`.
 
-```Java
+```yml
 COMANDO_AQUI:
   Sound: NOTE_PLING
   Delay: 5
@@ -147,13 +148,17 @@ COMANDO_AQUI:
     - "&eVocê executou um comando de exemplo."
 ```
 
+# Bstats
 
+<strong>bStats</strong> é um serviço de estatísticas de código aberto para o software Minecraft que é utilizado pelo Kerminal para coletar estatísticas do servidor.
 
-### ➥ A Special thanks for this guys!
-... and a thanks for all pepls who are or believe in this project, 
-below some names that helped with ideas, codes corrections.
+![](https://bstats.org/signatures/bukkit/Kerminal.svg)
 
-@SrEdu0202, @iDimaBR, @ferraribr, @Kepe, @BadNotice_
+# Agradecimentos
 
-##  Bye!
+_"Agradeço a todos que estão acreditando neste projeto, logo abaixo tem alguns nomes que ajudaram com ideias e correções de códigos."_
+
+@iDimaBR, @ferraribr, @Kepe, @SrEdu0202, @BadNotice_
+
+# Desenvolvedores
 ![ferraribr](https://minotar.net/armor/bust/ferraribr_/190.png)![idimabr](https://minotar.net/armor/bust/Idimabr/190.png)
