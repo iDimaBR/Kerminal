@@ -1,5 +1,7 @@
 <h1 align="center">Kerminal</h1>
 
+<strong>Kerminal</strong> é um plugin com diversas funções e recursos ideias para seu servidor, além de sistemas que nenhum outro "plugin" possui, este projeto foi feito com o apoio da comunidade [BeezCommunity](https://discord.gg/V5fDvwurE9) onde você também pode estar entrando para conhecer ou pedir suporte quando necessário sobre problemas encontrados, você pode estar efetuando o download clicando [aqui](https://github.com/iDimaBR/Kerminal/releases/tag/1.0.0).
+
 # Comandos
 
 <strong>Kerminal</strong> possui comandos 100% configuraveis para seus usuários terem maior liberdade.
