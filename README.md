@@ -4,7 +4,7 @@
 
 <strong>Kerminal</strong> possui comandos 100% configuraveis para seus usuários terem maior liberdade.
 
-### Comandos de Administração:
+<h1 align="center">Comandos de Administração</h1>
 
 | Comando                            | Descrição                                                                                     | Permissão                       |
 |------------------------------------|-------------------------------------------------------------------------------------------|-------------------------------------|
@@ -23,7 +23,7 @@
 | /infolag                     |  Exibe todas as informações do servidor relacionadas ao desempenho                                  |                kerminal.infolag
 | /createkit                     |  Cria um novo kit utilizando o inventário atual do executor                                  |                kerminal.createkit
 
-### Comandos Normais:
+<h1 align="center">Comandos normais</h1>
 
 | Comando                            | Descrição                                                                                     | Permissão                       |
 |------------------------------------|-------------------------------------------------------------------------------------------|-------------------------------------|
@@ -53,7 +53,7 @@
 |/bigorna | Abre uma bigorna virtual | kerminal.anvil
 | /tpall | Teleporta todos jogadores online para a posição do executor | kerminal.tpall
 
-## Permissões
+<h1 align="center">Permissões</h1>
 
 As permissões são configuráveis, mas por padrão todo comando será `kerminal.COMANDO`.
 
@@ -69,7 +69,7 @@ Há outros tipos de permissões que irei citar abaixo.
 |kerminal.sign.repair | Permissao para reparar na placa
 | kerminal.sign.repair.all && kerminal.repair | Reparar ALL na placa, (Precisa das duas permissões)
 
-## Eventos Customizados
+<h1 align="center">Eventos customizados</h1>
 
 - `GamemodeChangeEvent` - Chamado na alteração do gamemode.
 - `PlayerBackEvent` - Chamado ao executar o comando /back para retornar.
@@ -77,7 +77,7 @@ Há outros tipos de permissões que irei citar abaixo.
 
 ## Configurações
 
-### Principal 
+<h1 align="center">Principal</h1>
 
 <strong>Kerminal</strong> é muito facil de ser utilizado pois possui as configurações padrão de qualquer plugin com recursos melhorados, veja no arquivo `config.yml`.
 
@@ -95,7 +95,7 @@ Worlds:
     Tick: 60             # Quantidade da velocidade dos ticks do mundo
 ```
 
-### Entidades 
+<h1 align="center">Entidades</h1>
 
 Você pode alterar as vidas e os drops das entidades vivas (living entities) pelo arquivo `entities.yml`.
 
@@ -115,7 +115,7 @@ PIG:                       # Nome do tipo da entidade, no caso 'PIG'
         - "DAMAGE_ALL;5"
 ```
 
-### Alterar comandos:
+<h1 align="center">Alterar comandos</h1>
 
 Você pode tambem pode alterar os comandos principais, aliases e permissões além de habilitar ou desabilitar cada um dos comandos existentes pelo arquivo `commands.yml`.
 
@@ -130,7 +130,7 @@ Spawn:                           # Não mecher... é a identificação do comand
     - "lobby"
 ```
 
-### Criar comandos: 
+<h1 align="center">Criar comandos</h1>
 
 No <strong>Kerminal</strong> você possui a possibilidade de criar novos comandos por meio do arquivo `customCommands.yml`.
 
