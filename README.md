@@ -145,11 +145,11 @@ COMANDO_AQUI:
 
 # Bstats
 
-<strong>bStats</strong> é um serviço de estatísticas de código aberto para o software Minecraft 
+<strong>bStats</strong> é um serviço de estatísticas de código aberto para o software Minecraft que é utilizado pelo Kerminal para coletar estatísticas do servidor.
 
 ![](https://bstats.org/signatures/bukkit/Kerminal.svg)
 
-# 👋 Um agradecimento especial para essa galera.
+**👋 Um agradecimento especial.**
 
 _"Agradeço a todos que estão ou acreditam neste projeto, logo abaixo tem alguns nomes que ajudaram com ideias e correções de códigos."_
 
